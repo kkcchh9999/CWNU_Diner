@@ -29,8 +29,6 @@ public class SearchMenuActivity extends AppCompatActivity {
         autoCompleteTextView.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, list));
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
 
         ImageButton imageButton = findViewById(R.id.searchBtn);
         imageButton.setOnClickListener(new View.OnClickListener() {
