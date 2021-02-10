@@ -14,8 +14,9 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:layout_weight="1.3"
             android:id="@+id/btn_profile"
-            android:layout_width="50dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="#"
             android:layout_margin="5sp"
@@ -23,8 +24,9 @@
             android:scaleType="centerInside"/>
 
         <Button
+            android:layout_weight="1.2"
             android:id="@+id/roulette"
-            android:layout_width="50dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="룰렛"
             android:textSize="6pt"
@@ -32,7 +34,8 @@
             />
 
         <EditText
-            android:layout_width="240dp"
+            android:layout_weight="7"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
             android:gravity="center"
@@ -40,9 +43,9 @@
             android:textColor="#000000" />
 
         <ImageButton
-
+            android:layout_weight="1.5"
             android:id="@+id/btn_search"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
 
 
