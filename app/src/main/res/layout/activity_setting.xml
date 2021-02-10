@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SettingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            tools:src="@drawable/abc_vector_test"
+            android:background="#FFC107"/>
+
+        <TextView
+            android:id="@+id/appname"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="앱 이름"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:background="#FFC107"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5sp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            tools:srcCompat="@tools:sample/avatars"/>
+
+        <TextView
+            android:id="@+id/btn_info"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5sp"
+            android:text="닉네임"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:textColor="#000000"
+            android:background="#FFFFFF"/>
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5sp"
+            android:background="#C8C8D3"
+            android:text="로그아웃" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5sp">
+
+        <Button
+            android:id="@+id/btn_review"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5sp"
+            android:background="#F4E9C5"
+            android:drawableRight="@drawable/arrow"
+            android:paddingRight="25dip"
+            android:text="my 리뷰"/>
+
+        <Switch
+            android:id="@+id/switch_dark"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="야간모드"
+            android:textOff="off"
+            android:textOn="on"
+            android:gravity="center"
+            android:background="#F4E9C5"
+            android:layout_margin="5sp"/>
+
+        <Button
+            android:id="@+id/btn_question"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="1:1 문의하기"
+            android:background="#F4E9C5"
+            android:layout_margin="5sp"
+            android:drawableRight="@drawable/arrow"
+            android:paddingRight="25dip"/>
+
+        <Button
+            android:id="@+id/btn_license"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="오픈라이선스"
+            android:background="#F4E9C5"
+            android:layout_margin="5sp"
+            android:drawableRight="@drawable/arrow"
+            android:paddingRight="25dip"/>
+
+    </LinearLayout>
+</LinearLayout>

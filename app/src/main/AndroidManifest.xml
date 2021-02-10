@@ -12,10 +12,13 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".StoreListActivity"/>
+        <activity android:name=".SettingActivity"/>
+        <activity android:name=".SearchMenuActivity"/>
+        <activity android:name=".SearchStoreActivity"/>
     </application>
 
 </manifest>
