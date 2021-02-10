@@ -19,10 +19,42 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 public class StoreListActivity extends AppCompatActivity {
 
     Button btn_roulette;
-    ImageButton btn_search;
+    ImageButton btn_search, btn_setting;
+
+    public ArrayList<String> ReadTextFile(ArrayList<String> arrayList)
+    {   //파일 읽어오기 함수
+        //assets 텍스트파일 가져오기
+        AssetManager assetManager = getResources().getAssets();
+        InputStream inputStream = null;
+        try{
+            inputStream = assetManager.open("roulette.txt");
+            BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
+            String line ="";
+            while((line = bf.readLine()) != null)
+            {
+                arrayList.add(line);
+            }
+            inputStream.close();
+        }        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        if(inputStream != null)
+        {
+            try{
+                inputStream.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return arrayList;
+    }
+////////////////onCreate 생명주기 //////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,36 +78,11 @@ public class StoreListActivity extends AppCompatActivity {
                 "c", "ccccc") ;
 
 /////////////////////////////////룰렛 버튼 작동 ////////////////////////////////////////////////////
-
-        //assets 텍스트파일 가져오기
-        AssetManager assetManager = getResources().getAssets();
-        InputStream inputStream = null;
         final ArrayList<String> menuText= new ArrayList<>();
-        try{
-            inputStream = assetManager.open("roulette.txt");
-            BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
-            String line ="";
-            while((line = bf.readLine()) != null)
-            {
-                menuText.add(line);
-            }
-            inputStream.close();
-        }        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        if(inputStream != null)
-        {
-            try{
-                inputStream.close();
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-       //랜덤변수 생성
+        ReadTextFile(menuText);
+        //랜덤변수 생성
         final Random randnumber = new Random();
-
+        //룰렛버튼 작동
         btn_roulette = (Button)findViewById(R.id.roulette);
         btn_roulette.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +98,6 @@ public class StoreListActivity extends AppCompatActivity {
         });
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 ///////////////////////////검색 버튼 작동///////////////////////////////////////////////////////////
         btn_search = (ImageButton)findViewById(R.id.btn_search);
         btn_search.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +109,16 @@ public class StoreListActivity extends AppCompatActivity {
             }
         });
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+        btn_setting =(ImageButton)findViewById(R.id.btn_setting);
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 }
