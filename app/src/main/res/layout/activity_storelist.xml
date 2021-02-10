@@ -14,10 +14,9 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/btn_profile"
+            android:id="@+id/btn_setting"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="#"
             android:layout_margin="5sp"
             app:srcCompat="@drawable/profile_icon"
             android:scaleType="centerInside"/>
