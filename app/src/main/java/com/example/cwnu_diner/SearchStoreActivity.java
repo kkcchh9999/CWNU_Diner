@@ -3,23 +3,33 @@ package com.example.cwnu_diner;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import java.util.List;
+
 public class SearchStoreActivity extends AppCompatActivity {
 
+    static final String[]List_Menu = {"List1", "List2", "List3"};
     private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_searchstore);
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, List_Menu);
+
+        ListView listView = (ListView)findViewById(R.id.listView);
+        listView.setAdapter(adapter);
+
         /* 위젯과 멤버변수 참조 획득 */
-        listView = (ListView)findViewById(R.id.listView);
+        //listView = (ListView)findViewById(R.id.listView);
 
         /* 아이템 추가 및 어댑터 등록 */
         dataSetting();
@@ -35,17 +45,6 @@ public class SearchStoreActivity extends AppCompatActivity {
 
     private void dataSetting() {
 
- /*  myadapter 오류뜨는데 이거 고쳐주세요 @강다은
-        MyAdapter myAdapter = new MyAdapter();
-
-
-
-        for (int i=0; i<10; i++) {
-            myAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_launcher_foreground), "name_" + i, "contents_" + i);
-        }
-*/
-        /* 리스트뷰에 어댑터 등록 */
-//     listView.setAdapter(myAdapter);
     }
 
 }
