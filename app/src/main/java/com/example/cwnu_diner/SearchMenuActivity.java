@@ -19,7 +19,7 @@ public class SearchMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_searchmenu);
 
         list = new ArrayList<>();
         settingList();
@@ -29,8 +29,6 @@ public class SearchMenuActivity extends AppCompatActivity {
         autoCompleteTextView.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, list));
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
 
         ImageButton imageButton = findViewById(R.id.searchBtn);
         imageButton.setOnClickListener(new View.OnClickListener() {

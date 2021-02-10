@@ -1,9 +1,12 @@
 package com.example.cwnu_diner;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -19,6 +22,7 @@ import java.util.Random;
 public class StoreListActivity extends AppCompatActivity {
 
     Button btn_roulette;
+    ImageButton btn_search;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +91,18 @@ public class StoreListActivity extends AppCompatActivity {
         });
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+///////////////////////////검색 버튼 작동///////////////////////////////////////////////////////////
+        btn_search = (ImageButton)findViewById(R.id.btn_search);
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SearchMenuActivity.class);
+                Log.d("search button","?");
+                startActivity(intent);
+            }
+        });
+///////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
 }

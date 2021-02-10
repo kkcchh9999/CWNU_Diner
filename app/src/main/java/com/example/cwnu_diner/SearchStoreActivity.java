@@ -24,9 +24,6 @@ public class SearchStoreActivity extends AppCompatActivity {
         /* 아이템 추가 및 어댑터 등록 */
         dataSetting();
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
         ImageButton imageButton=findViewById(R.id.backBtn);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
