@@ -14,7 +14,7 @@ public class SettingActivity extends AppCompatActivity {
 
     private Switch switch_dark;
     private Button btn_logout;
-    //String themeColor;
+    boolean switch_state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -31,31 +31,31 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        //SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
-        //themeColor=sharedPreferences.getString("themeColor",DarkTheme.DEFAULT_MODE);
         switch_dark=(Switch)findViewById(R.id.switch_dark);
         switch_dark.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isCheked) {
-                if(isCheked){
+                if(isCheked==true){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    //themeColor=DarkTheme.DARK_MODE;
-                    //DarkTheme.applyTheme(themeColor);
                 }
-                else{
+
+                else if(isCheked==false){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    //themeColor=DarkTheme.LIGHT_MODE;
-                    //DarkTheme.applyTheme(themeColor);
                 }
-                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    //APP SDK 버전이 Q보다 클 때 (API 29 이상)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
+                else{
+                    // 안드로이드 10 이상
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                    }
+                    // 안드로이드 10 미만
+                    else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+                    }
                 }
-                else {
-                    //APP SDK 버전이 Q보다 작을 때 (API 29 미만)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
-                }*/
+                switch_state=isCheked;
             }
+
         });
     }
 }
