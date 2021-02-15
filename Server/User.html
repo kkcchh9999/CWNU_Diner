@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title>TestPage</title>
+</head>
+<body>
+    <a href="Menu.html"><button type="button" name="button">menu</button></a>
+    <a href="Review.html"><button type="button" name="button">review</button></a>
+    <a href="Store.html"><button type="button" name="button">store</button></a>
+    <a href="User.html"><button type="button" name="button">user</button></a>
+    <br><br>
+
+    <form action="userinsert.php" method = "post">
+        이름:<input type="text" name="userName" required><br><br>
+        ID:<input type="text" name="userID" required><br><br>
+    <input type="submit" value="insert">
+    </form>
+
+    <?php
+                          $db = mysqli_connect('localhost','root','1234','test');
+                          if(!$db) { die("fail");                                    }
+                          $query = "select * from User";
+                          //쿼리보내고 결과를 변수에 저장
+                          $result = mysqli_query($db,$query);
+                          echo "<br/>User에서 가져온 데이터는 아래와 같습니다.<br/>";
+                          while($row = mysqli_fetch_array($result)){
+                          echo "/ 이름: ".$row[userName]."/ 유저아이디: ".$row[userID]."<br/>";
+                          }
+                  ?>
+</body>
+</html>
