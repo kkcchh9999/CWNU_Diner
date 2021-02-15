@@ -7,62 +7,31 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/backBtn"
-            android:layout_width="30dp"
-            android:layout_height="45dp"
-            android:background="#00101010"
-            android:tint="#0C0C0C"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.95"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.023"
-            app:srcCompat="@drawable/abc_vector_test" />
-
-        <AutoCompleteTextView
-            android:layout_marginLeft="5dp"
-            android:id="@+id/autoCompleteTextView"
-            android:layout_width="322dp"
-            android:layout_height="53dp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="38dp"
-            tools:layout_editor_absoluteY="3dp" />
+        <TextView
+            android:id="@+id/txtresult"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text=" "
+            android:textSize="20dp" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:text="0개의 검색 결과가 있습니다."
-        android:textSize="18dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.084" />
-    <EditText
-        android:id="@+id/editSearch"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="검색어 입력"
-        android:textSize="12sp"
-        android:singleLine="true" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </LinearLayout>
