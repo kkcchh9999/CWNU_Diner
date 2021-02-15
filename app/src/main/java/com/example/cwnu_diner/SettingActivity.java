@@ -1,32 +1,60 @@
 package com.example.cwnu_diner;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 public class SettingActivity extends AppCompatActivity {
 
-    Switch dark_mode;
+    private Switch switch_dark;
+    private Button btn_logout;
+    //String themeColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        dark_mode=(Switch)findViewById(R.id.switch_dark);
+        //로그아웃버튼 누르면 메인으로 화면전환//
+        btn_logout=findViewById(R.id.btn_logout);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(SettingActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        dark_mode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        //SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        //themeColor=sharedPreferences.getString("themeColor",DarkTheme.DEFAULT_MODE);
+        switch_dark=(Switch)findViewById(R.id.switch_dark);
+        switch_dark.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isCheked) {
-                if(isCheked==true){
-                    Toast.makeText(SettingActivity.this,"야간모드",Toast.LENGTH_SHORT).show();
+                if(isCheked){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    //themeColor=DarkTheme.DARK_MODE;
+                    //DarkTheme.applyTheme(themeColor);
                 }
                 else{
-
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    //themeColor=DarkTheme.LIGHT_MODE;
+                    //DarkTheme.applyTheme(themeColor);
                 }
+                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    //APP SDK 버전이 Q보다 클 때 (API 29 이상)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                }
+                else {
+                    //APP SDK 버전이 Q보다 작을 때 (API 29 미만)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+                }*/
             }
         });
     }
