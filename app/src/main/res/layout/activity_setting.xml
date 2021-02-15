@@ -14,12 +14,13 @@
         android:layout_margin="5sp">
 
         <ImageView
+            android:id="@+id/image_info"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:srcCompat="@drawable/profile_icon"/>
 
         <TextView
-            android:id="@+id/btn_info"
+            android:id="@+id/txt_info"
             android:layout_width="280dp"
             android:layout_height="match_parent"
             android:layout_margin="5sp"
