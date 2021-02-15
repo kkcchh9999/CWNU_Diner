@@ -6,11 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.bumptech.glide.Glide;
+
 public class SettingActivity extends AppCompatActivity {
+
+    private ImageView image_info;
+    private TextView txt_info;
 
     private Switch switch_dark;
     private Button btn_logout;
@@ -20,6 +28,16 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        Intent intent = getIntent();
+        String nickname = intent.getStringExtra("nickname" );
+        String photoUrl = intent.getStringExtra("photoUrl" );
+
+        txt_info = findViewById(R.id.txt_info);
+        txt_info.setText(nickname);
+
+        image_info = findViewById(R.id.image_info);
+        Glide.with(this).load(photoUrl).into(image_info);
 
         //로그아웃버튼 누르면 메인으로 화면전환//
         btn_logout=findViewById(R.id.btn_logout);

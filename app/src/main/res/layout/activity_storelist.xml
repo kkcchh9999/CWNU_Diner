@@ -16,7 +16,7 @@
         <ImageButton
             android:id="@+id/btn_setting"
             android:layout_width="0dp"
-            android:layout_height="50dp
+            android:layout_height="50dp"
             android:layout_margin="5sp"
             android:layout_weight="1.3"
             android:scaleType="centerInside"
