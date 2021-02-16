@@ -60,6 +60,11 @@ public class StoreListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storelist);
 
+        Intent intent = getIntent();
+        final String nickname = intent.getStringExtra("nickname" );
+        final String photoUrl = intent.getStringExtra("photoUrl" );
+
+
         ListView listview ;
         ListViewAdapter adapter = new ListViewAdapter();
 
@@ -108,13 +113,15 @@ public class StoreListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-///////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////설정 버튼 작동//////////////////////////////////////////////////////////////
 
         btn_setting =(ImageButton)findViewById(R.id.btn_setting);
         btn_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+                intent.putExtra("nickname", nickname);
+                intent.putExtra("photoUrl", photoUrl);
                 startActivity(intent);
             }
         });
