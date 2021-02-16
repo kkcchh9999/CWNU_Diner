@@ -1,8 +1,10 @@
 package com.example.cwnu_diner;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -10,12 +12,27 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+
+    private FirebaseAuth auth;// 로그아웃 관리 위한 인증
+    private GoogleApiClient mGoogleApiClient;
+    private GoogleSignInClient googleSignInClient;
 
     private ImageView image_info;
     private TextView txt_info;
@@ -43,8 +60,23 @@ public class SettingActivity extends AppCompatActivity {
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SettingActivity.this,MainActivity.class);
-                startActivity(intent);
+                AlertDialog.Builder alt_bld = new AlertDialog.Builder(view.getContext());
+                alt_bld.setMessage("로그아웃 하시겠습니까?").setCancelable(false)
+                        .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                signOut();
+
+                            }
+                        }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog alert = alt_bld.create();
+                alert.setTitle("로그아웃");
+                alert.show();
             }
         });
 
@@ -74,4 +106,14 @@ public class SettingActivity extends AppCompatActivity {
 
         });
     }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.v("알림","onConnectionFailed");
+    }
+
+    private void signOut() {
+        googleSignInClient.signOut();
+    }
+
 }
