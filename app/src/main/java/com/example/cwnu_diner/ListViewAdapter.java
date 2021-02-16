@@ -37,8 +37,6 @@ public class ListViewAdapter extends BaseAdapter {
         TextView tv1= view.findViewById(R.id.textView1);
         TextView tv2= view.findViewById(R.id.textView2);
 
-
-
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         ListViewItem listViewItem = listViewItemList.get(i);
 
@@ -46,9 +44,6 @@ public class ListViewAdapter extends BaseAdapter {
         iv.setImageDrawable(listViewItem.getIcon());
         tv1.setText(listViewItem.getName());
         tv2.setText(listViewItem.getText());
-
-
-
         return view;
     }
 
