@@ -22,7 +22,6 @@ public class SettingActivity extends AppCompatActivity {
 
     private Switch switch_dark;
     private Button btn_logout;
-    boolean switch_state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -71,7 +70,6 @@ public class SettingActivity extends AppCompatActivity {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
                     }
                 }
-                switch_state=isCheked;
             }
 
         });
