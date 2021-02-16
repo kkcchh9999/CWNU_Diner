@@ -69,7 +69,7 @@ public class StoreListActivity extends AppCompatActivity {
         ListViewAdapter adapter = new ListViewAdapter();
 
         // 리스트뷰 참조 및 Adapter달기
-        listview = (ListView) findViewById(R.id.wow);
+        listview = (ListView) findViewById(R.id.storelist);
         listview.setAdapter(adapter);
 
         // 첫 번째 아이템 추가.
