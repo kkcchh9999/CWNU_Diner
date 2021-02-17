@@ -22,7 +22,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         this.storeList = storeList;
     }
 
-
     @NonNull
     @Override
     public SearchAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,7 +38,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.name.setText(storeList.get(position).getName());
         holder.text.setText(storeList.get(position).getText());
         holder.image.setImageResource(storeList.get(position).getImage());
-
 
     }
 

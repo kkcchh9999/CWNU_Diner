@@ -28,11 +28,11 @@ public class SearchStoreActivity extends AppCompatActivity {
 
         //recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
         recyclerView.setAdapter(adapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
-
 
         storeList.add(new SearchData(R.drawable.ic_launcher_background,"abc","plz"));
         storeList.add(new SearchData(R.drawable.ic_launcher_background,"apple","plz"));
