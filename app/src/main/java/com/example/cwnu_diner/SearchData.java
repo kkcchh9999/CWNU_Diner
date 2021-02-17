@@ -1,11 +1,11 @@
 package com.example.cwnu_diner;
 
-public class Data {
+public class SearchData {
     public int image;
     private String name;
     private String text;
 
-    public Data(int image, String name, String text) {
+    public SearchData(int image, String name, String text) {
         this.image = image;
         this.name = name;
         this.text = text;

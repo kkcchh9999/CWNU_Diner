@@ -12,30 +12,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
 
     private static final String TAG = "Adapter";
-    List<Data> storeList;
+    List<SearchData> storeList;
 
-    public Adapter(List<Data> storeList){
+    public SearchAdapter(List<SearchData> storeList){
         this.storeList = storeList;
     }
 
 
     @NonNull
     @Override
-    public Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.item_list, parent, false);
+        View view = layoutInflater.inflate(R.layout.search_list, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SearchAdapter.ViewHolder holder, int position) {
         holder.name.setText(storeList.get(position).getName());
         holder.text.setText(storeList.get(position).getText());
         holder.image.setImageResource(storeList.get(position).getImage());
