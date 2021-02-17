@@ -2,19 +2,15 @@ package com.example.cwnu_diner;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,15 +21,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class StoreListActivity extends AppCompatActivity {
+public class StoreMapActivity extends AppCompatActivity {
 
-    Button btn_roulette, btn_switchMap;
+    Button btn_roulette, btn_switchList;
     ImageButton btn_search, btn_setting;
 
-    private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
-    private MainAdapter mainAdapter;
-    private ArrayList<MainData> arrayList;
 
 ////////////////// 뒤로가기 버튼 작동시 앱 종료 혹은 로그인 화면으로 돌아가기 방지
     // 마지막으로 뒤로 가기 버튼을 눌렀던 시간 저장
@@ -99,24 +91,7 @@ public class StoreListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_storelist);
-
-        recyclerView = (RecyclerView)findViewById(R.id.rv);
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        arrayList = new ArrayList<>();
-
-        mainAdapter = new MainAdapter(arrayList);
-        recyclerView.setAdapter(mainAdapter);
-
-        MainData mainData = new MainData(R.drawable.a,"a","5","aa");
-        arrayList.add(mainData);
-        mainAdapter.notifyDataSetChanged();
-
-
-
-
+        setContentView(R.layout.activity_storemap);
 
         Intent intent = getIntent();
         final String nickname = intent.getStringExtra("nickname" );
@@ -133,7 +108,7 @@ public class StoreListActivity extends AppCompatActivity {
         btn_roulette.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder ad = new AlertDialog.Builder(StoreListActivity.this);
+                AlertDialog.Builder ad = new AlertDialog.Builder(StoreMapActivity.this);
                 ad.setIcon(R.drawable.food);
                 ad.setTitle("랜덤 메뉴 룰렛");
                 ad.setMessage("오늘은 "+ menuText.get(randnumber.nextInt(16)) +" 어떠세요?");
@@ -142,19 +117,18 @@ public class StoreListActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-///////////////////////////지도 버튼 작동///////////////////////////////////////////////////////////
-        btn_switchMap = (Button)findViewById(R.id.btn_switchMap);
-        btn_switchMap.setOnClickListener(new View.OnClickListener() {
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+        btn_switchList = (Button)findViewById(R.id.btn_switchList);
+        btn_switchList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(getApplicationContext(), StoreMapActivity.class);
-                intent1.putExtra("nickname", nickname);
-                intent1.putExtra("photoUrl", photoUrl);
-                startActivity(intent1);
+                Intent intent = new Intent(getApplicationContext(), StoreListActivity.class);
+                intent.putExtra("nickname", nickname);
+                intent.putExtra("photoUrl", photoUrl);
+                startActivity(intent);
             }
         });
-
-
 ///////////////////////////검색 버튼 작동///////////////////////////////////////////////////////////
         btn_search = (ImageButton)findViewById(R.id.btn_search);
         btn_search.setOnClickListener(new View.OnClickListener() {
@@ -180,14 +154,6 @@ public class StoreListActivity extends AppCompatActivity {
 
     }
 
-    /*
-    public void addItem(Drawable icon, String name, String star, String loc){
-        MainData data =  MainData(int icon, String name, String star, String loc);
-       // 수정하기 data.setIv_store(icon);
-        data.setTv_name(name);
 
-
-    }
-*/
 
 }
