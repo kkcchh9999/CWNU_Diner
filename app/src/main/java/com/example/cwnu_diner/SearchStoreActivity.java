@@ -26,6 +26,7 @@ public class SearchStoreActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview);
         adapter = new SearchAdapter(storeList);
 
+
         //recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
