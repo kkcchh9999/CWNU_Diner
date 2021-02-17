@@ -65,7 +65,7 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
                         .setPositiveButton("네", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                signOut();
+                                FirebaseAuth.getInstance().signOut();
 
                             }
                         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
