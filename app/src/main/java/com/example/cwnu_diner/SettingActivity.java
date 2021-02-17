@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -20,17 +21,39 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private FirebaseAuth auth;// 로그아웃 관리 위한 인증
     private GoogleApiClient mGoogleApiClient;
-    private GoogleSignInClient googleSignInClient;
 
+    private void signOut() {
+        GoogleSignInClient googleSignInClient;
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail().build();
+        googleSignInClient = GoogleSignIn.getClient(getBaseContext(),gso);
+        googleSignInClient.signOut().addOnCompleteListener(SettingActivity.this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                FirebaseAuth.getInstance().signOut();;
+                Intent setupIntent = new Intent(getBaseContext(), MainActivity.class);
+                Toast.makeText(getBaseContext(), "로그아웃",Toast.LENGTH_SHORT).show();
+                setupIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(setupIntent);
+                finish();
+            }
+        });
+
+    }
     private ImageView image_info;
     private TextView txt_info;
 
@@ -120,10 +143,6 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.v("알림","onConnectionFailed");
-    }
-
-    private void signOut() {
-        googleSignInClient.signOut();
     }
 
 }
