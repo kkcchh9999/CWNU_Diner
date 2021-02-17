@@ -1,8 +1,12 @@
 package com.example.cwnu_diner;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -10,18 +14,31 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+
+    private FirebaseAuth auth;// 로그아웃 관리 위한 인증
+    private GoogleApiClient mGoogleApiClient;
+    private GoogleSignInClient googleSignInClient;
 
     private ImageView image_info;
     private TextView txt_info;
 
     private Switch switch_dark;
     private Button btn_logout;
+
+    private SharedPreferences AppData; //스위치 값을 저장
+    private SharedPreferences.Editor editor; //스위치 값 수정
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -43,21 +60,47 @@ public class SettingActivity extends AppCompatActivity {
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SettingActivity.this,MainActivity.class);
-                startActivity(intent);
+                AlertDialog.Builder alt_bld = new AlertDialog.Builder(view.getContext());
+                alt_bld.setMessage("로그아웃 하시겠습니까?").setCancelable(false)
+                        .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                signOut();
+
+                            }
+                        }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog alert = alt_bld.create();
+                alert.setTitle("로그아웃");
+                alert.show();
             }
         });
 
+        //야간모드 기능
         switch_dark=(Switch)findViewById(R.id.switch_dark);
+
+        AppData=getSharedPreferences("AppData", Activity.MODE_PRIVATE);
+        editor=AppData.edit();
+        Boolean switch_state=AppData.getBoolean("switch_state",false);
+        switch_dark.setChecked(switch_state);
+
         switch_dark.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isCheked) {
                 if(isCheked==true){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    editor.putBoolean("switch_state",isCheked);
+                    editor.commit();
                 }
 
                 else if(isCheked==false){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    editor.putBoolean("switch_state",isCheked);
+                    editor.commit();
                 }
 
                 else{
@@ -74,4 +117,14 @@ public class SettingActivity extends AppCompatActivity {
 
         });
     }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.v("알림","onConnectionFailed");
+    }
+
+    private void signOut() {
+        googleSignInClient.signOut();
+    }
+
 }
