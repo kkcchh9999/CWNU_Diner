@@ -18,7 +18,7 @@
     </form>
 
     <?php
-                          $db = mysqli_connect('localhost','root','1234','test');
+                          $db = mysqli_connect('localhost','root','admin','test');
                           if(!$db) { die("fail");                                    }
                           $query = "select * from User";
                           //쿼리보내고 결과를 변수에 저장
