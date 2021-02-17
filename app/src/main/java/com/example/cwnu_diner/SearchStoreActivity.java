@@ -21,22 +21,7 @@ public class SearchStoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchstore);
 
-        ListView listview;
-        ListViewAdapter adapter = new ListViewAdapter();
 
-        // 리스트뷰 참조 및 Adapter달기
-        listview = (ListView) findViewById(R.id.listView);
-        listview.setAdapter(adapter);
-
-        // 첫 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.a),
-                "a", "aaa");
-        // 두 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.b),
-                "b", "bbbbbbb");
-        // 세 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.c),
-                "c", "ccccc");
 
         /* 아이템 추가 및 어댑터 등록 */
         dataSetting();
