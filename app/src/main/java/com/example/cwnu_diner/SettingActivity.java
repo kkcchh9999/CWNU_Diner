@@ -1,7 +1,9 @@
 package com.example.cwnu_diner;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,19 +15,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
@@ -39,6 +36,9 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
 
     private Switch switch_dark;
     private Button btn_logout;
+
+    private SharedPreferences AppData; //스위치 값을 저장
+    private SharedPreferences.Editor editor; //스위치 값 수정
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -80,16 +80,27 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
             }
         });
 
+        //야간모드 기능
         switch_dark=(Switch)findViewById(R.id.switch_dark);
+
+        AppData=getSharedPreferences("AppData", Activity.MODE_PRIVATE);
+        editor=AppData.edit();
+        Boolean switch_state=AppData.getBoolean("switch_state",false);
+        switch_dark.setChecked(switch_state);
+
         switch_dark.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isCheked) {
                 if(isCheked==true){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    editor.putBoolean("switch_state",isCheked);
+                    editor.commit();
                 }
 
                 else if(isCheked==false){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    editor.putBoolean("switch_state",isCheked);
+                    editor.commit();
                 }
 
                 else{
