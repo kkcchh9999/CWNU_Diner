@@ -149,7 +149,7 @@ public class StoreListActivity extends AppCompatActivity {
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SearchMenuActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SearchStoreActivity.class);
                 Log.d("search button","?");
                 startActivity(intent);
             }

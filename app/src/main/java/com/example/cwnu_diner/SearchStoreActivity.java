@@ -1,42 +1,46 @@
-
 package com.example.cwnu_diner;
 
+
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ListView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchStoreActivity extends AppCompatActivity {
+    RecyclerView recyclerView;
+    SearchAdapter adapter;
+
+    List<SearchData> storeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchstore);
 
+        storeList = new ArrayList<>();
+
+        recyclerView = findViewById(R.id.recyclerview);
+        adapter = new SearchAdapter(storeList);
 
 
-        /* 아이템 추가 및 어댑터 등록 */
-        dataSetting();
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        ImageButton imageButton = findViewById(R.id.backBtn);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+
+        recyclerView.setAdapter(adapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        storeList.add(new SearchData(R.drawable.ic_launcher_background,"abc","plz"));
+        storeList.add(new SearchData(R.drawable.ic_launcher_background,"apple","plz"));
+        storeList.add(new SearchData(R.drawable.ic_launcher_background,"abcd","plz"));
+        storeList.add(new SearchData(R.drawable.ic_launcher_background,"applemango","plz"));
+
     }
 
-    private void dataSetting() {
-
-    }
 
 }

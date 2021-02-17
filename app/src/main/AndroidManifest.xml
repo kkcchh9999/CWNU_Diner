@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cwnu_diner" >
+    package="com.example.cwnu_diner">
 
     <application
         android:allowBackup="true"
@@ -18,8 +18,8 @@
         </activity>
         <activity android:name=".StoreListActivity" />
         <activity android:name=".SettingActivity" />
-        <activity android:name=".SearchMenuActivity" />
         <activity android:name=".SearchStoreActivity" />
+
     </application>
 
 </manifest>
