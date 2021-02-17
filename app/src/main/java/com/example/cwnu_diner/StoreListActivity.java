@@ -2,16 +2,20 @@ package com.example.cwnu_diner;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -24,6 +28,12 @@ public class StoreListActivity extends AppCompatActivity {
 
     Button btn_roulette;
     ImageButton btn_search, btn_setting;
+
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private MainAdapter mainAdapter;
+    private ArrayList<MainData> arrayList;
+
 
     public ArrayList<String> ReadTextFile(ArrayList<String> arrayList)
     {   //파일 읽어오기 함수
@@ -60,27 +70,26 @@ public class StoreListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storelist);
 
+        recyclerView = (RecyclerView)findViewById(R.id.rv);
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        arrayList = new ArrayList<>();
+
+        mainAdapter = new MainAdapter(arrayList);
+        recyclerView.setAdapter(mainAdapter);
+
+        MainData mainData = new MainData(R.drawable.a,"a","5","aa");
+        arrayList.add(mainData);
+        mainAdapter.notifyDataSetChanged();
+
+
+
+
         Intent intent = getIntent();
         final String nickname = intent.getStringExtra("nickname" );
         final String photoUrl = intent.getStringExtra("photoUrl" );
 
-
-        ListView listview ;
-        ListViewAdapter adapter = new ListViewAdapter();
-
-        // 리스트뷰 참조 및 Adapter달기
-        listview = (ListView) findViewById(R.id.storelist);
-        listview.setAdapter(adapter);
-
-        // 첫 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.a),
-                "a", "aaa") ;
-        // 두 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.b),
-                "b", "bbbbbbb") ;
-        // 세 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.c),
-                "c", "ccccc") ;
 
 /////////////////////////////////룰렛 버튼 작동 ////////////////////////////////////////////////////
         final ArrayList<String> menuText= new ArrayList<>();
@@ -127,5 +136,15 @@ public class StoreListActivity extends AppCompatActivity {
         });
 
     }
+
+    /*
+    public void addItem(Drawable icon, String name, String star, String loc){
+        MainData data =  MainData(int icon, String name, String star, String loc);
+       // 수정하기 data.setIv_store(icon);
+        data.setTv_name(name);
+
+
+    }
+*/
 
 }
