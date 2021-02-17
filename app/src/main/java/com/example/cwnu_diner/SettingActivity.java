@@ -37,8 +37,8 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
     private Switch switch_dark;
     private Button btn_logout;
 
-    private SharedPreferences AppData; //스위치 값을 저장
-    private SharedPreferences.Editor editor; //스위치 값 수정
+    SharedPreferences AppData; //스위치 값을 저장
+    SharedPreferences.Editor editor; //스위치 값 수정
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
