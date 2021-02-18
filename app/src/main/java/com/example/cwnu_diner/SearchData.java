@@ -1,7 +1,10 @@
 package com.example.cwnu_diner;
 
-public class SearchData {
-    public int image;
+import java.io.Serializable;
+
+public class SearchData implements Serializable {
+
+    private int image;
     private String name;
     private String text;
 
@@ -23,9 +26,7 @@ public class SearchData {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
     public String getText() {
         return text;
@@ -34,5 +35,5 @@ public class SearchData {
     public void setText(String text) {
         this.text = text;
     }
-
 }
+

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".SearchStoreActivity">
 
-    <EditText
-        android:id="@+id/edittext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="  검색어를 입력하세요"/>
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
@@ -26,4 +26,3 @@
     </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
-
