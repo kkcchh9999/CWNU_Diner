@@ -25,8 +25,8 @@ $menu = $_POST['menu'];
 $starRating = $_POST['starRating'];
 
 // SQL Query 작성
-$sql = "INSERT INTO Review (userID,storeName,review,menu,starRating)
-VALUES ('$userID','$storeName','$review','$menu','$starRating')";
+$sql = "INSERT INTO Review (userID,storeName,review,menu,starRating,date)
+VALUES ('$userID','$storeName','$review','$menu','$starRating',NOW())";
 echo $sql;
 echo "<br>";
 
@@ -41,5 +41,5 @@ else{
 mysqli_close($conn);
 
 // 요청이 끝난뒤 페이지를 이동
-header('Location:http://localhost/Review.html');
+header('Location:./Review.html');
 ?>
