@@ -4,6 +4,10 @@ public class User {
     String userName;
     String userID;
 
+    public String getUserID() { return userID; }
+
+    public void setUserID(String userID) { this.userID = userID; }
+
     public String getUserName() {
         return userName;
     }

@@ -110,8 +110,10 @@ public class StoreListActivity extends AppCompatActivity {
         mainAdapter = new MainAdapter(arrayList);
         recyclerView.setAdapter(mainAdapter);
 
-        MainData mainData = new MainData(R.drawable.a,"a","5","aa");
-        arrayList.add(mainData);
+        arrayList.add(new MainData(R.drawable.a,"가게이름","별","위치"));
+        arrayList.add(new MainData(R.drawable.a,"가게이름","별","위치"));
+        arrayList.add(new MainData(R.drawable.a,"가게이름","별","위치"));
+
         mainAdapter.notifyDataSetChanged();
 
 
