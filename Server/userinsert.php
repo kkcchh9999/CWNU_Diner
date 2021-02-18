@@ -38,5 +38,5 @@ else{
 mysqli_close($conn);
 
 // 요청이 끝난뒤 페이지를 이동
-header('Location:http://localhost/User.html');
+header('Location:./User.html');
 ?>
