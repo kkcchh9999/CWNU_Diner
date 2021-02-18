@@ -1,5 +1,6 @@
 package com.example.cwnu_diner;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -11,8 +12,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -20,12 +30,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.example.cwnu_diner.R.id.googleMap;
 
-public class StoreMapActivity extends AppCompatActivity {
+
+public class StoreMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     Button btn_roulette, btn_switchList;
     ImageButton btn_search, btn_setting;
 
+    private GoogleMap mMap;
 
 ////////////////// 뒤로가기 버튼 작동시 앱 종료 혹은 로그인 화면으로 돌아가기 방지
     // 마지막으로 뒤로 가기 버튼을 눌렀던 시간 저장
@@ -93,6 +106,9 @@ public class StoreMapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storemap);
 
+        SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(googleMap);
+        mapFragment.getMapAsync(this);
+
         Intent intent = getIntent();
         final String nickname = intent.getStringExtra("nickname" );
         final String photoUrl = intent.getStringExtra("photoUrl" );
@@ -152,8 +168,20 @@ public class StoreMapActivity extends AppCompatActivity {
             }
         });
 
+      }
+
+//////////////////////////구글 맵 호출//////////////////////////
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        mMap = googleMap;
+        LatLng location = new LatLng(35.245732262051746, 128.69199976866827); //창원대
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.title("창원대학교");
+        markerOptions.snippet("본부");
+        markerOptions.position(location);
+        googleMap.addMarker(markerOptions);
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16));
     }
-
-
-
 }
