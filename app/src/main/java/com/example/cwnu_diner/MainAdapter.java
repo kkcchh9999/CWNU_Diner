@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,20 +39,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
         holder.tv_loc.setText(arrayList.get(position).getTv_loc());
 
         holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String curName = holder.tv_name.getText().toString();
-                Toast.makeText(view.getContext(),curName, Toast.LENGTH_SHORT).show();
-            }
-        });
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                remove(holder.getAdapterPosition());
-                return true;
-            }
-        });
+
     }
 
     @Override
@@ -60,14 +47,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
         return (null !=arrayList ? arrayList.size() : 0);
     }
 
-    public void remove(int position){
-        try {
-            arrayList.remove(position);
-            notifyItemRemoved(position);
-        } catch (IndexOutOfBoundsException ex){
-            ex.printStackTrace();
-        }
-    }
+
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
