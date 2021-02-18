@@ -32,6 +32,9 @@
         <activity android:name=".StoreClickActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAF53ugPy_yMcY-WyUMzC1FbDpG403w0Uk"/>
     </application>
 
 </manifest>
