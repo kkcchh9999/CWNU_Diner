@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".StoreListActivity">
+    tools:context=".StoreMapActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,11 +32,12 @@
             android:textSize="6pt" />
 
         <Button
-            android:id="@+id/btn_switchMap"
+            android:id="@+id/btn_switchList"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.7"
-            android:text="지도"
+            android:text="리스트"
+            android:textSize="9dp"
             />
 
         <EditText
@@ -58,70 +59,14 @@
 
     </LinearLayout>
 
-
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/bt_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="전체"/>
-        <Button
-            android:id="@+id/bt_a"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="A"/>
-        <Button
-            android:id="@+id/bt_b"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="B"/>
-        <Button
-            android:id="@+id/bt_c"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="C"/>
-
-
-    </LinearLayout>
-
-
-
-
-    <LinearLayout
+    <fragment
+        android:id="@+id/googleMap"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5sp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        />
 
-       <androidx.recyclerview.widget.RecyclerView
-           android:id="@+id/rv"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:scrollbarSize="5dp"
-           android:scrollbarFadeDuration="0"
-           android:scrollbarThumbVertical="@android:color/darker_gray"
-           android:scrollbars="vertical"
-           android:layout_weight="1">
-
-       </androidx.recyclerview.widget.RecyclerView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-         <TextView
-             android:id="@+id/textView"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="Hello World!"/>
-
-    </LinearLayout>
 
 
 </LinearLayout>
