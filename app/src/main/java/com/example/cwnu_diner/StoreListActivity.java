@@ -152,6 +152,7 @@ public class StoreListActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(getApplicationContext(), StoreMapActivity.class);
                 intent1.putExtra("nickname", nickname);
                 intent1.putExtra("photoUrl", photoUrl);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent1);
             }
         });

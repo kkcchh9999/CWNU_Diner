@@ -133,7 +133,7 @@ public class StoreMapActivity extends AppCompatActivity implements OnMapReadyCal
                 alertDialog.show();
             }
         });
-///////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////리스트 버튼//////////////////////////////////////////////////////////////////
 
         btn_switchList = (Button)findViewById(R.id.btn_switchList);
         btn_switchList.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +142,7 @@ public class StoreMapActivity extends AppCompatActivity implements OnMapReadyCal
                 Intent intent = new Intent(getApplicationContext(), StoreListActivity.class);
                 intent.putExtra("nickname", nickname);
                 intent.putExtra("photoUrl", photoUrl);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
