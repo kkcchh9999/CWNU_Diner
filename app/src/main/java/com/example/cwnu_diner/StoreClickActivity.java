@@ -27,7 +27,7 @@ public class StoreClickActivity extends AppCompatActivity {
         if(intent.getExtras() != null){
             SearchData data = (SearchData) intent.getSerializableExtra("data");
 
-            click.setText(data.getName());
+            click.setText(data.getStoreName());
         }
 
     }
