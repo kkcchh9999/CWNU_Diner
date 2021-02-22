@@ -4,36 +4,60 @@ import java.io.Serializable;
 
 public class SearchData implements Serializable {
 
-    private int image;
-    private String name;
-    private String text;
+    private String storeName;
+    private String star;
+    private String openingHours;
+    private String tel;
+    private String address;
+    private String type;
 
-    public SearchData(int image, String name, String text) {
-        this.image = image;
-        this.name = name;
-        this.text = text;
+    public SearchData(String storeName, String star, String openingHours, String tel, String address, String type) {
+        this.storeName = storeName;
+        this.star = star;
+        this.openingHours = openingHours;
+        this.tel = tel;
+        this.address = address;
+        this.type = type;
     }
 
-    public int getImage() {
-        return image;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
-    public String getName() {
-        return name;
+    public String getStar() {
+        return star;
     }
 
-    public void setName(String name) { this.name = name; }
+    public void setStar(String star) { this.star = star; }
 
-    public String getText() {
-        return text;
+    public String getOpeningHours() {
+        return openingHours;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setOpeningHours(String openingHours) {
+        this.openingHours = openingHours;
     }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) { this.tel = tel; }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) { this.address = address; }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) { this.type = type; }
 }
 
