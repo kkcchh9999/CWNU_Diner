@@ -27,7 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StoreMapActivity" />
         <activity android:name=".StoreListActivity" />
         <activity android:name=".SearchStoreActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
@@ -39,7 +38,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAF53ugPy_yMcY-WyUMzC1FbDpG403w0Uk"/>
 
-        <uses-library android:name="org.apache.http.legacy"
+        <uses-library
+            android:name="org.apache.http.legacy"
             android:required="false"/>
     </application>
 

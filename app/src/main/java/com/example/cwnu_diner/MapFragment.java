@@ -6,11 +6,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -23,6 +30,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
@@ -37,11 +45,10 @@ import static com.example.cwnu_diner.R.id.googleMap;
 
 public class MapFragment extends Fragment  implements OnMapReadyCallback {
 
-    private MapView mapView = null;
-    //JSON 파싱
-    ArrayList<StoreLocationData> LOCdata;
-    String jsonString;
+    MapView mapView = null;
 
+    ArrayList<StoreLocationData> LocData = new ArrayList<>();
+    String serverUrl="http://3.34.134.116/storeData.php";
 
     public MapFragment()
     {
@@ -52,22 +59,56 @@ public class MapFragment extends Fragment  implements OnMapReadyCallback {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        String serverUrl="http://3.34.134.116/storeData.php";
+
+        JsonArrayRequest jsonArrayRequest= new JsonArrayRequest(Request.Method.POST, serverUrl, null, new Response.Listener<JSONArray>() {
+            //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
+            @Override
+            public void onResponse(JSONArray response) {
+
+                //파라미터로 응답받은 결과 JsonArray를 분석
+                LocData.clear();
+                try {
+                    for(int i=0;i<response.length();i++){
+                        JSONObject jsonObject= response.getJSONObject(i);
+                        String storeName=jsonObject.getString("storeName");
+                        String type=jsonObject.getString("type");
+                        Double latitude=jsonObject.getDouble("latitude");
+                        Double longitude=jsonObject.getDouble("longitude");
+
+
+
+                        LocData.add(new StoreLocationData(storeName, type, latitude, longitude));
+                    }
+                } catch (JSONException e) {e.printStackTrace();}
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity().getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        //실제 요청 작업을 수행해주는 요청큐 객체 생성
+        RequestQueue requestQueue= Volley.newRequestQueue(getActivity().getApplicationContext());
+
+        //요청큐에 요청 객체 생성
+        requestQueue.add(jsonArrayRequest);
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View layout = inflater.inflate(R.layout.fragment_map,container, false);
 
-        //////JSON파싱
-        JsonParse jsonParse = new JsonParse();
-        jsonParse.execute("http://3.34.134.116/storeData.php");
-
-        mapView = (MapView)layout.findViewById(googleMap);
+        View view = inflater.inflate(R.layout.fragment_map,container, false);
+        mapView = view.findViewById(googleMap);
         mapView.getMapAsync(this);
 
-        return layout;
+        return view;
     }
 
     @Override
@@ -79,7 +120,6 @@ public class MapFragment extends Fragment  implements OnMapReadyCallback {
     @Override
     public void onStop() {
         super.onStop();
-        mapView.onStop();
     }
 
     @Override
@@ -103,7 +143,6 @@ public class MapFragment extends Fragment  implements OnMapReadyCallback {
     @Override
     public void onDestroy() {
 
-        Log.d("OnDESTROY",Integer.toString(LOCdata.size()));
         super.onDestroy();
         mapView.onDestroy();
     }
@@ -118,106 +157,20 @@ public class MapFragment extends Fragment  implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-       LatLng location = new LatLng(35.2425, 128.689);
+        LatLng location = new LatLng(35.2425, 128.689);
 
-//       for(int i = 0; i<LOCdata.size(); i++)
-//        {
-//            LatLng location1 = new LatLng(LOCdata.get(i).getLat(), LOCdata.get(i).getLng());
-//            MarkerOptions markerOptions1 = new MarkerOptions();
-//            markerOptions1.title(LOCdata.get(i).getStorename());
-//            markerOptions1.snippet(LOCdata.get(i).getType());
-//            markerOptions1.position(location1);
-//            googleMap.addMarker(markerOptions1);
-//        }
+        for(int i = 0; i<LocData.size(); i++)
+        {
+            LatLng location1 = new LatLng(LocData.get(i).getLat(), LocData.get(i).getLng());
+            MarkerOptions markerOptions1 = new MarkerOptions();
+            markerOptions1.title(LocData.get(i).getStorename());
+            markerOptions1.snippet(LocData.get(i).getType());
+            markerOptions1.position(location1);
+            googleMap.addMarker(markerOptions1);
+        }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16));
 
-    }
-
-    public class JsonParse extends AsyncTask<String, Void, String>
-    {
-        String TAG = "JsonParseTest";
-        @Override
-        protected String doInBackground(String... strings) {
-            String url = strings[0];
-            try{
-                URL serverURL = new URL(url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) serverURL.openConnection();
-
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
-                httpURLConnection.connect();
-
-                int responseStatusCode = httpURLConnection.getResponseCode();
-
-                InputStream inputStream;
-                if(responseStatusCode == httpURLConnection.HTTP_OK){
-                    inputStream = httpURLConnection.getInputStream();
-                }else{
-                    inputStream = httpURLConnection.getErrorStream();
-                }
-
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                StringBuilder sb = new StringBuilder();
-                String line = "";
-
-                while((line=bufferedReader.readLine())!=null){
-                    sb.append(line);
-                }
-                Log.d(TAG,sb.toString().trim());
-                bufferedReader.close();
-
-                return sb.toString().trim();
-            }catch(Exception e) {
-                String errorString= e.toString();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            if(s == null)
-            {
-
-            }
-            else{
-                jsonString = s;
-                LOCdata = doParse();
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        private ArrayList<StoreLocationData> doParse()
-        {
-            ArrayList<StoreLocationData> tmpLOCdata = new ArrayList<>();
-            try{
-                JSONArray jsonArray = new JSONArray(jsonString);
-                for(int i = 0; i<jsonArray.length(); i++)
-                {
-                    JSONObject item = jsonArray.getJSONObject(i);
-                    StoreLocationData tmpStoreLocationData = new StoreLocationData(item.getString("storeName"), item.getString("type"), item.getDouble("latitude"), item.getDouble("longitude"));
-
-                    tmpLOCdata.add(tmpStoreLocationData);
-                    Log.d("tmpLocdata",Integer.toString(tmpLOCdata.size()));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return tmpLOCdata;
-        }
     }
 
 
