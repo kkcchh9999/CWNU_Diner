@@ -3,6 +3,7 @@ package com.example.cwnu_diner;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,10 +24,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -37,6 +45,11 @@ public class StoreMapActivity extends AppCompatActivity implements OnMapReadyCal
 
     Button btn_roulette, btn_switchList;
     ImageButton btn_search, btn_setting;
+
+    //JSON 파싱
+    ArrayList<StoreLocationData> LOCdata;
+    String jsonString;
+
 
     private GoogleMap mMap;
 
@@ -106,13 +119,15 @@ public class StoreMapActivity extends AppCompatActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storemap);
 
-        SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(googleMap);
-        mapFragment.getMapAsync(this);
-
         Intent intent = getIntent();
         final String nickname = intent.getStringExtra("nickname" );
         final String photoUrl = intent.getStringExtra("photoUrl" );
+        //////JSON파싱
+        JsonParse jsonParse = new JsonParse();
+        jsonParse.execute("http://3.34.134.116/storeData.php");
 
+        SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(googleMap);
+        mapFragment.getMapAsync(this);
 
 /////////////////////////////////룰렛 버튼 작동 ////////////////////////////////////////////////////
         final ArrayList<String> menuText= new ArrayList<>();
@@ -169,7 +184,97 @@ public class StoreMapActivity extends AppCompatActivity implements OnMapReadyCal
             }
         });
 
-      }
+    }   /// On Create 끝
+
+    /////////////////JSON 파싱
+    public class JsonParse extends AsyncTask<String, Void, String>
+    {
+        String TAG = "JsonParseTest";
+        @Override
+        protected String doInBackground(String... strings) {
+            String url = strings[0];
+            try{
+                URL serverURL = new URL(url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) serverURL.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.connect();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+
+                InputStream inputStream;
+                if(responseStatusCode == httpURLConnection.HTTP_OK){
+                    inputStream = httpURLConnection.getInputStream();
+                }else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line = "";
+
+                while((line=bufferedReader.readLine())!=null){
+                    sb.append(line);
+                }
+                Log.d(TAG,sb.toString().trim());
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            }catch(Exception e) {
+                String errorString= e.toString();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if(s == null)
+            {
+
+            }
+            else{
+                jsonString = s;
+                LOCdata = doParse();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        private  ArrayList<StoreLocationData> doParse()
+        {
+            ArrayList<StoreLocationData> tmpLOCdata = new ArrayList<>();
+            try{
+                JSONObject jsonObject = new JSONObject(jsonString);
+                JSONArray jsonArray = jsonObject.getJSONArray("StoreLocationData");
+
+                for(int i = 0; i<jsonArray.length(); i++)
+                {
+                    JSONObject item = jsonArray.getJSONObject(i);
+                    StoreLocationData tmpStoreLocationData = new StoreLocationData(item.getString("storeName"), item.getString("type"), item.getDouble("latitude"), item.getDouble("longitude"));
+
+                    tmpLOCdata.add(tmpStoreLocationData);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return tmpLOCdata;
+        }
+    }
+
+
 
 //////////////////////////구글 맵 호출//////////////////////////
     @Override
@@ -182,6 +287,16 @@ public class StoreMapActivity extends AppCompatActivity implements OnMapReadyCal
         markerOptions.snippet("본부");
         markerOptions.position(location);
         googleMap.addMarker(markerOptions);
+
+        for(int i = 0; i<LOCdata.size(); i++)
+        {
+            LatLng location1 = new LatLng(LOCdata.get(i).getLat(), LOCdata.get(i).getLng());
+            MarkerOptions markerOptions1 = new MarkerOptions();
+            markerOptions1.title(LOCdata.get(i).getStorename());
+            markerOptions1.snippet(LOCdata.get(i).getType());
+            markerOptions1.position(location1);
+            googleMap.addMarker(markerOptions1);
+        }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16));
     }

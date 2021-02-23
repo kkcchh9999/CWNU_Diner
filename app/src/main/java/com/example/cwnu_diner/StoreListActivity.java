@@ -2,19 +2,17 @@ package com.example.cwnu_diner;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,8 +30,8 @@ public class StoreListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private MainAdapter mainAdapter;
-    private ArrayList<MainData> arrayList;
+    private StoreAdapter mainAdapter;
+    private ArrayList<StoreData> arrayList;
 
 ////////////////// 뒤로가기 버튼 작동시 앱 종료 혹은 로그인 화면으로 돌아가기 방지
     // 마지막으로 뒤로 가기 버튼을 눌렀던 시간 저장
@@ -101,29 +99,24 @@ public class StoreListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storelist);
 
-        recyclerView = (RecyclerView)findViewById(R.id.rv);
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        arrayList = new ArrayList<>();
-
-        mainAdapter = new MainAdapter(arrayList);
-        recyclerView.setAdapter(mainAdapter);
-
-        arrayList.add(new MainData(R.drawable.a,"가게이름","별","위치"));
-        arrayList.add(new MainData(R.drawable.a,"가게이름","별","위치"));
-        arrayList.add(new MainData(R.drawable.a,"가게이름","별","위치"));
-
-        mainAdapter.notifyDataSetChanged();
-
-
-
-
+//        recyclerView = (RecyclerView)findViewById(R.id.rv);
+//        linearLayoutManager = new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(linearLayoutManager);
+//
+//
+//
+//        mainAdapter = new StoreAdapter(arrayList);
+//        recyclerView.setAdapter(mainAdapter);
+//        arrayList = new ArrayList<>();
+//        arrayList.add(new StoreData(R.drawable.a,"가게이름","별","위치"));
+//        arrayList.add(new StoreData(R.drawable.a,"가게이름","별","위치"));
+//        arrayList.add(new StoreData(R.drawable.a,"가게이름","별","위치"));
+//
+//        mainAdapter.notifyDataSetChanged();
 
         Intent intent = getIntent();
         final String nickname = intent.getStringExtra("nickname" );
         final String photoUrl = intent.getStringExtra("photoUrl" );
-
 
 /////////////////////////////////룰렛 버튼 작동 ////////////////////////////////////////////////////
         final ArrayList<String> menuText= new ArrayList<>();
@@ -147,13 +140,29 @@ public class StoreListActivity extends AppCompatActivity {
 ///////////////////////////지도 버튼 작동///////////////////////////////////////////////////////////
         btn_switchMap = (Button)findViewById(R.id.btn_switchMap);
         btn_switchMap.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(getApplicationContext(), StoreMapActivity.class);
-                intent1.putExtra("nickname", nickname);
-                intent1.putExtra("photoUrl", photoUrl);
-                intent1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent1);
+                if(btn_switchMap.getText().equals("지도"))
+                {
+                    btn_switchMap.setText("리스트");
+                    btn_switchMap.setTextSize(8);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    MapFragment mapfragment = new MapFragment();
+
+                    transaction.replace(R.id.frame,mapfragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }else
+                {
+                    btn_switchMap.setText("지도");
+                    btn_switchMap.setTextSize(10);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    ListFragment listFragment = new ListFragment();
+                    transaction.replace(R.id.frame,listFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
             }
         });
 
@@ -185,7 +194,7 @@ public class StoreListActivity extends AppCompatActivity {
 
     /*
     public void addItem(Drawable icon, String name, String star, String loc){
-        MainData data =  MainData(int icon, String name, String star, String loc);
+        StoreData data =  StoreData(int icon, String name, String star, String loc);
        // 수정하기 data.setIv_store(icon);
         data.setTv_name(name);
 

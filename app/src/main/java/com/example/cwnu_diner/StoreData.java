@@ -1,13 +1,13 @@
 package com.example.cwnu_diner;
 
-public class MainData {
+public class StoreData {
     private int iv_store;
     private String tv_name;
     private String tv_star;
     private String tv_loc;
 
 
-    public MainData(int iv_store, String tv_name, String tv_star, String tv_loc) {
+    public StoreData(int iv_store, String tv_name, String tv_star, String tv_loc) {
         this.iv_store = iv_store;
         this.tv_name = tv_name;
         this.tv_star = tv_star;
