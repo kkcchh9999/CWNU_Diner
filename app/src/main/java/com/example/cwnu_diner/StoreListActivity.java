@@ -30,8 +30,9 @@ public class StoreListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private StoreAdapter mainAdapter;
-    private ArrayList<StoreData> arrayList;
+    ArrayList<Store> stores = new ArrayList<>();
+    StoreAdapter adapter;
+
 
 ////////////////// 뒤로가기 버튼 작동시 앱 종료 혹은 로그인 화면으로 돌아가기 방지
     // 마지막으로 뒤로 가기 버튼을 눌렀던 시간 저장
@@ -99,20 +100,13 @@ public class StoreListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storelist);
 
-//        recyclerView = (RecyclerView)findViewById(R.id.rv);
-//        linearLayoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(linearLayoutManager);
-//
-//
-//
-//        mainAdapter = new StoreAdapter(arrayList);
-//        recyclerView.setAdapter(mainAdapter);
-//        arrayList = new ArrayList<>();
-//        arrayList.add(new StoreData(R.drawable.a,"가게이름","별","위치"));
-//        arrayList.add(new StoreData(R.drawable.a,"가게이름","별","위치"));
-//        arrayList.add(new StoreData(R.drawable.a,"가게이름","별","위치"));
-//
-//        mainAdapter.notifyDataSetChanged();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        ListFragment listFragment = new ListFragment();
+        transaction.replace(R.id.frame,listFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
 
         Intent intent = getIntent();
         final String nickname = intent.getStringExtra("nickname" );

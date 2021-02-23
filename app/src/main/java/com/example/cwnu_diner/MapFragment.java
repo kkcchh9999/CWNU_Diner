@@ -120,15 +120,15 @@ public class MapFragment extends Fragment  implements OnMapReadyCallback {
 
        LatLng location = new LatLng(35.2425, 128.689);
 
-       for(int i = 0; i<LOCdata.size(); i++)
-        {
-            LatLng location1 = new LatLng(LOCdata.get(i).getLat(), LOCdata.get(i).getLng());
-            MarkerOptions markerOptions1 = new MarkerOptions();
-            markerOptions1.title(LOCdata.get(i).getStorename());
-            markerOptions1.snippet(LOCdata.get(i).getType());
-            markerOptions1.position(location1);
-            googleMap.addMarker(markerOptions1);
-        }
+//       for(int i = 0; i<LOCdata.size(); i++)
+//        {
+//            LatLng location1 = new LatLng(LOCdata.get(i).getLat(), LOCdata.get(i).getLng());
+//            MarkerOptions markerOptions1 = new MarkerOptions();
+//            markerOptions1.title(LOCdata.get(i).getStorename());
+//            markerOptions1.snippet(LOCdata.get(i).getType());
+//            markerOptions1.position(location1);
+//            googleMap.addMarker(markerOptions1);
+//        }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16));
 
