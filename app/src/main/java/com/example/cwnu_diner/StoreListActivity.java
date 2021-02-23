@@ -135,22 +135,22 @@ public class StoreListActivity extends AppCompatActivity {
         btn_switchMap = (Button)findViewById(R.id.btn_switchMap);
         btn_switchMap.setOnClickListener(new View.OnClickListener() {
 
+            MapFragment mapFragment = new MapFragment();
             @Override
             public void onClick(View view) {
                 if(btn_switchMap.getText().equals("지도"))
                 {
                     btn_switchMap.setText("리스트");
                     btn_switchMap.setTextSize(8);
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    MapFragment mapfragment = new MapFragment();
 
-                    transaction.replace(R.id.frame,mapfragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frame, mapFragment, "map").commit();
+
                 }else
                 {
                     btn_switchMap.setText("지도");
                     btn_switchMap.setTextSize(10);
+                    mapFragment.onDestroy();
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     ListFragment listFragment = new ListFragment();
                     transaction.replace(R.id.frame,listFragment);
@@ -167,7 +167,6 @@ public class StoreListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SearchStoreActivity.class);
-                Log.d("search button","?");
                 startActivity(intent);
             }
         });
