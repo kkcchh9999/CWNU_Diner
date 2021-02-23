@@ -1,67 +1,70 @@
 package com.example.cwnu_diner;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.CustomViewHolder> {
+public class StoreAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<StoreData> arrayList;
+    Context context;
+    ArrayList<Store> stores;
 
-    public StoreAdapter(ArrayList<StoreData> arrayList) {
-        this.arrayList = arrayList;
+    public StoreAdapter(Context context, ArrayList<Store> stores){
+        this.context=context;
+        this.stores=stores;
     }
-
-
-
-
     @NonNull
     @Override
-    public StoreAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list,parent, false);
-        CustomViewHolder holder = new CustomViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater= LayoutInflater.from(context);
+        View userView=inflater.inflate(R.layout.search_itemlist,parent,false);
+
+        VH holder = new VH(userView);
         return holder;
     }
 
-    @Override // 추가될때 생명주기
-    public void onBindViewHolder(@NonNull final StoreAdapter.CustomViewHolder holder, int position) {
-        holder.iv_store.setImageResource(arrayList.get(position).getIv_store());
-        holder.tv_name.setText(arrayList.get(position).getTv_name());
-        holder.tv_star.setText(arrayList.get(position).getTv_star());
-        holder.tv_loc.setText(arrayList.get(position).getTv_loc());
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        VH vh= (VH) holder;
 
-        holder.itemView.setTag(position);
+        Store store= stores.get(position);
 
+        vh.storeName.setText(store.getStoreName());
+        vh.address.setText(store.getAddress());
+        vh.tel.setText(store.getTel());
+        vh.starRatingAvg.setText(store.getStarRatingAvg());
+        vh.openingHours.setText(store.getOpeningHours());
     }
 
     @Override
     public int getItemCount() {
-        return (null !=arrayList ? arrayList.size() : 0);
+       return stores.size();
     }
 
+    class VH extends RecyclerView.ViewHolder{
+        TextView storeName;
+        TextView address;
+        TextView tel;
+        TextView openingHours;
+        TextView starRatingAvg;
+        public VH(@NonNull View storeView) {
+            super(storeView);
+
+            storeName=storeView.findViewById(R.id.storeName);
+            address=storeView.findViewById(R.id.address);
+            tel=storeView.findViewById(R.id.tel);
+            openingHours=storeView.findViewById(R.id.openingHours);
+            starRatingAvg=storeView.findViewById(R.id.star);
 
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
-
-        protected ImageView iv_store;
-        protected TextView tv_name;
-        protected TextView tv_star;
-        protected TextView tv_loc;
-
-        public CustomViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.iv_store = (ImageView) itemView.findViewById(R.id.iv_store);
-            this.tv_name =(TextView) itemView.findViewById(R.id.tv_name);
-            this.tv_star =(TextView) itemView.findViewById(R.id.tv_star);
-            this.tv_loc =(TextView) itemView.findViewById(R.id.tv_loc);
         }
     }
+
 }
