@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHolder> {
+public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.CustomViewHolder> {
 
-    private ArrayList<MainData> arrayList;
+    private ArrayList<StoreData> arrayList;
 
-    public MainAdapter(ArrayList<MainData> arrayList) {
+    public StoreAdapter(ArrayList<StoreData> arrayList) {
         this.arrayList = arrayList;
     }
 
@@ -25,14 +25,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
 
     @NonNull
     @Override
-    public MainAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public StoreAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list,parent, false);
         CustomViewHolder holder = new CustomViewHolder(view);
         return holder;
     }
 
     @Override // 추가될때 생명주기
-    public void onBindViewHolder(@NonNull final MainAdapter.CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final StoreAdapter.CustomViewHolder holder, int position) {
         holder.iv_store.setImageResource(arrayList.get(position).getIv_store());
         holder.tv_name.setText(arrayList.get(position).getTv_name());
         holder.tv_star.setText(arrayList.get(position).getTv_star());
