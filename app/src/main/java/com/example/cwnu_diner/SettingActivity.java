@@ -108,7 +108,8 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
         btn_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),GMail.class);
+                Intent intent=new Intent(SettingActivity.this,GMail.class);
+                startActivity(intent);
             }
         });
 
