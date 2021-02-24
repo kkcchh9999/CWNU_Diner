@@ -2,6 +2,7 @@ package com.example.cwnu_diner;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,12 +38,12 @@ import java.util.List;
 public class SearchStoreActivity extends AppCompatActivity implements SearchAdapter.StoreClick {
 
     private SearchAdapter adapter;
-    private List<SearchData> storeList;
+    private List<SearchData> storeList = new ArrayList<>();
 
     private static String serverUrl = "http://3.34.134.116/storeData.php";
     private static String TAG = "phptest";
 
-    String[] auto_list = {};//일단
+    ArrayList<String> autocomplete_list = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +60,12 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
-        storeList = new ArrayList<>();
-        storeList.add(new SearchData("one", "4.5", "10:00~23:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("oneplusone", "4", "10:00~18:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("onetwo", "3.5", "10:00~22:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("two", "4", "10:00~23:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("twothree", "5", "11:00~24:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("onethree", "3.9", "12:00~23:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("twotwo", "4.8", "10:00~24:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        clickLoad();
+        loadStoreList();
+
+        /*for(int i=0;i<storeList.size();i++){
+            autocomplete_list.add((storeList.get(i).getStoreName()));
+
+        }*/
 
         adapter = new SearchAdapter(storeList, this);
         recyclerView.setLayoutManager(layoutManager);
@@ -89,8 +87,8 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
 
         final SearchView.SearchAutoComplete autoComplete = searchView.findViewById(R.id.search_src_text);
         ArrayAdapter<String> auto_adapter = new ArrayAdapter<String>
-                (this, android.R.layout.select_dialog_item, auto_list);
-        autoComplete.setThreshold(0);
+                (this, android.R.layout.select_dialog_item, autocomplete_list);
+        autoComplete.setThreshold(1);
         autoComplete.setAdapter(auto_adapter);
 
         autoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -99,6 +97,9 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
                 String queryString = (String) adapterView.getItemAtPosition(itemIndex);
                 autoComplete.setText(queryString + "");
                 autoComplete.setSelection(autoComplete.length()); //커서를 끝으로
+
+                //loadStoreList(serverUrl+ Uri.encode(queryString));
+
             }
         });
 
@@ -106,13 +107,13 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return true;
+                return false;
             }
         });
 
@@ -134,13 +135,14 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
         return super.onOptionsItemSelected(item);
     }
 
-    public void clickLoad() {
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, serverUrl, null, new Response.Listener<JSONArray>() {
+    public void loadStoreList() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, serverUrl, null, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {
-                storeList.clear();
+                //storeList.clear();
                 adapter.notifyDataSetChanged();
+
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jsonObject = response.getJSONObject(i);
@@ -152,13 +154,12 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
                         String address = jsonObject.getString("address");
                         String type = jsonObject.getString("type");
 
-                        storeList.add(0, new SearchData(storeName, star, openingHours, tel, address, type)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
+                        storeList.add(new SearchData(storeName, star, openingHours, tel, address, type));
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -174,173 +175,3 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
 
     }
 }
-/*package com.example.cwnu_diner;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class SearchStoreActivity extends AppCompatActivity implements SearchAdapter.onItemListener {
-
-    private SearchAdapter adapter;
-    private List<SearchData> storeList;
-
-    private static String serverUrl = "http://3.34.134.116/storeData.php";
-    private static String TAG = "phptest";
-
-    String[] auto_list = {};//일단
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_searchstore);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        setUpRecyclerView();
-    }
-
-    private void setUpRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-
-        storeList = new ArrayList<>();
-        loadStoreList();
-
-        adapter = new SearchAdapter(storeList);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-
-        DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-    }
-
-    @SuppressLint("RestrictedApi")
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
-
-        MenuItem searchItem = menu.findItem(R.id.bar_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-
-        final SearchView.SearchAutoComplete autoComplete = searchView.findViewById(R.id.search_src_text);
-        ArrayAdapter<String> auto_adapter = new ArrayAdapter<String>
-                (this, android.R.layout.select_dialog_item, auto_list);
-        autoComplete.setThreshold(0);
-        autoComplete.setAdapter(auto_adapter);
-
-        autoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int itemIndex, long id) {
-                String queryString = (String) adapterView.getItemAtPosition(itemIndex);
-                autoComplete.setText(queryString + "");
-                autoComplete.setSelection(autoComplete.length()); //커서를 끝으로
-            }
-        });
-
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.toolbar) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void loadStoreList() {
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, serverUrl, null, new Response.Listener<JSONArray>() {
-
-            @Override
-            public void onResponse(JSONArray response) {
-                storeList.clear();
-                adapter.notifyDataSetChanged();
-                try {
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject jsonObject = response.getJSONObject(i);
-
-                        String storeName = jsonObject.getString("storeName");
-                        String star = jsonObject.getString("starRatingAvg");
-                        String openingHours = jsonObject.getString("openingHours");
-                        String tel = jsonObject.getString("tel");
-                        String address = jsonObject.getString("address");
-                        String type = jsonObject.getString("type");
-
-                        storeList.add(0, new SearchData(storeName, star, openingHours, tel, address, type)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
-                        adapter.notifyItemInserted(0);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SearchStoreActivity.this, "ERROR", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        requestQueue.add(jsonArrayRequest);
-
-
-    }
-
-    @Override
-    public void onItemClicked(int position) {
-        startActivity(new Intent(new Intent(SearchStoreActivity.this, StoreClickActivity.class).putExtra("data", searchData)));
-
-    }
-}*/

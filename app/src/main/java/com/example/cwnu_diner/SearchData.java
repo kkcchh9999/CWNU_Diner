@@ -59,5 +59,6 @@ public class SearchData implements Serializable {
     }
 
     public void setType(String type) { this.type = type; }
+
 }
 
