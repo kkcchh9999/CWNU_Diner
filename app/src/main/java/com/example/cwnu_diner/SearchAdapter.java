@@ -20,15 +20,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
     private StoreClick storeClick;
 
     public SearchAdapter(List<SearchData> items, StoreClick storeClick) {
-        dataList = items;
-        dataListAll = new ArrayList<>(items);
+        this.dataList = items;
+        this.dataListAll = items;
         this.storeClick = storeClick;
     }
 
     private onItemListener itemListener;
-    public void setOnClickListener(onItemListener listener){
-        itemListener = listener;
-    }
 
     @NonNull
     @Override
@@ -49,7 +46,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
 
 
         if (itemListener != null){
-            final int pos = position;
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -74,18 +70,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
     }
 
     private Filter exampleFilter = new Filter() {
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<SearchData> filteredList = new ArrayList<>();
 
+            List<SearchData> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(dataList);
+                dataList=dataListAll;
             } else {
+
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (SearchData item : dataListAll) {
-
-                    if (item.getStoreName().toLowerCase().contains(filterPattern)
-                    ||item.getType().toLowerCase().contains(filterPattern)) {
+                    if (item.getStoreName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
@@ -97,8 +93,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            dataList.clear();
-            dataList.addAll((List) results.values);
+            //dataList.clear();
+            dataList = (ArrayList<SearchData>)results.values;
             notifyDataSetChanged();
         }
     };

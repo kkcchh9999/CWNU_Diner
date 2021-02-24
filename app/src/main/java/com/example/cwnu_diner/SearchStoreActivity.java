@@ -59,15 +59,12 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
-        storeList = new ArrayList<>();
-        storeList.add(new SearchData("one", "4.5", "10:00~23:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("oneplusone", "4", "10:00~18:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("onetwo", "3.5", "10:00~22:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("two", "4", "10:00~23:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("twothree", "5", "11:00~24:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("onethree", "3.9", "12:00~23:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        storeList.add(new SearchData("twotwo", "4.8", "10:00~24:00", "055-000-0000", "학교 앞 어딘가", "g"));
-        clickLoad();
+        loadStoreList();
+
+        /*for(int i=0;i<storeList.size();i++){
+            autocomplete_list.add((storeList.get(i).getStoreName()));
+
+        }*/
 
         adapter = new SearchAdapter(storeList, this);
         recyclerView.setLayoutManager(layoutManager);
@@ -134,13 +131,14 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
         return super.onOptionsItemSelected(item);
     }
 
-    public void clickLoad() {
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, serverUrl, null, new Response.Listener<JSONArray>() {
+    public void loadStoreList() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, serverUrl, null, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {
-                storeList.clear();
+                //storeList.clear();
                 adapter.notifyDataSetChanged();
+
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jsonObject = response.getJSONObject(i);
@@ -152,13 +150,12 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
                         String address = jsonObject.getString("address");
                         String type = jsonObject.getString("type");
 
-                        storeList.add(0, new SearchData(storeName, star, openingHours, tel, address, type)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
+                        storeList.add(new SearchData(storeName, star, openingHours, tel, address, type));
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
