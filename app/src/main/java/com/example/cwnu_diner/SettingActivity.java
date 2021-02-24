@@ -59,7 +59,7 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
 
     private Switch switch_dark;
     private Button btn_logout;
-    private Button btn_question;
+    private Button btn_question, btn_license;
 
     SharedPreferences AppData; //스위치 값을 저장
     SharedPreferences.Editor editor; //스위치 값 수정
@@ -109,6 +109,16 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(SettingActivity.this,GMail.class);
+                startActivity(intent);
+            }
+        });
+
+        //라이센스
+        btn_license = (Button)findViewById(R.id.btn_license);
+        btn_license.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),LicenseActivity.class);
                 startActivity(intent);
             }
         });
