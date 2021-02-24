@@ -1,8 +1,12 @@
 package com.example.cwnu_diner;
 
+import android.app.ProgressDialog;
+import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -11,12 +15,16 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.loader.content.AsyncTaskLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -25,6 +33,8 @@ public class StoreListActivity extends AppCompatActivity {
 
     Button btn_roulette, btn_switchMap;
     ImageButton btn_search, btn_setting;
+    //데이터 올리기
+    private static String IP_ADDRESS = "http://3.34.134.116/userinsert.php";
 
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -111,6 +121,11 @@ public class StoreListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String nickname = intent.getStringExtra("nickname" );
         final String photoUrl = intent.getStringExtra("photoUrl" );
+        final String userID = intent.getStringExtra("userID");
+
+////////////////////데이터 올리기///////////////
+        InsertData task = new InsertData();
+        task.execute(IP_ADDRESS, nickname, userID);
 
 /////////////////////////////////룰렛 버튼 작동 ////////////////////////////////////////////////////
         final ArrayList<String> menuText;
@@ -182,7 +197,60 @@ public class StoreListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    class InsertData extends AsyncTask<String, Void, String >
+    {
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(StoreListActivity.this,"Please Wait",null, true, true);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            progressDialog.dismiss();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String userName = (String)params[1];
+            String userID = (String)params[2];
+
+            String serverURL = (String)params[0];
+            String postParameters = "userName="+userName+"&userID="+userID;
+
+            try{
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                Log.d("tagggggg",postParameters);
+                outputStream.flush();
+                outputStream.close();
+
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d("TAGGGGGG","POSTrsponsecode"+responseStatusCode);
+
+            }catch (Exception e){
+                Log.d("TAGGGWRONG", "아진짜 이게 터지네");
+            }
+
+
+            return null;
+        }
     }
 
     /*
