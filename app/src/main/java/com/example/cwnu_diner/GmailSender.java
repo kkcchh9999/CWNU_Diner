@@ -1,8 +1,5 @@
 package com.example.cwnu_diner;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,24 +21,23 @@ public class GmailSender extends javax.mail.Authenticator{
     private String password;
     private Session session;
 
-    FirebaseUser User= FirebaseAuth.getInstance().getCurrentUser();
-
     public GmailSender(String user, String password) {
-
         this.user=user;
         this.password=password;
 
-        Properties properties = new Properties();
-        properties.setProperty("mail.transport.protocol","smtp");
-        properties.setProperty("mail.host","mailhost");
-        properties.put("mail.smtp.auth","true");
-        properties.put("mail.smtp.port","465");
-        properties.put("mail.smtp.socketFactory.port","465");
-        properties.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-        properties.put("mail.smtp.socketFactory.fallback","false");
-        properties.setProperty("mail.smtp.quitwait","false");
+        Properties props = new Properties();
+        props.setProperty("mail.transport.protocol", "smtp");
+        props.setProperty("mail.host", mailhost);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.quitwait", "false");
 
-        session = Session.getDefaultInstance(properties, this);
+        session = Session.getDefaultInstance(props, this);
+        //구글에서 지원하는 smtp정보를 받아와 MimeMessage객체에 전달
     }
 
     protected PasswordAuthentication getPasswordAuthentication() {
@@ -49,16 +45,16 @@ public class GmailSender extends javax.mail.Authenticator{
         return new PasswordAuthentication(user, password);
     }
 
-    public synchronized void sendMail(String subject, String body, String recipients) throws Exception {
+    public synchronized void sendMail(String title, String content, String sender, String recipient) throws Exception {
         MimeMessage message = new MimeMessage(session);
-        DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain")); //본문 내용을 byte단위로 쪼개어 전달
-        message.setSender(new InternetAddress(user));  //본인 이메일 설정
-        message.setSubject(subject); //해당 이메일의 본문 설정
+        DataHandler handler = new DataHandler(new ByteArrayDataSource(content.getBytes(), "text/plain")); //본문 내용을 byte단위로 쪼개어 전달
+        message.setSender(new InternetAddress(sender));  //발신자 이메일 설정
+        message.setSubject(title); //해당 이메일의 본문 설정
         message.setDataHandler(handler);
-        if (recipients.indexOf(',') > 0)
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
+        if (recipient.indexOf(',') > 0)
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
         else
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
         Transport.send(message); //메시지 전달
     }
 
