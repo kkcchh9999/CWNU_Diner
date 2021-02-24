@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             Toast.makeText(MainActivity.this, "로그인 성공",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), StoreListActivity.class);
                             intent.putExtra("nickname", account.getDisplayName());
+                            intent.putExtra("userID",account.getEmail());
                             intent.putExtra("photoUrl", String.valueOf(account.getPhotoUrl()));
                             startActivity(intent);
                         }else
