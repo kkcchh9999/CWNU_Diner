@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>TestPage</title>
+  </head>
+  <body>
+    <a href="Menu.html"><button type="button" name="button">menu</button></a>
+    <a href="Review.html"><button type="button" name="button">review</button></a>
+    <a href="Store.html"><button type="button" name="button">store</button></a>
+    <a href="User.html"><button type="button" name="button">user</button></a>
+    <br><br>
+
+    <form action="menuinsert.php" method = "post">
+        메뉴:<input type="text" name="menu_menu" required><br><br>
+        가게:<input type="text" name="menu_storeName" required><br><br>
+        가격:<input type="number" name="menu_price" required><br><br>
+        타입:<input type="text" name="menu_menuType" required><br><br>
+        <input type="submit" value="insert">
+
+    </form>
+
+    <?php
+            $db = mysqli_connect('localhost','root','admin','test');
+           if(!$db) { die("fail");                                    }
+            $query = "select * from Menu";
+            //쿼리보내고 결과를 변수에 저장
+            $result = mysqli_query($db,$query);
+            echo "<br/>Menu에서 가져온 데이터는 아래와 같습니다.<br/>";
+            while($row = mysqli_fetch_array($result)){
+            echo "메뉴: ".$row[menu]."/ 이름: ".$row[storeName]."/ 가격: ".$row[price]
+            ."/ 종류: ".$row[menuType]."<br/>";
+            }
+            ?>
+  </body>
+</html>

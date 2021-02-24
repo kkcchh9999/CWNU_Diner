@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "400159661743",
+    "project_id": "cwnudiner",
+    "storage_bucket": "cwnudiner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400159661743:android:73a6f00ed6f8b524e7fe5a",
+        "android_client_info": {
+          "package_name": "com.example.cwnu_diner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "400159661743-5hu168h47juc45i1523ua09rob7bjil5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzwOeSc7ar0zl7q4P7qW1FDCyh8E8ibWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "400159661743-5hu168h47juc45i1523ua09rob7bjil5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

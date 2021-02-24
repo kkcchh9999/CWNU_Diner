@@ -7,11 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -22,16 +25,54 @@ import java.util.Random;
 
 public class StoreListActivity extends AppCompatActivity {
 
-    Button btn_roulette;
+    Button btn_roulette, btn_switchMap;
     ImageButton btn_search, btn_setting;
 
-    public ArrayList<String> ReadTextFile(ArrayList<String> arrayList)
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    ArrayList<Store> stores = new ArrayList<>();
+    StoreAdapter adapter;
+
+
+////////////////// 뒤로가기 버튼 작동시 앱 종료 혹은 로그인 화면으로 돌아가기 방지
+    // 마지막으로 뒤로 가기 버튼을 눌렀던 시간 저장
+    private long backKeyPressedTime = 0;
+    // 첫 번째 뒤로 가기 버튼을 누를 때 표시
+    private Toast toast;
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        // 기존 뒤로 가기 버튼의 기능을 막기 위해 주석 처리 또는 삭제
+
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지났으면 Toast 출력
+        // 2500 milliseconds = 2.5 seconds
+        if (System.currentTimeMillis() > backKeyPressedTime + 2400) {
+            backKeyPressedTime = System.currentTimeMillis();
+            toast = Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지나지 않았으면 종료
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2400) {
+            toast.cancel();
+            toast = Toast.makeText(this,"이용해 주셔서 감사합니다.",Toast.LENGTH_LONG);
+            toast.show();
+            finishAffinity();
+        }
+    }
+
+    public ArrayList<String> ReadTextFile(String filename)
     {   //파일 읽어오기 함수
         //assets 텍스트파일 가져오기
+
+        ArrayList<String> arrayList =new ArrayList<>();
         AssetManager assetManager = getResources().getAssets();
         InputStream inputStream = null;
         try{
-            inputStream = assetManager.open("roulette.txt");
+            inputStream = assetManager.open(filename);
             BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
             String line ="";
             while((line = bf.readLine()) != null)
@@ -54,32 +95,28 @@ public class StoreListActivity extends AppCompatActivity {
         }
         return arrayList;
     }
+
 ////////////////onCreate 생명주기 //////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storelist);
 
-        ListView listview ;
-        ListViewAdapter adapter = new ListViewAdapter();
 
-        // 리스트뷰 참조 및 Adapter달기
-        listview = (ListView) findViewById(R.id.wow);
-        listview.setAdapter(adapter);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        ListFragment listFragment = new ListFragment();
+        transaction.replace(R.id.frame,listFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
 
-        // 첫 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.a),
-                "a", "aaa") ;
-        // 두 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.b),
-                "b", "bbbbbbb") ;
-        // 세 번째 아이템 추가.
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.c),
-                "c", "ccccc") ;
+
+        Intent intent = getIntent();
+        final String nickname = intent.getStringExtra("nickname" );
+        final String photoUrl = intent.getStringExtra("photoUrl" );
 
 /////////////////////////////////룰렛 버튼 작동 ////////////////////////////////////////////////////
-        final ArrayList<String> menuText= new ArrayList<>();
-        ReadTextFile(menuText);
+        final ArrayList<String> menuText;
+        menuText = ReadTextFile("roulette.txt");
         //랜덤변수 생성
         final Random randnumber = new Random();
         //룰렛버튼 작동
@@ -96,29 +133,68 @@ public class StoreListActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////지도 버튼 작동///////////////////////////////////////////////////////////
+        btn_switchMap = (Button)findViewById(R.id.btn_switchMap);
+        btn_switchMap.setOnClickListener(new View.OnClickListener() {
+
+            MapFragment mapFragment = new MapFragment();
+            @Override
+            public void onClick(View view) {
+                if(btn_switchMap.getText().equals("지도"))
+                {
+                    btn_switchMap.setText("리스트");
+                    btn_switchMap.setTextSize(8);
+
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frame, mapFragment, "map").commit();
+
+                }else
+                {
+                    btn_switchMap.setText("지도");
+                    btn_switchMap.setTextSize(10);
+                    mapFragment.onDestroy();
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    ListFragment listFragment = new ListFragment();
+                    transaction.replace(R.id.frame,listFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            }
+        });
+
 
 ///////////////////////////검색 버튼 작동///////////////////////////////////////////////////////////
         btn_search = (ImageButton)findViewById(R.id.btn_search);
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SearchMenuActivity.class);
-                Log.d("search button","?");
+                Intent intent = new Intent(getApplicationContext(), SearchStoreActivity.class);
                 startActivity(intent);
             }
         });
-///////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////설정 버튼 작동//////////////////////////////////////////////////////////////
 
         btn_setting =(ImageButton)findViewById(R.id.btn_setting);
         btn_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+                intent.putExtra("nickname", nickname);
+                intent.putExtra("photoUrl", photoUrl);
                 startActivity(intent);
             }
         });
 
     }
+
+    /*
+    public void addItem(Drawable icon, String name, String star, String loc){
+        StoreData data =  StoreData(int icon, String name, String star, String loc);
+       // 수정하기 data.setIv_store(icon);
+        data.setTv_name(name);
+
+
+    }
+*/
 
 }

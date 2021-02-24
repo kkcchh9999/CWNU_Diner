@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>TestPage</title>
+  </head>
+  <body>
+    <a href="Menu.html"><button type="button" name="button">menu</button></a>
+    <a href="Review.html"><button type="button" name="button">review</button></a>
+    <a href="Store.html"><button type="button" name="button">store</button></a>
+    <a href="User.html"><button type="button" name="button">user</button></a>
+    <br><br>
+
+    <form action="reviewinsert.php" method = "post">
+        ID:<input type="text" name="userID" required><br><br>
+        가게:<input type="text" name="storeName" required><br><br>
+        리뷰<br><textarea name="review" cols = "30" rows = "5" 
+          placeholder="리뷰를 남겨주세요." required></textarea><br><br>
+        메뉴:<input type="text" name="menu" required><br><br>
+        별점:<input type="range" min = "0" max = "5" name="starRating" required><br><br>
+        <input type="submit" value="insert">
+    </form>
+
+
+<?php
+                          $db = mysqli_connect('localhost','root','admin','test');
+                          if(!$db) { die("fail");                                    }
+                          $query = "select * from Review";
+                          //쿼리보내고 결과를 변수에 저장
+                          $result = mysqli_query($db,$query);
+                          echo "<br/>Review에서 가져온 데이터는 아래와 같습니다.<br/>";
+                          while($row = mysqli_fetch_array($result)){
+                          echo "유저 아이디: ".$row[userID]."/ 가게이름: ".$row[storeName]."/ 리뷰: ".$row[review]
+                          ."/ 별점: ".$row[starRating]."/ 날짜 ".$row[date]."<br/>";
+                          }
+                  ?>
+ </body>
+</html>
