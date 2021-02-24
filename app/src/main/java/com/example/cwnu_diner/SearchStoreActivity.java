@@ -2,7 +2,6 @@ package com.example.cwnu_diner;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,12 +37,12 @@ import java.util.List;
 public class SearchStoreActivity extends AppCompatActivity implements SearchAdapter.StoreClick {
 
     private SearchAdapter adapter;
-    private List<SearchData> storeList = new ArrayList<>();
+    private List<SearchData> storeList;
 
     private static String serverUrl = "http://3.34.134.116/storeData.php";
     private static String TAG = "phptest";
 
-    ArrayList<String> autocomplete_list = new ArrayList<String>();
+    String[] auto_list = {};//일단
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +86,8 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
 
         final SearchView.SearchAutoComplete autoComplete = searchView.findViewById(R.id.search_src_text);
         ArrayAdapter<String> auto_adapter = new ArrayAdapter<String>
-                (this, android.R.layout.select_dialog_item, autocomplete_list);
-        autoComplete.setThreshold(1);
+                (this, android.R.layout.select_dialog_item, auto_list);
+        autoComplete.setThreshold(0);
         autoComplete.setAdapter(auto_adapter);
 
         autoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,9 +96,6 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
                 String queryString = (String) adapterView.getItemAtPosition(itemIndex);
                 autoComplete.setText(queryString + "");
                 autoComplete.setSelection(autoComplete.length()); //커서를 끝으로
-
-                //loadStoreList(serverUrl+ Uri.encode(queryString));
-
             }
         });
 
@@ -107,13 +103,13 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                adapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                adapter.getFilter().filter(newText);
+                return true;
             }
         });
 
