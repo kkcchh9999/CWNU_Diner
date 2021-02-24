@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public class StoreAdapter extends RecyclerView.Adapter {
 
     Context context;
-    ArrayList<Store> stores;
+    ArrayList<StoreData> stores;
 
-    public StoreAdapter(Context context, ArrayList<Store> stores){
+    public StoreAdapter(Context context, ArrayList<StoreData> stores){
         this.context=context;
         this.stores=stores;
     }
@@ -34,7 +34,7 @@ public class StoreAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         VH vh= (VH) holder;
 
-        Store store= stores.get(position);
+        StoreData store= stores.get(position);
 
         vh.storeName.setText(store.getStoreName());
         vh.address.setText(store.getAddress());

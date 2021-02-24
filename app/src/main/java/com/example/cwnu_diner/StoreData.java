@@ -1,14 +1,14 @@
 package com.example.cwnu_diner;
 
-public class Store {
+public class StoreData {
     String storeName;
     String address;
     String tel;
     String type;
     String openingHours;
     String starRatingAvg;
-    String latitude;
-    String longitude;
+    Double latitude;
+    Double longitude;
 
     public String getStoreName() {
         return storeName;
@@ -58,23 +58,23 @@ public class Store {
         this.starRatingAvg = starRatingAvg;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public Store(String storeName, String address, String tel, String type, String openingHours, String starRatingAvg, String latitude, String longitude) {
+    public StoreData(String storeName, String address, String tel, String type, String openingHours, String starRatingAvg, Double latitude, Double longitude) {
         this.storeName = storeName;
         this.address = address;
         this.tel = tel;

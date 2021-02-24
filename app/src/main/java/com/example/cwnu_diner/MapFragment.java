@@ -1,8 +1,6 @@
 package com.example.cwnu_diner;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,23 +20,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 import static com.example.cwnu_diner.R.id.googleMap;
@@ -47,7 +35,7 @@ public class MapFragment extends Fragment  implements OnMapReadyCallback {
 
     MapView mapView = null;
 
-    ArrayList<StoreLocationData> LocData = new ArrayList<>();
+    ArrayList<StoreData> LocData = new ArrayList<>();
     String serverUrl="http://3.34.134.116/storeData.php";
 
     public MapFragment()
@@ -71,14 +59,21 @@ public class MapFragment extends Fragment  implements OnMapReadyCallback {
                 try {
                     for(int i=0;i<response.length();i++){
                         JSONObject jsonObject= response.getJSONObject(i);
+
+
                         String storeName=jsonObject.getString("storeName");
+                        String address=jsonObject.getString("address");
+                        String tel=jsonObject.getString("tel");
                         String type=jsonObject.getString("type");
+                        String openingHours=jsonObject.getString("openingHours");
+                        String starRatingAvg=jsonObject.getString("starRatingAvg");
                         Double latitude=jsonObject.getDouble("latitude");
                         Double longitude=jsonObject.getDouble("longitude");
 
 
 
-                        LocData.add(new StoreLocationData(storeName, type, latitude, longitude));
+                        LocData.add(new StoreData(storeName,address, tel, type, openingHours, starRatingAvg, latitude, longitude));
+
                     }
                 } catch (JSONException e) {e.printStackTrace();}
 
@@ -125,7 +120,7 @@ public class MapFragment extends Fragment  implements OnMapReadyCallback {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
+//        mapView.onSaveInstanceState(outState);
     }
 
     @Override
@@ -144,7 +139,7 @@ public class MapFragment extends Fragment  implements OnMapReadyCallback {
     public void onDestroy() {
 
         super.onDestroy();
-        mapView.onDestroy();
+//        mapView.onDestroy();
     }
 
     @Override
@@ -161,9 +156,9 @@ public class MapFragment extends Fragment  implements OnMapReadyCallback {
 
         for(int i = 0; i<LocData.size(); i++)
         {
-            LatLng location1 = new LatLng(LocData.get(i).getLat(), LocData.get(i).getLng());
+            LatLng location1 = new LatLng(LocData.get(i).getLatitude(), LocData.get(i).getLongitude());
             MarkerOptions markerOptions1 = new MarkerOptions();
-            markerOptions1.title(LocData.get(i).getStorename());
+            markerOptions1.title(LocData.get(i).getStoreName());
             markerOptions1.snippet(LocData.get(i).getType());
             markerOptions1.position(location1);
             googleMap.addMarker(markerOptions1);
