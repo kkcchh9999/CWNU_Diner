@@ -1,12 +1,10 @@
 package com.example.cwnu_diner;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,7 +30,7 @@ import java.util.ArrayList;
 public class ListFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    ArrayList<Store> stores = new ArrayList<>();
+    ArrayList<StoreData> stores = new ArrayList<>();
     StoreAdapter adapter;
 
 
@@ -83,12 +81,12 @@ public class ListFragment extends Fragment {
                         String type=jsonObject.getString("type");
                         String openingHours=jsonObject.getString("openingHours");
                         String starRatingAvg=jsonObject.getString("starRatingAvg");
-                        String latitude=jsonObject.getString("latitude");
-                        String longitude=jsonObject.getString("longitude");
+                        Double latitude=jsonObject.getDouble("latitude");
+                        Double longitude=jsonObject.getDouble("longitude");
 
 
 
-                        stores.add(new Store(storeName,address, tel, type, openingHours, starRatingAvg, latitude, longitude));
+                        stores.add(new StoreData(storeName,address, tel, type, openingHours, starRatingAvg, latitude, longitude));
 
                         adapter.notifyDataSetChanged();
                     }
