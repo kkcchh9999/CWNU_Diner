@@ -37,12 +37,12 @@ import java.util.List;
 public class SearchStoreActivity extends AppCompatActivity implements SearchAdapter.StoreClick {
 
     private SearchAdapter adapter;
-    private List<SearchData> storeList;
+    private List<SearchData> storeList = new ArrayList<SearchData>();
 
     private static String serverUrl = "http://3.34.134.116/storeData.php";
     private static String TAG = "phptest";
 
-    String[] auto_list = {};//일단
+    ArrayList<String> autocomplete_list= new ArrayList<>();//일단
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +60,6 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         loadStoreList();
-
-        /*for(int i=0;i<storeList.size();i++){
-            autocomplete_list.add((storeList.get(i).getStoreName()));
-
-        }*/
 
         adapter = new SearchAdapter(storeList, this);
         recyclerView.setLayoutManager(layoutManager);
@@ -86,8 +81,8 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
 
         final SearchView.SearchAutoComplete autoComplete = searchView.findViewById(R.id.search_src_text);
         ArrayAdapter<String> auto_adapter = new ArrayAdapter<String>
-                (this, android.R.layout.select_dialog_item, auto_list);
-        autoComplete.setThreshold(0);
+                (this, android.R.layout.select_dialog_item, autocomplete_list);
+        autoComplete.setThreshold(1);
         autoComplete.setAdapter(auto_adapter);
 
         autoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -103,12 +98,12 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
                 return true;
             }
         });
@@ -151,6 +146,10 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
                         String type = jsonObject.getString("type");
 
                         storeList.add(new SearchData(storeName, star, openingHours, tel, address, type));
+                        autocomplete_list.add(storeName);
+                        if(!autocomplete_list.contains(type)){
+                            autocomplete_list.add(type);
+                        }
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {
