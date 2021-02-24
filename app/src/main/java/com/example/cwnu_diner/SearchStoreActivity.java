@@ -32,9 +32,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class SearchStoreActivity extends AppCompatActivity implements SearchAdapter.StoreClick {
+public class SearchStoreActivity extends AppCompatActivity{
 
     private SearchAdapter adapter;
     private List<SearchData> storeList = new ArrayList<SearchData>();
@@ -64,6 +65,7 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
         adapter = new SearchAdapter(storeList, this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
 
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
@@ -109,11 +111,6 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
         });
 
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public void storeClick(SearchData searchData) {
-        startActivity(new Intent(new Intent(SearchStoreActivity.this, StoreClickActivity.class).putExtra("data", searchData)));
     }
 
     @Override
@@ -167,6 +164,7 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
 
         requestQueue.add(jsonArrayRequest);
 
+        Collections.sort(autocomplete_list);
 
     }
 }
