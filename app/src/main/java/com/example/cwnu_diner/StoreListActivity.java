@@ -64,13 +64,15 @@ public class StoreListActivity extends AppCompatActivity {
         }
     }
 
-    public ArrayList<String> ReadTextFile(ArrayList<String> arrayList)
+    public ArrayList<String> ReadTextFile(String filename)
     {   //파일 읽어오기 함수
         //assets 텍스트파일 가져오기
+
+        ArrayList<String> arrayList =new ArrayList<>();
         AssetManager assetManager = getResources().getAssets();
         InputStream inputStream = null;
         try{
-            inputStream = assetManager.open("roulette.txt");
+            inputStream = assetManager.open(filename);
             BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
             String line ="";
             while((line = bf.readLine()) != null)
@@ -113,8 +115,8 @@ public class StoreListActivity extends AppCompatActivity {
         final String photoUrl = intent.getStringExtra("photoUrl" );
 
 /////////////////////////////////룰렛 버튼 작동 ////////////////////////////////////////////////////
-        final ArrayList<String> menuText= new ArrayList<>();
-        ReadTextFile(menuText);
+        final ArrayList<String> menuText;
+        menuText = ReadTextFile("roulette.txt");
         //랜덤변수 생성
         final Random randnumber = new Random();
         //룰렛버튼 작동
