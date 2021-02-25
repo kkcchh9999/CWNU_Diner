@@ -30,7 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ListFragment extends Fragment implements View.OnClickListener {
-
+//?
     Button all, k, j, c, w, f;
     private RecyclerView recyclerView;
     ArrayList<StoreData> stores = new ArrayList<>();
