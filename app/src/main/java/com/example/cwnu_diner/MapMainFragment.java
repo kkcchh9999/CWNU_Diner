@@ -72,7 +72,7 @@ public class MapMainFragment extends Fragment  implements OnMapReadyCallback {
 
 
 
-                        LocData.add(new StoreData(storeName,address, tel, type, openingHours, starRatingAvg, latitude, longitude));
+                        LocData.add(new StoreData(storeName,  starRatingAvg,openingHours,tel,address, type,  latitude, longitude));
 
                     }
                 } catch (JSONException e) {e.printStackTrace();}
