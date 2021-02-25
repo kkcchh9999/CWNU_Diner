@@ -19,6 +19,8 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHolder> implements Filterable {
 
+
+
     private List<StoreData> dataList;
     private List<StoreData> dataListAll;
     private Context context;
@@ -49,7 +51,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
        holder.itemView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-             //  context.startActivity(new Intent(context, StoreClickActivity.class).putExtra("data", currentItem));
                context.startActivity(new Intent(context, StoreClickActivity.class).putExtra("data", currentItem).addFlags(FLAG_ACTIVITY_NEW_TASK));
 
 
@@ -76,12 +77,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
 
             List<StoreData> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
+                filteredList=dataListAll;
                 dataList=dataListAll;
             } else {
 
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (StoreData item : dataListAll) {
-                    if (item.getStoreName().toLowerCase().contains(filterPattern)) {
+                    if (item.getStoreName().toLowerCase().contains(filterPattern)
+                            ||item.getType().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
