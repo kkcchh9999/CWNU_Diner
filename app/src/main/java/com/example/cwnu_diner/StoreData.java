@@ -76,7 +76,7 @@ public class StoreData implements Serializable {
         this.longitude = longitude;
     }
 
-    public StoreData(String storeName, String address, String tel, String type, String openingHours, String starRatingAvg, Double latitude, Double longitude) {
+    public StoreData(String storeName, String starRatingAvg, String openingHours, String tel, String address, String type, Double latitude, Double longitude) {
         this.storeName = storeName;
         this.address = address;
         this.tel = tel;

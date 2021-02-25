@@ -97,7 +97,7 @@ public class ListFragment extends Fragment implements View.OnClickListener {
 
 
 
-                        stores.add(new StoreData(storeName, address,  tel,  type, openingHours,  starRatingAvg,  latitude, longitude));
+                        stores.add(new StoreData(storeName, starRatingAvg, openingHours, tel, address, type, latitude, longitude));
                         adapter.notifyDataSetChanged();
                     }
 
