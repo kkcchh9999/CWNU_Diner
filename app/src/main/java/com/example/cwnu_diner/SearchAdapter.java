@@ -3,6 +3,7 @@ package com.example.cwnu_diner;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -19,15 +20,17 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHolder> implements Filterable {
 
-
-
     private List<StoreData> dataList;
     private List<StoreData> dataListAll;
+    private List<MenuData> menuData;
+    private List<MenuData> menuDataAll;
     private Context context;
 
-    public SearchAdapter(List<StoreData> items, Context context) {
+    public SearchAdapter(List<StoreData> items, List<MenuData> menuitems, Context context) {
         this.dataList = items;
         this.dataListAll = items;
+        this.menuData = menuitems;
+        this.menuDataAll = menuitems;
         this.context = context;
     }
 
@@ -52,8 +55,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
            @Override
            public void onClick(View view) {
                context.startActivity(new Intent(context, StoreClickActivity.class).putExtra("data", currentItem).addFlags(FLAG_ACTIVITY_NEW_TASK));
-
-
            }
        });
 
@@ -75,22 +76,30 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-            List<StoreData> filteredList = new ArrayList<>();
+            List<StoreData> store_filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
-                filteredList=dataListAll;
+                store_filteredList=dataListAll;
                 dataList=dataListAll;
             } else {
-
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (StoreData item : dataListAll) {
-                    if (item.getStoreName().toLowerCase().contains(filterPattern)
-                            ||item.getType().contains(filterPattern)) {
-                        filteredList.add(item);
+                for(StoreData data : dataListAll){
+                    if (data.getType().contains(filterPattern) || data.getStoreName().contains(filterPattern)) { //Store -> type, storeName
+                        store_filteredList.add(data);
+                    }
+                    else{
+                        for(MenuData menu : menuDataAll){
+                            if(data.getStoreName().equals(menu.getStoreName())){
+                                if(menu.getMenu().contains(filterPattern)||menu.getMenuType().contains(filterPattern)){
+                                    store_filteredList.add(data);
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             }
             FilterResults results = new FilterResults();
-            results.values = filteredList;
+            results.values = store_filteredList;
             return results;
         }
 
@@ -105,6 +114,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView storeName, starRatingAvg, openingHours, tel, address;
+        TextView menu, menuType;
 
         ItemViewHolder(final View itemView) {
             super(itemView);
@@ -114,6 +124,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
             openingHours = itemView.findViewById(R.id.openingHours);
             tel = itemView.findViewById(R.id.tel);
             address = itemView.findViewById(R.id.address);
+
+            menu= itemView.findViewById(R.id.menu);
+            menu= itemView.findViewById(R.id.menuType);
+
 
         }
 

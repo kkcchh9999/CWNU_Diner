@@ -39,8 +39,10 @@ public class SearchStoreActivity extends AppCompatActivity{
 
     private SearchAdapter adapter;
     private List<StoreData> storeList = new ArrayList<StoreData>();
+    private List<MenuData> menuList = new ArrayList<MenuData>();
 
-    private static String serverUrl = "http://3.34.134.116/storeData.php";
+    private static String storeDataUrl = "http://3.34.134.116/storeData.php";
+    private static String MenuDataUrl = "http://3.34.134.116/menuData.php";
     private static String TAG = "phptest";
 
     ArrayList<String> autocomplete_list= new ArrayList<>();//일단
@@ -61,8 +63,9 @@ public class SearchStoreActivity extends AppCompatActivity{
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         loadStoreList();
+        loadMenu();
 
-        adapter = new SearchAdapter(storeList, this);
+        adapter = new SearchAdapter(storeList, menuList, this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -124,7 +127,7 @@ public class SearchStoreActivity extends AppCompatActivity{
     }
 
     public void loadStoreList() {
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, serverUrl, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, storeDataUrl, null, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {
@@ -142,12 +145,59 @@ public class SearchStoreActivity extends AppCompatActivity{
                         String address = jsonObject.getString("address");
                         String type = jsonObject.getString("type");
                         Double latitude = jsonObject.getDouble("latitude");
-                        Double longitude = jsonObject.getDouble("longitude");;
+                        Double longitude = jsonObject.getDouble("longitude");
 
                         storeList.add(new StoreData(storeName, star, openingHours, tel, address, type, latitude, longitude));
-                        autocomplete_list.add(storeName);
-                        if(!autocomplete_list.contains(type)){
-                            autocomplete_list.add(type);
+                        if(!autocomplete_list.contains(storeName)) {
+                            autocomplete_list.add(storeName);
+                        }
+                        adapter.notifyItemInserted(0);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(SearchStoreActivity.this, "ERROR", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(jsonArrayRequest);
+
+        Collections.sort(autocomplete_list);
+
+    }
+
+    public void loadMenu() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, MenuDataUrl, null, new Response.Listener<JSONArray>() {
+
+            @Override
+            public void onResponse(JSONArray response) {
+                //storeList.clear();
+                adapter.notifyDataSetChanged();
+
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject jsonObject = response.getJSONObject(i);
+
+                        String menu = jsonObject.getString("menu");
+                        String storeName = jsonObject.getString("storeName");
+                        int price = jsonObject.getInt("price");
+                        String menuType = jsonObject.getString("menuType");
+
+                        menuList.add(new MenuData(menu, storeName, price, menuType));
+                        if(!autocomplete_list.contains(storeName)) {
+                            autocomplete_list.add(storeName);
+                        }
+                        if(!autocomplete_list.contains(menuType)){
+                            autocomplete_list.add(menuType);
+                        }
+                        if(!autocomplete_list.contains(menu)){
+                            autocomplete_list.add(menu);
                         }
                         adapter.notifyItemInserted(0);
                     }
