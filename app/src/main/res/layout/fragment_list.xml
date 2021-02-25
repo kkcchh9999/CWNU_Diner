@@ -9,9 +9,54 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5sp"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_all"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="전체"/>
+            <Button
+                android:id="@+id/btn_korea"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="한식"/>
+            <Button
+                android:id="@+id/btn_china"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="중식"/>
+            <Button
+                android:id="@+id/btn_japan"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="일식"/>
+            <Button
+                android:id="@+id/btn_west"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="양식"/>
+            <Button
+                android:id="@+id/btn_flour"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="분식"/>
+
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHolder> implements Filterable {
 
     private List<SearchData> dataList;
@@ -47,7 +49,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
        holder.itemView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               context.startActivity(new Intent(context, StoreClickActivity.class).putExtra("data", currentItem));
+             //  context.startActivity(new Intent(context, StoreClickActivity.class).putExtra("data", currentItem));
+               context.startActivity(new Intent(context, StoreClickActivity.class).putExtra("data", currentItem).addFlags(FLAG_ACTIVITY_NEW_TASK));
+
+
            }
        });
 
