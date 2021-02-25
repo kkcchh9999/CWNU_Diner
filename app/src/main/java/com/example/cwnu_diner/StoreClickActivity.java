@@ -68,10 +68,7 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
         Intent intent = getIntent();
 
         if(intent.getExtras() != null){
-            StoreData data = (StoreData) intent.getSerializableExtra("data");
-
-
-
+            data = (StoreData) intent.getSerializableExtra("data");
         }
 
         tv_storeName = (TextView)findViewById(R.id.storeName);
@@ -136,6 +133,8 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+
 
     }
 }
