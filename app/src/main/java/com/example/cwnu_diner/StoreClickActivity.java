@@ -68,7 +68,10 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
         Intent intent = getIntent();
 
         if(intent.getExtras() != null){
-            data = (SearchData) intent.getSerializableExtra("data");
+            StoreData data = (StoreData) intent.getSerializableExtra("data");
+
+            click.setText(data.getStoreName());
+
         }
 
         tv_storeName = (TextView)findViewById(R.id.storeName);

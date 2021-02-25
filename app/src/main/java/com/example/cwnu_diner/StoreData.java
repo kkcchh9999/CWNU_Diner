@@ -1,6 +1,8 @@
 package com.example.cwnu_diner;
 
-public class StoreData {
+import java.io.Serializable;
+
+public class StoreData implements Serializable {
     String storeName;
     String address;
     String tel;
