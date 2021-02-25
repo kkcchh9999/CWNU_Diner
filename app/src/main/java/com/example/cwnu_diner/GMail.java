@@ -56,9 +56,9 @@ public class GMail extends AppCompatActivity implements View.OnClickListener {
             gmailSender=new GmailSender("dmswls9509@gmail.com","house0544564634");
             //GMailSender.sendMail(제목, 본문내용, 받는사람);
             gmailSender.sendMail(title,content,sender_email,"dmswls9509@gmail.com");
-            Toast.makeText(getApplicationContext(), "이메일을 성공적으로 보냈습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "이메일 전송 완료", Toast.LENGTH_SHORT).show();
         } catch (MessagingException e) {
-            Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해주십시오", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "메일 전송 실패", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("SendMail",e.getMessage(),e);

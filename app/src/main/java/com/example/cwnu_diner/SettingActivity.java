@@ -58,7 +58,7 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
     private TextView txt_info;
 
     private Switch switch_dark;
-    private Button btn_logout;
+    private Button btn_logout, btn_review;
     private Button btn_question, btn_license;
 
     SharedPreferences AppData; //스위치 값을 저장
@@ -119,6 +119,16 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),LicenseActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //my리뷰보기 누리면 화면전환
+        btn_review=findViewById(R.id.btn_review);
+        btn_review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(SettingActivity.this,MyReview.class);
                 startActivity(intent);
             }
         });
