@@ -38,7 +38,7 @@ public class MyReviewAdapter extends RecyclerView.Adapter <MyReviewAdapter.ItemV
         holder.storeName.setText(review.getStoreName());
         holder.review.setText(review.getReview());
         holder.menu.setText(review.getMenu());
-        holder.starRating.setText(starRating);
+        holder.starRating.setText("별점 "+starRating);
         holder.date.setText(review.getDate());
     }
 
