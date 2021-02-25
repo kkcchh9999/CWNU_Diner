@@ -34,11 +34,6 @@ public class StoreListActivity extends AppCompatActivity {
     //데이터 올리기
     private static String IP_ADDRESS = "http://3.34.134.116/userinsert.php";
 
-    private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
-    ArrayList<StoreData> stores = new ArrayList<>();
-    StoreAdapter adapter;
-
 
 ////////////////// 뒤로가기 버튼 작동시 앱 종료 혹은 로그인 화면으로 돌아가기 방지
     // 마지막으로 뒤로 가기 버튼을 눌렀던 시간 저장
@@ -251,14 +246,6 @@ public class StoreListActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    public void addItem(Drawable icon, String name, String star, String loc){
-        StoreData data =  StoreData(int icon, String name, String star, String loc);
-       // 수정하기 data.setIv_store(icon);
-        data.setTv_name(name);
 
-
-    }
-*/
 
 }
