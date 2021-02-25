@@ -3,8 +3,11 @@ package com.example.cwnu_diner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,6 +30,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class AddReviewActivity extends AppCompatActivity {
@@ -36,9 +42,10 @@ public class AddReviewActivity extends AppCompatActivity {
     RatingBar ratingBar;
     StoreData data;
     Spinner spinner;
+    private static String IP_ADDRESS = "http://3.34.134.116/reviewinsert.php";
 
-    int rating;
-    String review;
+    int rating = 3;
+    String review, userID, menu;
     ArrayList<MenuData> menuData = new ArrayList<>();
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayAdapter<String> arrayAdapter;
@@ -56,6 +63,7 @@ public class AddReviewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent.getExtras() != null){
             data = (StoreData) intent.getSerializableExtra("data");
+            userID = intent.getStringExtra("userID");
         }
 
         //////////////메뉴 데이터 받아오기
@@ -99,16 +107,14 @@ public class AddReviewActivity extends AppCompatActivity {
         //요청큐에 요청 객체 생성
         requestQueue.add(jsonArrayRequest);
         spinner = (Spinner)findViewById(R.id.spinner_menu);
-
         arrayAdapter = new ArrayAdapter<>(this , android.R.layout.simple_spinner_dropdown_item,arrayList);
-
         spinner.setAdapter(arrayAdapter);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ((TextView)view).setText(arrayList.get(i));
                 Toast.makeText(getApplicationContext(),arrayList.get(i),Toast.LENGTH_SHORT).show();
+                menu = arrayList.get(i);
             }
 
             @Override
@@ -118,25 +124,92 @@ public class AddReviewActivity extends AppCompatActivity {
         });
 
         ratingBar = (RatingBar)findViewById(R.id.ratingBar);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                rating = (int)v;
+            }
+        });
+
         et_review = (EditText)findViewById(R.id.et_review);
 
         btn_reviewAdd = (Button)findViewById(R.id.btn_reviewAdd);
         btn_reviewAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                        rating = (int)v;
-                    }
-                });
 
                 review = String.valueOf(et_review.getText());
 
+                ////////////////////데이터 올리기///////////////
+                InsertData task = new InsertData();
+                task.execute(IP_ADDRESS, userID, data.getStoreName(), review, menu, Integer.toString(rating));
 
+                finish();
 
             }
         });
 
     }
+
+
+
+    class InsertData extends AsyncTask<String, Void, String >
+    {
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(AddReviewActivity.this,"Please Wait",null, true, true);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            progressDialog.dismiss();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String userID = (String)params[1];
+            String store = (String)params[2];
+            String menu = (String)params[4];
+            String review = (String)params[3];
+            int rating = (Integer.parseInt(params[5]));
+            String serverURL = (String)params[0];
+
+            String postParameters = "userID="+userID+"&storeName="+store+"&review="+review+"&menu="+menu+"&starRating="+rating;
+
+            try{
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                Log.d("tagggggg",postParameters);
+                outputStream.flush();
+                outputStream.close();
+
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d("TAGGGGGG","POSTrsponsecode"+responseStatusCode);
+
+            }catch (Exception e){
+                Log.d("TAGGGWRONG", "아진짜 이게 터지네");
+            }
+
+
+            return null;
+        }
+    }
+
+
 }

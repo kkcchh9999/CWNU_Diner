@@ -38,12 +38,17 @@ public class ListFragment extends Fragment implements View.OnClickListener {
     ArrayList<StoreData> stores = new ArrayList<>();
     ArrayList<MenuData> menulist = new ArrayList<>();
     SearchAdapter adapter;
-
+    String userID;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        Bundle bundle = getArguments();
+        if(bundle != null)
+        {
+            userID = bundle.getString("userID");
+        }
 
 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
@@ -56,7 +61,7 @@ public class ListFragment extends Fragment implements View.OnClickListener {
 
         recyclerView.scrollToPosition(0);
 
-        adapter = new SearchAdapter(stores, menulist, getActivity().getApplicationContext());
+        adapter = new SearchAdapter(stores, menulist, userID, getActivity().getApplicationContext());
         recyclerView.setAdapter(adapter);
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());

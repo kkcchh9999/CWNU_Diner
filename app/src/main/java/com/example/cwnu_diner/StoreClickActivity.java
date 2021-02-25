@@ -47,6 +47,7 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
     String URL = "http://3.34.134.116/reviewData.php"; //리뷰데이터 파싱
     TextView tv_storeName, tv_star, tv_opening, tv_tel, tv_adress;
     StoreData data;
+    String userID;
 
     private FragmentManager fragmentManager;
     private MapFragment mapFragment;
@@ -67,19 +68,18 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
 
 
+        ///Intent로 activity간 정보 가져오기
+        Intent intent = getIntent();
+        if(intent.getExtras() != null){
+            userID = intent.getStringExtra("userID");
+            data = (StoreData) intent.getSerializableExtra("data");
+        }
+
         /////툴바 달기
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-        ///Intent로 activity간 정보 가져오기
-        Intent intent = getIntent();
-
-
-        if(intent.getExtras() != null){
-
-           data = (StoreData) intent.getSerializableExtra("data");
-        }
 
         tv_storeName = (TextView)findViewById(R.id.storeName);
         tv_storeName.setText(data.getStoreName());
@@ -157,6 +157,7 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
             case R.id.btn_addreview:
                 Intent intent = new Intent(getApplicationContext(),AddReviewActivity.class);
                 intent.putExtra("data",(StoreData)data);
+                intent.putExtra("userID",userID);
                 startActivity(intent);
         }
 
