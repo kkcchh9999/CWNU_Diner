@@ -17,11 +17,11 @@ import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHolder> implements Filterable {
 
-    private List<SearchData> dataList;
-    private List<SearchData> dataListAll;
+    private List<StoreData> dataList;
+    private List<StoreData> dataListAll;
     private Context context;
 
-    public SearchAdapter(List<SearchData> items, Context context) {
+    public SearchAdapter(List<StoreData> items, Context context) {
         this.dataList = items;
         this.dataListAll = items;
         this.context = context;
@@ -36,10 +36,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ItemViewHolder holder, final int position) {
-        final SearchData currentItem = dataList.get(position);
+        final StoreData currentItem = dataList.get(position);
 
         holder.storeName.setText(currentItem.getStoreName());
-        holder.star.setText(currentItem.getStar());
+        holder.starRatingAvg.setText(currentItem.getStarRatingAvg());
         holder.openingHours.setText(currentItem.getOpeningHours());
         holder.tel.setText(currentItem.getTel());
         holder.address.setText(currentItem.getAddress());
@@ -69,13 +69,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-            List<SearchData> filteredList = new ArrayList<>();
+            List<StoreData> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
                 dataList=dataListAll;
             } else {
 
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (SearchData item : dataListAll) {
+                for (StoreData item : dataListAll) {
                     if (item.getStoreName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
@@ -89,20 +89,20 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             //dataList.clear();
-            dataList = (ArrayList<SearchData>)results.values;
+            dataList = (ArrayList<StoreData>)results.values;
             notifyDataSetChanged();
         }
     };
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        TextView storeName, star, openingHours, tel, address;
+        TextView storeName, starRatingAvg, openingHours, tel, address;
 
         ItemViewHolder(final View itemView) {
             super(itemView);
 
             storeName = itemView.findViewById(R.id.storeName);
-            star = itemView.findViewById(R.id.star);
+            starRatingAvg=itemView.findViewById(R.id.star);
             openingHours = itemView.findViewById(R.id.openingHours);
             tel = itemView.findViewById(R.id.tel);
             address = itemView.findViewById(R.id.address);

@@ -38,7 +38,7 @@ import java.util.List;
 public class SearchStoreActivity extends AppCompatActivity{
 
     private SearchAdapter adapter;
-    private List<SearchData> storeList = new ArrayList<SearchData>();
+    private List<StoreData> storeList = new ArrayList<StoreData>();
 
     private static String serverUrl = "http://3.34.134.116/storeData.php";
     private static String TAG = "phptest";
@@ -141,8 +141,10 @@ public class SearchStoreActivity extends AppCompatActivity{
                         String tel = jsonObject.getString("tel");
                         String address = jsonObject.getString("address");
                         String type = jsonObject.getString("type");
+                        Double latitude = jsonObject.getDouble("latitude");
+                        Double longitude = jsonObject.getDouble("longitude");;
 
-                        storeList.add(new SearchData(storeName, star, openingHours, tel, address, type));
+                        storeList.add(new StoreData(storeName, star, openingHours, tel, address, type, latitude, longitude));
                         autocomplete_list.add(storeName);
                         if(!autocomplete_list.contains(type)){
                             autocomplete_list.add(type);
