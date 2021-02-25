@@ -11,49 +11,72 @@
     android:layout_margin="5sp"
     android:orientation="vertical">
 
-        <LinearLayout
+
+        <HorizontalScrollView
+            android:id="@+id/scroll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/btn_all"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="전체"/>
-            <Button
-                android:id="@+id/btn_korea"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="한식"/>
-            <Button
-                android:id="@+id/btn_china"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="중식"/>
-            <Button
-                android:id="@+id/btn_japan"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="일식"/>
-            <Button
-                android:id="@+id/btn_west"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="양식"/>
-            <Button
-                android:id="@+id/btn_flour"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="분식"/>
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/btn_all"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="전체"/>
+                <Button
+                    android:id="@+id/btn_korea"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="한식"/>
+                <Button
+                    android:id="@+id/btn_china"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="중식"/>
+                <Button
+                    android:id="@+id/btn_japan"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="일식"/>
+                <Button
+                    android:id="@+id/btn_west"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="양식"/>
+                <Button
+                    android:id="@+id/btn_flour"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="분식"/>
+                <Button
+                    android:id="@+id/btn_cafe"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="카페"/>
+                <Button
+                    android:id="@+id/btn_fast"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="패스트푸드"/>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+
 
 
         <androidx.recyclerview.widget.RecyclerView
