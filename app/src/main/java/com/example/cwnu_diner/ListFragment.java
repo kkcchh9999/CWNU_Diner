@@ -36,6 +36,7 @@ public class ListFragment extends Fragment implements View.OnClickListener {
     private RecyclerView recyclerView;
     HorizontalScrollView scrollView;
     ArrayList<StoreData> stores = new ArrayList<>();
+    ArrayList<MenuData> menulist = new ArrayList<>();
     SearchAdapter adapter;
 
 
@@ -55,7 +56,7 @@ public class ListFragment extends Fragment implements View.OnClickListener {
 
         recyclerView.scrollToPosition(0);
 
-        adapter = new SearchAdapter(stores,getActivity().getApplicationContext());
+        adapter = new SearchAdapter(stores, menulist, getActivity().getApplicationContext());
         recyclerView.setAdapter(adapter);
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
