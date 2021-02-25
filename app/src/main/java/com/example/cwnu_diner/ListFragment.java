@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment implements View.OnClickListener {
 
-    Button a;
+    Button all, k, j, c, w, f;
     private RecyclerView recyclerView;
     ArrayList<StoreData> stores = new ArrayList<>();
     SearchAdapter adapter;
@@ -50,18 +50,6 @@ public class ListFragment extends Fragment implements View.OnClickListener {
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.scrollToPosition(0);
-/*
-        adapter = new StoreAdapter(getActivity().getApplicationContext(),stores);
-
-        adapter.setOnItemClickListener(new StoreAdapter.OnItemClickListner() {
-            @Override
-            public void onItemClick(View v, int position) {
-                System.out.println("클릭");
-            }
-        });
-        recyclerView.setAdapter(adapter);
-
-*/
 
         adapter = new SearchAdapter(stores,getActivity().getApplicationContext());
         recyclerView.setAdapter(adapter);
@@ -122,8 +110,18 @@ public class ListFragment extends Fragment implements View.OnClickListener {
         requestQueue.add(jsonArrayRequest);
 
 
-        Button a = (Button)view.findViewById(R.id.btn_all);
-        a.setOnClickListener(this);
+        all = (Button)view.findViewById(R.id.btn_all);
+        all.setOnClickListener(this);
+        k = (Button)view.findViewById(R.id.btn_korea);
+        k.setOnClickListener(this);
+        j = (Button)view.findViewById(R.id.btn_japan);
+        j.setOnClickListener(this);
+        c = (Button)view.findViewById(R.id.btn_china);
+        c.setOnClickListener(this);
+        w = (Button)view.findViewById(R.id.btn_west);
+        w.setOnClickListener(this);
+        f = (Button)view.findViewById(R.id.btn_flour);
+        f.setOnClickListener(this);
         return view;
     }
 
@@ -137,9 +135,6 @@ public class ListFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
 
-
-
-
     }
 
 
@@ -148,18 +143,30 @@ public class ListFragment extends Fragment implements View.OnClickListener {
         switch(view.getId()){
             case R.id.btn_all:
                 System.out.println("dd");
-                adapter.getFilter().filter("ㅋㅋ");
+                adapter.getFilter().filter(null);
+                break;
+
             case R.id.btn_korea:
                 System.out.println("한식");
                 adapter.getFilter().filter("한식");
+                break;
+
             case R.id.btn_japan:
                 adapter.getFilter().filter("일식");
+                break;
+
             case R.id.btn_china:
                 adapter.getFilter().filter("중식");
+                break;
+
             case R.id.btn_west:
                 adapter.getFilter().filter("양식");
+                break;
+
             case R.id.btn_flour:
                 adapter.getFilter().filter("분식");
+                break;
+
         }
 
     }

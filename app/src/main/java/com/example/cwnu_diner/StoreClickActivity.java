@@ -67,8 +67,11 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
         ///Intent로 activity간 정보 가져오기
         Intent intent = getIntent();
 
+
         if(intent.getExtras() != null){
-            StoreData data = (StoreData) intent.getSerializableExtra("data");
+             data = (StoreData) intent.getSerializableExtra("data");
+
+
 
 
 
