@@ -124,14 +124,14 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
         });
 
         //my리뷰보기 누리면 화면전환
-//        btn_review=findViewById(R.id.btn_review);
-//        btn_review.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent=new Intent(SettingActivity.this,MyReview.class);
-//                startActivity(intent);
-//            }
-//        });
+        btn_review=findViewById(R.id.btn_review);
+        btn_review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(SettingActivity.this,MyReview.class);
+                startActivity(intent);
+            }
+        });
 
         //야간모드 기능
         switch_dark=(Switch)findViewById(R.id.switch_dark);
