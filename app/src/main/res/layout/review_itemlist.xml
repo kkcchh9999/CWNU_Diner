@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/tv_menu"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_star"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+    <TextView
+    android:id="@+id/tv_review"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="리뷰가 최대 몇글자인지 잘 기억은 안나네 대충 리뷰 내용 "
+    android:textSize="16dp"
+    android:textColor="@android:color/black"
+    android:layout_margin="5dp"
+    />
+
+</LinearLayout>

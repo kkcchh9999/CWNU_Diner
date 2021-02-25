@@ -1,7 +1,6 @@
 package com.example.cwnu_diner;
 
 import android.app.ProgressDialog;
-import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.loader.content.AsyncTaskLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,11 +33,6 @@ public class StoreListActivity extends AppCompatActivity {
     ImageButton btn_search, btn_setting;
     //데이터 올리기
     private static String IP_ADDRESS = "http://3.34.134.116/userinsert.php";
-
-    private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
-    ArrayList<StoreData> stores = new ArrayList<>();
-    StoreAdapter adapter;
 
 
 ////////////////// 뒤로가기 버튼 작동시 앱 종료 혹은 로그인 화면으로 돌아가기 방지
@@ -150,7 +143,7 @@ public class StoreListActivity extends AppCompatActivity {
         btn_switchMap = (Button)findViewById(R.id.btn_switchMap);
         btn_switchMap.setOnClickListener(new View.OnClickListener() {
 
-            MapFragment mapFragment = new MapFragment();
+            MapMainFragment mapFragment = new MapMainFragment();
             @Override
             public void onClick(View view) {
                 if(btn_switchMap.getText().equals("지도"))
@@ -253,14 +246,6 @@ public class StoreListActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    public void addItem(Drawable icon, String name, String star, String loc){
-        StoreData data =  StoreData(int icon, String name, String star, String loc);
-       // 수정하기 data.setIv_store(icon);
-        data.setTv_name(name);
 
-
-    }
-*/
 
 }

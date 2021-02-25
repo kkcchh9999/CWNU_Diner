@@ -32,12 +32,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class SearchStoreActivity extends AppCompatActivity implements SearchAdapter.StoreClick {
+public class SearchStoreActivity extends AppCompatActivity{
 
     private SearchAdapter adapter;
-    private List<SearchData> storeList = new ArrayList<SearchData>();
+    private List<StoreData> storeList = new ArrayList<StoreData>();
 
     private static String serverUrl = "http://3.34.134.116/storeData.php";
     private static String TAG = "phptest";
@@ -65,6 +66,7 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
@@ -75,8 +77,8 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu, menu);
-
         MenuItem searchItem = menu.findItem(R.id.bar_search);
+
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         final SearchView.SearchAutoComplete autoComplete = searchView.findViewById(R.id.search_src_text);
@@ -112,11 +114,6 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
     }
 
     @Override
-    public void storeClick(SearchData searchData) {
-        startActivity(new Intent(new Intent(SearchStoreActivity.this, StoreClickActivity.class).putExtra("data", searchData)));
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
@@ -144,8 +141,10 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
                         String tel = jsonObject.getString("tel");
                         String address = jsonObject.getString("address");
                         String type = jsonObject.getString("type");
+                        Double latitude = jsonObject.getDouble("latitude");
+                        Double longitude = jsonObject.getDouble("longitude");;
 
-                        storeList.add(new SearchData(storeName, star, openingHours, tel, address, type));
+                        storeList.add(new StoreData(storeName, star, openingHours, tel, address, type, latitude, longitude));
                         autocomplete_list.add(storeName);
                         if(!autocomplete_list.contains(type)){
                             autocomplete_list.add(type);
@@ -167,6 +166,7 @@ public class SearchStoreActivity extends AppCompatActivity implements SearchAdap
 
         requestQueue.add(jsonArrayRequest);
 
+        Collections.sort(autocomplete_list);
 
     }
 }

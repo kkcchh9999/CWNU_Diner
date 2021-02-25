@@ -5,12 +5,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,11 +30,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ListFragment extends Fragment {
-
+public class ListFragment extends Fragment implements View.OnClickListener {
+//?
+    Button all, korea, japan, china, west, flour, cafe, fast;
     private RecyclerView recyclerView;
+    HorizontalScrollView scrollView;
     ArrayList<StoreData> stores = new ArrayList<>();
-    StoreAdapter adapter;
+    SearchAdapter adapter;
 
 
     @Nullable
@@ -41,6 +46,7 @@ public class ListFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
+        scrollView = (HorizontalScrollView)view.findViewById(R.id.scroll);
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
 
@@ -49,11 +55,15 @@ public class ListFragment extends Fragment {
 
         recyclerView.scrollToPosition(0);
 
-        adapter = new StoreAdapter(getActivity().getApplicationContext(),stores);
+        adapter = new SearchAdapter(stores,getActivity().getApplicationContext());
         recyclerView.setAdapter(adapter);
 
-
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(getActivity().getApplicationContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
 
         String serverUrl="http://3.34.134.116/storeData.php";
@@ -63,11 +73,11 @@ public class ListFragment extends Fragment {
             @Override
             public void onResponse(JSONArray response) {
 
-                Log.d("ddddddd",response.toString());
+
                 //파라미터로 응답받은 결과 JsonArray를 분석
 
                 stores.clear();
-                // adapter.notifyDataSetChanged();
+
                 try {
 
                     for(int i=0;i<response.length();i++){
@@ -86,10 +96,10 @@ public class ListFragment extends Fragment {
 
 
 
-                        stores.add(new StoreData(storeName,address, tel, type, openingHours, starRatingAvg, latitude, longitude));
-
+                        stores.add(new StoreData(storeName, address,  tel,  type, openingHours,  starRatingAvg,  latitude, longitude));
                         adapter.notifyDataSetChanged();
                     }
+
                 } catch (JSONException e) {e.printStackTrace();}
 
             }
@@ -106,6 +116,23 @@ public class ListFragment extends Fragment {
         //요청큐에 요청 객체 생성
         requestQueue.add(jsonArrayRequest);
 
+
+        all = (Button)view.findViewById(R.id.btn_all);
+        all.setOnClickListener(this);
+        korea = (Button)view.findViewById(R.id.btn_korea);
+        korea.setOnClickListener(this);
+        japan = (Button)view.findViewById(R.id.btn_japan);
+        japan.setOnClickListener(this);
+        china = (Button)view.findViewById(R.id.btn_china);
+        china.setOnClickListener(this);
+        west = (Button)view.findViewById(R.id.btn_west);
+        west.setOnClickListener(this);
+        flour = (Button)view.findViewById(R.id.btn_flour);
+        flour.setOnClickListener(this);
+        cafe = (Button)view.findViewById(R.id.btn_cafe);
+        cafe.setOnClickListener(this);
+        fast = (Button)view.findViewById(R.id.btn_fast);
+        fast.setOnClickListener(this);
         return view;
     }
 
@@ -122,4 +149,35 @@ public class ListFragment extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.btn_all:
+                adapter.getFilter().filter(null);
+                break;
+            case R.id.btn_korea:
+                adapter.getFilter().filter("한식");
+                break;
+            case R.id.btn_japan:
+                adapter.getFilter().filter("일식");
+                break;
+            case R.id.btn_china:
+                adapter.getFilter().filter("중식");
+                break;
+            case R.id.btn_west:
+                adapter.getFilter().filter("양식");
+                break;
+            case R.id.btn_flour:
+                adapter.getFilter().filter("분식");
+                break;
+            case R.id.btn_cafe:
+                adapter.getFilter().filter("카페");
+                break;
+            case R.id.btn_fast:
+                adapter.getFilter().filter("패스트푸드");
+                break;
+
+        }
+
+    }
 }

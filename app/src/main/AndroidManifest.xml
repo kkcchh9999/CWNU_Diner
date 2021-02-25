@@ -14,7 +14,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".LicenseActivity"></activity>
+        <activity android:name=".AddReviewActivity"></activity>
+        <activity android:name=".LicenseActivity" />
 
         <meta-data
             android:name="android.app.searchable"
@@ -37,7 +38,7 @@
         <activity android:name=".SettingActivity" />
         <activity
             android:name=".StoreClickActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" /
         <activity android:name=".GMail"/>
         <activity android:name=".MyReview"/>
 

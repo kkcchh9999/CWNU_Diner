@@ -1,6 +1,7 @@
 package com.example.cwnu_diner;
 
 public class ReviewData {
+
     String storeName;
     String menu;
     String userID;
@@ -24,18 +25,19 @@ public class ReviewData {
         this.menu=menu;
     }
 
+
     public String getUserID() {
         return userID;
     }
 
     public void setUserID(String userID) {
         this.userID = userID;
+
     }
 
     public String getReview() {
         return review;
     }
-
     public void setReview(String review) {
         this.review = review;
     }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+
 public class ReviewAdapter extends RecyclerView.Adapter <ReviewAdapter.ItemViewHolder>{
 
     ArrayList<ReviewData> reviewList;
@@ -22,10 +23,12 @@ public class ReviewAdapter extends RecyclerView.Adapter <ReviewAdapter.ItemViewH
     @Override
     public int getItemCount() {
         return reviewList.size();
+
     }
 
     @NonNull
     @Override
+
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_item, parent, false);
         return new ItemViewHolder(itemview);
@@ -62,6 +65,7 @@ public class ReviewAdapter extends RecyclerView.Adapter <ReviewAdapter.ItemViewH
             review=ReviewView.findViewById(R.id.txt_review);
             date=ReviewView.findViewById(R.id.txt_date);
             starRating=ReviewView.findViewById(R.id.txt_starRating);
+
         }
     }
 }
