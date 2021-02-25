@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,9 +55,12 @@ public class ListFragment extends Fragment implements View.OnClickListener {
         adapter = new SearchAdapter(stores,getActivity().getApplicationContext());
         recyclerView.setAdapter(adapter);
 
-
-
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(getActivity().getApplicationContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
 
         String serverUrl="http://3.34.134.116/storeData.php";

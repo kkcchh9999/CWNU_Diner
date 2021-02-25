@@ -10,7 +10,7 @@ import android.app.Fragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -70,10 +70,6 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
 
         if(intent.getExtras() != null){
              data = (StoreData) intent.getSerializableExtra("data");
-
-
-
-
 
         }
 
