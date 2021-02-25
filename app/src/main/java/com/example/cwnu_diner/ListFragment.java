@@ -32,7 +32,7 @@ public class ListFragment extends Fragment implements View.OnClickListener {
 
     Button a;
     private RecyclerView recyclerView;
-    ArrayList<SearchData> stores = new ArrayList<>();
+    ArrayList<StoreData> stores = new ArrayList<>();
     SearchAdapter adapter;
 
 
@@ -96,12 +96,12 @@ public class ListFragment extends Fragment implements View.OnClickListener {
                         String type=jsonObject.getString("type");
                         String openingHours=jsonObject.getString("openingHours");
                         String starRatingAvg=jsonObject.getString("starRatingAvg");
-                       // Double latitude=jsonObject.getDouble("latitude");
-                       /// Double longitude=jsonObject.getDouble("longitude");
+                        Double latitude=jsonObject.getDouble("latitude");
+                        Double longitude=jsonObject.getDouble("longitude");
 
 
 
-                        stores.add(new SearchData(storeName, starRatingAvg, openingHours, tel, address, type));
+                        stores.add(new StoreData(storeName, address,  tel,  type, openingHours,  starRatingAvg,  latitude, longitude));
                         adapter.notifyDataSetChanged();
                     }
 
@@ -122,7 +122,7 @@ public class ListFragment extends Fragment implements View.OnClickListener {
         requestQueue.add(jsonArrayRequest);
 
 
-
+        Button a = (Button)view.findViewById(R.id.btn_all);
         a.setOnClickListener(this);
         return view;
     }
@@ -148,7 +148,7 @@ public class ListFragment extends Fragment implements View.OnClickListener {
         switch(view.getId()){
             case R.id.btn_all:
                 System.out.println("dd");
-                adapter.getFilter().filter("알촌");
+                adapter.getFilter().filter("ㅋㅋ");
             case R.id.btn_korea:
                 System.out.println("한식");
                 adapter.getFilter().filter("한식");
