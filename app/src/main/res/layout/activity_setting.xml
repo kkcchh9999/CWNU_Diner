@@ -28,9 +28,7 @@
             android:layout_margin="5sp"
             android:text="닉네임"
             android:textSize="15dp"
-            android:gravity="center_vertical"
-            android:textColor="#000000"
-            android:background="#FFFFFF"/>
+            android:gravity="center_vertical"/>
 
         <Button
             android:id="@+id/btn_logout"
@@ -39,6 +37,7 @@
             android:layout_height="match_parent"
             android:layout_margin="5sp"
             android:background="#C8C8D3"
+            android:textColor="#000000"
             android:text="로그아웃" />
 
     </LinearLayout>
