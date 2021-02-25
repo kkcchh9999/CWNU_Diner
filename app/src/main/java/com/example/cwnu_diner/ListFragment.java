@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,8 +32,9 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment implements View.OnClickListener {
 //?
-    Button all, k, j, c, w, f;
+    Button all, korea, japan, china, west, flour, cafe, fast;
     private RecyclerView recyclerView;
+    HorizontalScrollView scrollView;
     ArrayList<StoreData> stores = new ArrayList<>();
     SearchAdapter adapter;
 
@@ -44,6 +46,7 @@ public class ListFragment extends Fragment implements View.OnClickListener {
 
 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
+        scrollView = (HorizontalScrollView)view.findViewById(R.id.scroll);
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
 
@@ -116,16 +119,20 @@ public class ListFragment extends Fragment implements View.OnClickListener {
 
         all = (Button)view.findViewById(R.id.btn_all);
         all.setOnClickListener(this);
-        k = (Button)view.findViewById(R.id.btn_korea);
-        k.setOnClickListener(this);
-        j = (Button)view.findViewById(R.id.btn_japan);
-        j.setOnClickListener(this);
-        c = (Button)view.findViewById(R.id.btn_china);
-        c.setOnClickListener(this);
-        w = (Button)view.findViewById(R.id.btn_west);
-        w.setOnClickListener(this);
-        f = (Button)view.findViewById(R.id.btn_flour);
-        f.setOnClickListener(this);
+        korea = (Button)view.findViewById(R.id.btn_korea);
+        korea.setOnClickListener(this);
+        japan = (Button)view.findViewById(R.id.btn_japan);
+        japan.setOnClickListener(this);
+        china = (Button)view.findViewById(R.id.btn_china);
+        china.setOnClickListener(this);
+        west = (Button)view.findViewById(R.id.btn_west);
+        west.setOnClickListener(this);
+        flour = (Button)view.findViewById(R.id.btn_flour);
+        flour.setOnClickListener(this);
+        cafe = (Button)view.findViewById(R.id.btn_cafe);
+        cafe.setOnClickListener(this);
+        fast = (Button)view.findViewById(R.id.btn_fast);
+        fast.setOnClickListener(this);
         return view;
     }
 
@@ -146,29 +153,28 @@ public class ListFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.btn_all:
-                System.out.println("dd");
                 adapter.getFilter().filter(null);
                 break;
-
             case R.id.btn_korea:
-                System.out.println("한식");
                 adapter.getFilter().filter("한식");
                 break;
-
             case R.id.btn_japan:
                 adapter.getFilter().filter("일식");
                 break;
-
             case R.id.btn_china:
                 adapter.getFilter().filter("중식");
                 break;
-
             case R.id.btn_west:
                 adapter.getFilter().filter("양식");
                 break;
-
             case R.id.btn_flour:
                 adapter.getFilter().filter("분식");
+                break;
+            case R.id.btn_cafe:
+                adapter.getFilter().filter("카페");
+                break;
+            case R.id.btn_fast:
+                adapter.getFilter().filter("패스트푸드");
                 break;
 
         }
