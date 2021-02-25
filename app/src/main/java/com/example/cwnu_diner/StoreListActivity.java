@@ -1,7 +1,6 @@
 package com.example.cwnu_diner;
 
 import android.app.ProgressDialog;
-import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.loader.content.AsyncTaskLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -150,7 +148,7 @@ public class StoreListActivity extends AppCompatActivity {
         btn_switchMap = (Button)findViewById(R.id.btn_switchMap);
         btn_switchMap.setOnClickListener(new View.OnClickListener() {
 
-            MapFragment mapFragment = new MapFragment();
+            MapMainFragment mapFragment = new MapMainFragment();
             @Override
             public void onClick(View view) {
                 if(btn_switchMap.getText().equals("지도"))

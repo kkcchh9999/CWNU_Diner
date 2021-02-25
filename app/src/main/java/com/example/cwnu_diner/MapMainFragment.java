@@ -31,14 +31,14 @@ import java.util.ArrayList;
 
 import static com.example.cwnu_diner.R.id.googleMap;
 
-public class MapFragment extends Fragment  implements OnMapReadyCallback {
+public class MapMainFragment extends Fragment  implements OnMapReadyCallback {
 
     MapView mapView = null;
 
     ArrayList<StoreData> LocData = new ArrayList<>();
     String serverUrl="http://3.34.134.116/storeData.php";
 
-    public MapFragment()
+    public MapMainFragment()
     {
 
     }
@@ -162,6 +162,7 @@ public class MapFragment extends Fragment  implements OnMapReadyCallback {
             markerOptions1.snippet(LocData.get(i).getType());
             markerOptions1.position(location1);
             googleMap.addMarker(markerOptions1);
+
         }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16));
