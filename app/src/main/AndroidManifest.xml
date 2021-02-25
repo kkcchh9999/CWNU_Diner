@@ -14,7 +14,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".AddReviewActivity"></activity>
+        <activity android:name=".AddReviewActivity"  android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
+
+
         <activity android:name=".LicenseActivity" />
 
         <meta-data
@@ -38,9 +40,8 @@
         <activity android:name=".SettingActivity" />
         <activity
             android:name=".StoreClickActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" /
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity android:name=".GMail"/>
-        <activity android:name=".MyReview"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
