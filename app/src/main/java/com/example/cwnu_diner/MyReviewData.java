@@ -32,7 +32,7 @@ public class MyReviewData {
 
     public void setStarRating(int starRating) { this.starRating = starRating; }
 
-    public MyReviewData(String storeName, String menu, String userID, String review, String date, int starRating) {
+    public MyReviewData(String userID, String storeName, String review, String menu,  int starRating, String date) {
         this.storeName=storeName;
         this.menu=menu;
         this.userID=userID;

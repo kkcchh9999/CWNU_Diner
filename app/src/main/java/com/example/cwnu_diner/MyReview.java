@@ -16,6 +16,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,9 +31,12 @@ public class MyReview extends AppCompatActivity {
 
     private ArrayList<MyReviewData> myReviewList= new ArrayList<>();;
     private MyReviewAdapter myReviewAdapter;
+    private MyReviewData myReviewData;
 
     private TextView txt_count;
-    private int review_count;
+    private int review_count=0;
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //로그인정보 가져오기
 
     private static String serverUrl = "http://3.34.134.116/reviewData.php";
 
@@ -70,17 +75,23 @@ public class MyReview extends AppCompatActivity {
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jsonObject = response.getJSONObject(i);
-
-                        String storeName = jsonObject.getString("storeName");
-                        String menu = jsonObject.getString("menu");
                         String userID = jsonObject.getString("userID");
-                        String review = jsonObject.getString("review");
-                        String date = jsonObject.getString("date");
-                        int starRating = jsonObject.getInt("starRating");
+                        if(user.getEmail().equals(userID)){
+                            String storeName = jsonObject.getString("storeName");
+                            String review = jsonObject.getString("review");
+                            String menu = jsonObject.getString("menu");
+                            int starRating = jsonObject.getInt("starRating");
+                            String date = jsonObject.getString("date");
 
-                        myReviewList.add(new MyReviewData(storeName, menu, userID, review, date, starRating));
-                        myReviewAdapter.notifyItemInserted(0);
-                        review_count =i+1;
+                            myReviewList.add(new MyReviewData(userID, storeName, review, menu, starRating, date));
+                            myReviewAdapter.notifyItemInserted(0);
+                            review_count =review_count+1;
+                        }
+                    }
+                    if(review_count==0){
+                        txt_count.setText("0");
+                    }
+                    else{
                         txt_count.setText(Integer.toString(review_count));
                     }
                 } catch (JSONException e) {
