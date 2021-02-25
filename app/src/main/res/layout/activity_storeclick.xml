@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".StoreClickActivity">
 
     <include
         layout="@layout/toolbar"
@@ -15,10 +15,21 @@
 
     </include>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/frame_click"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="300dp"
+        android:orientation="horizontal" >
+
+        <fragment
+
+            android:id="@+id/click_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.MapFragment"/>
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

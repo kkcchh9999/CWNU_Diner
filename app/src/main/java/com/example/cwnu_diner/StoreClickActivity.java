@@ -1,10 +1,12 @@
 package com.example.cwnu_diner;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Fragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,41 +20,50 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class StoreClickActivity extends AppCompatActivity {
+public class StoreClickActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     RecyclerView recyclerView;
     ArrayList<ReviewData> items = new ArrayList<>();
     ReviewAdapter reviewAdapter;
-    String URL = "http://3.34.134.116/reviewData.php";
+
+    String URL = "http://3.34.134.116/reviewData.php"; //리뷰데이터 파싱
     TextView tv_storeName, tv_star, tv_opening, tv_tel, tv_adress;
     SearchData data;
+
+    private FragmentManager fragmentManager;
+    private MapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storeclick);
 
+        ///리사이클러뷰로 리뷰 열기
         recyclerView=findViewById(R.id.recyclerview_review);
         reviewAdapter = new ReviewAdapter(this, items);
         recyclerView.setAdapter(reviewAdapter);
 
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        MapFragment_review mapFragment_review = new MapFragment_review();
-        transaction.replace(R.id.frame_click,mapFragment_review);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        /////지도 켜기
+        fragmentManager = getFragmentManager();
+        mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.click_map);
+        mapFragment.getMapAsync(this);
 
 
-      /////툴바 달기
+        /////툴바 달기
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
         ///Intent로 activity간 정보 가져오기
         Intent intent = getIntent();
 
@@ -118,5 +129,10 @@ public class StoreClickActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
 
         //----------------------------------------------------
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
     }
 }
