@@ -11,61 +11,53 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+public class ReviewAdapter extends RecyclerView.Adapter {
 
-public class ReviewAdapter extends RecyclerView.Adapter <ReviewAdapter.ItemViewHolder>{
+    Context context;
+    ArrayList<ReviewData> arrayList;
 
-    ArrayList<ReviewData> reviewList;
-
-    public ReviewAdapter(ArrayList<ReviewData> reviewList){
-        this.reviewList=reviewList;
-    }
-
-    @Override
-    public int getItemCount() {
-        return reviewList.size();
-
+    public ReviewAdapter(Context context, ArrayList<ReviewData> arrayList){
+        this.context = context;
+        this.arrayList = arrayList;
     }
 
     @NonNull
     @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View itemView = inflater.inflate(R.layout.review_itemlist,parent,false);
 
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_item, parent, false);
-        return new ItemViewHolder(itemview);
+        VH holder = new VH(itemView);
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ItemViewHolder holder,final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        VH vh = (VH) holder;
 
-        ReviewData review=reviewList.get(position);
-        String starRating=Integer.toString(review.getStarRating());
+        ReviewData data = arrayList.get(position);
 
-        holder.userID.setText(review.getUserID());
-        holder.storeName.setText(review.getStoreName());
-        holder.review.setText(review.getReview());
-        holder.menu.setText(review.getMenu());
-        holder.starRating.setText(starRating);
-        holder.date.setText(review.getDate());
+        vh.tv_review.setText(data.getReview());
+        vh.tv_userName.setText(data.getUserID());
+        vh.tv_menu.setText(data.getMenu());
+        vh.tv_star.setText(data.getStarRating());
     }
 
-    class ItemViewHolder extends RecyclerView.ViewHolder{
-        TextView storeName;
-        TextView menu;
-        TextView userID;
-        TextView review;
-        TextView date;
-        TextView starRating;
+    @Override
+    public int getItemCount() {
+        return arrayList.size();
+    }
 
-        ItemViewHolder(@NonNull View ReviewView) {
-            super(ReviewView);
+    class VH extends RecyclerView.ViewHolder{
 
-            storeName=ReviewView.findViewById(R.id.txt_storeName);
-            menu=ReviewView.findViewById(R.id.txt_menu);
-            userID=ReviewView.findViewById(R.id.txt_userID);
-            review=ReviewView.findViewById(R.id.txt_review);
-            date=ReviewView.findViewById(R.id.txt_date);
-            starRating=ReviewView.findViewById(R.id.txt_starRating);
+        TextView tv_review, tv_menu, tv_star, tv_userName;
 
+        public VH(@NonNull View itemView) {
+            super(itemView);
+            tv_review = itemView.findViewById(R.id.tv_review);
+            tv_menu = itemView.findViewById(R.id.tv_menu);
+            tv_star = itemView.findViewById(R.id.tv_star);
+            tv_userName = itemView.findViewById(R.id.tv_username);
         }
     }
 }
