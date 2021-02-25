@@ -39,6 +39,7 @@
             android:name=".StoreClickActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity android:name=".GMail"/>
+        <activity android:name=".MyReview"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

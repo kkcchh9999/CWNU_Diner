@@ -27,7 +27,8 @@ public class GmailSender extends javax.mail.Authenticator{
 
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
-        props.setProperty("mail.host", mailhost);
+        props.setProperty("mail.smtp.host", mailhost);
+        props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
         props.put("mail.smtp.socketFactory.port", "465");
