@@ -1,5 +1,7 @@
 package com.example.cwnu_diner;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +19,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
 
     private List<SearchData> dataList;
     private List<SearchData> dataListAll;
-    private StoreClick storeClick;
+    private Context context;
 
-    public SearchAdapter(List<SearchData> items, StoreClick storeClick) {
+    public SearchAdapter(List<SearchData> items, Context context) {
         this.dataList = items;
         this.dataListAll = items;
-        this.storeClick = storeClick;
+        this.context = context;
     }
-
-    private onItemListener itemListener;
 
     @NonNull
     @Override
@@ -36,7 +36,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ItemViewHolder holder, final int position) {
-        SearchData currentItem = dataList.get(position);
+        final SearchData currentItem = dataList.get(position);
 
         holder.storeName.setText(currentItem.getStoreName());
         holder.star.setText(currentItem.getStar());
@@ -44,24 +44,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
         holder.tel.setText(currentItem.getTel());
         holder.address.setText(currentItem.getAddress());
 
+       holder.itemView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               context.startActivity(new Intent(context, StoreClickActivity.class).putExtra("data", currentItem));
+           }
+       });
 
-        if (itemListener != null){
-            holder.itemView.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    itemListener.onItemClicked(position);
-                }
-            });
-        }
     }
+
 
     @Override
     public int getItemCount() {
         return dataList.size();
-    }
-
-    public interface StoreClick{
-        void storeClick(SearchData data);
     }
 
     @Override
@@ -103,7 +98,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
 
         TextView storeName, star, openingHours, tel, address;
 
-        ItemViewHolder(View itemView) {
+        ItemViewHolder(final View itemView) {
             super(itemView);
 
             storeName = itemView.findViewById(R.id.storeName);
@@ -112,17 +107,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
             tel = itemView.findViewById(R.id.tel);
             address = itemView.findViewById(R.id.address);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    storeClick.storeClick(dataList.get(getAdapterPosition()));
-                }
-            });
         }
+
     }
 
-    public interface onItemListener {
-        void onItemClicked(int position);
-    }
 }
 

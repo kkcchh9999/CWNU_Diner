@@ -6,10 +6,10 @@
 
     <item
         android:id="@+id/bar_search"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/search_icon"
+        android:iconTint="#000000"
         android:title="Search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-
         app:showAsAction="always">
 
     </item>
