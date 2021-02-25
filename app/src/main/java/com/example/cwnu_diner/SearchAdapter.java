@@ -126,7 +126,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
             address = itemView.findViewById(R.id.address);
 
             menu= itemView.findViewById(R.id.menu);
-            menu= itemView.findViewById(R.id.menuType);
+            menuType= itemView.findViewById(R.id.menuType);
 
 
         }
