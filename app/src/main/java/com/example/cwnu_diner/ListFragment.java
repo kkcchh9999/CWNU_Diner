@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,11 +28,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements View.OnClickListener {
 
+    Button a;
     private RecyclerView recyclerView;
-    ArrayList<StoreData> stores = new ArrayList<>();
-    StoreAdapter adapter;
+    ArrayList<SearchData> stores = new ArrayList<>();
+    SearchAdapter adapter;
 
 
     @Nullable
@@ -48,9 +50,22 @@ public class ListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.scrollToPosition(0);
-
+/*
         adapter = new StoreAdapter(getActivity().getApplicationContext(),stores);
+
+        adapter.setOnItemClickListener(new StoreAdapter.OnItemClickListner() {
+            @Override
+            public void onItemClick(View v, int position) {
+                System.out.println("클릭");
+            }
+        });
         recyclerView.setAdapter(adapter);
+
+*/
+
+        adapter = new SearchAdapter(stores,getActivity().getApplicationContext());
+        recyclerView.setAdapter(adapter);
+
 
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -63,11 +78,11 @@ public class ListFragment extends Fragment {
             @Override
             public void onResponse(JSONArray response) {
 
-                Log.d("ddddddd",response.toString());
+
                 //파라미터로 응답받은 결과 JsonArray를 분석
 
                 stores.clear();
-                // adapter.notifyDataSetChanged();
+
                 try {
 
                     for(int i=0;i<response.length();i++){
@@ -81,15 +96,15 @@ public class ListFragment extends Fragment {
                         String type=jsonObject.getString("type");
                         String openingHours=jsonObject.getString("openingHours");
                         String starRatingAvg=jsonObject.getString("starRatingAvg");
-                        Double latitude=jsonObject.getDouble("latitude");
-                        Double longitude=jsonObject.getDouble("longitude");
+                       // Double latitude=jsonObject.getDouble("latitude");
+                       /// Double longitude=jsonObject.getDouble("longitude");
 
 
 
-                        stores.add(new StoreData(storeName,address, tel, type, openingHours, starRatingAvg, latitude, longitude));
-
+                        stores.add(new SearchData(storeName, starRatingAvg, openingHours, tel, address, type));
                         adapter.notifyDataSetChanged();
                     }
+
                 } catch (JSONException e) {e.printStackTrace();}
 
             }
@@ -106,6 +121,9 @@ public class ListFragment extends Fragment {
         //요청큐에 요청 객체 생성
         requestQueue.add(jsonArrayRequest);
 
+
+
+        a.setOnClickListener(this);
         return view;
     }
 
@@ -119,7 +137,30 @@ public class ListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
+
+
+
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.btn_all:
+                System.out.println("dd");
+                adapter.getFilter().filter("알촌");
+            case R.id.btn_korea:
+                System.out.println("한식");
+                adapter.getFilter().filter("한식");
+            case R.id.btn_japan:
+                adapter.getFilter().filter("일식");
+            case R.id.btn_china:
+                adapter.getFilter().filter("중식");
+            case R.id.btn_west:
+                adapter.getFilter().filter("양식");
+            case R.id.btn_flour:
+                adapter.getFilter().filter("분식");
+        }
+
+    }
 }
