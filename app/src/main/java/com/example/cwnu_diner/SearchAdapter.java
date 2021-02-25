@@ -25,13 +25,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
     private List<MenuData> menuData;
     private List<MenuData> menuDataAll;
     private Context context;
+    private String userID;
 
-    public SearchAdapter(List<StoreData> items, List<MenuData> menuitems, Context context) {
+    public SearchAdapter(List<StoreData> items, List<MenuData> menuitems, String userID, Context context) {
         this.dataList = items;
         this.dataListAll = items;
         this.menuData = menuitems;
         this.menuDataAll = menuitems;
         this.context = context;
+        this.userID = userID;
     }
 
     @NonNull
@@ -54,7 +56,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
        holder.itemView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               context.startActivity(new Intent(context, StoreClickActivity.class).putExtra("data", currentItem).addFlags(FLAG_ACTIVITY_NEW_TASK));
+               Intent intent = new Intent(context, StoreClickActivity.class);
+               intent.putExtra("data", currentItem);
+               intent.putExtra("userID", userID);
+               context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
            }
        });
 

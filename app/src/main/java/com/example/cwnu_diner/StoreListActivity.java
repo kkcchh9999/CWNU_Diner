@@ -103,18 +103,22 @@ public class StoreListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storelist);
 
+        Intent intent = getIntent();
+        final String nickname = intent.getStringExtra("nickname" );
+        final String photoUrl = intent.getStringExtra("photoUrl" );
+        final String userID = intent.getStringExtra("userID");
+
+        Bundle bundle = new Bundle();
+        bundle.putString("userID",userID);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         ListFragment listFragment = new ListFragment();
+        listFragment.setArguments(bundle);
         transaction.replace(R.id.frame,listFragment);
         transaction.addToBackStack(null);
         transaction.commit();
 
 
-        Intent intent = getIntent();
-        final String nickname = intent.getStringExtra("nickname" );
-        final String photoUrl = intent.getStringExtra("photoUrl" );
-        final String userID = intent.getStringExtra("userID");
 
 ////////////////////데이터 올리기///////////////
         InsertData task = new InsertData();
@@ -175,6 +179,7 @@ public class StoreListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SearchStoreActivity.class);
+                intent.putExtra("userID",userID);
                 startActivity(intent);
             }
         });
@@ -191,6 +196,8 @@ public class StoreListActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     class InsertData extends AsyncTask<String, Void, String >
     {

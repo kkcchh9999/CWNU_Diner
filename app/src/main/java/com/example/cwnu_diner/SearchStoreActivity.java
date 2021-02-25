@@ -40,6 +40,7 @@ public class SearchStoreActivity extends AppCompatActivity{
     private SearchAdapter adapter;
     private List<StoreData> storeList = new ArrayList<StoreData>();
     private List<MenuData> menuList = new ArrayList<MenuData>();
+    String userID;
 
     private static String storeDataUrl = "http://3.34.134.116/storeData.php";
     private static String MenuDataUrl = "http://3.34.134.116/menuData.php";
@@ -54,6 +55,8 @@ public class SearchStoreActivity extends AppCompatActivity{
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Intent intent = getIntent();
+        userID = intent.getStringExtra("userID");
 
         setUpRecyclerView();
     }
@@ -65,7 +68,7 @@ public class SearchStoreActivity extends AppCompatActivity{
         loadStoreList();
         loadMenu();
 
-        adapter = new SearchAdapter(storeList, menuList, this);
+        adapter = new SearchAdapter(storeList, menuList, userID, this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
