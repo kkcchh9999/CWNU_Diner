@@ -82,19 +82,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
                 dataList=dataListAll;
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (StoreData item : dataListAll) {
-                    if (item.getType().contains(filterPattern)) {
-                        store_filteredList.add(item);
+                for(StoreData data : dataListAll){
+                    if (data.getType().contains(filterPattern) || data.getStoreName().contains(filterPattern)) { //Store -> type, storeName
+                        store_filteredList.add(data);
                     }
-                    else {
-                        for (MenuData menu : menuDataAll) {
-                            if (menu.getMenuType().contains(filterPattern) ||
-                                    menu.getStoreName().contains(filterPattern)) {
-
-                                if (menu.getStoreName().equals(item.getStoreName()))
-                                    store_filteredList.add(item);
+                    else{
+                        for(MenuData menu : menuDataAll){
+                            if(data.getStoreName().equals(menu.getStoreName())){
+                                if(menu.getMenu().contains(filterPattern)||menu.getMenuType().contains(filterPattern)){
+                                    store_filteredList.add(data);
+                                    break;
+                                }
                             }
-
                         }
                     }
                 }

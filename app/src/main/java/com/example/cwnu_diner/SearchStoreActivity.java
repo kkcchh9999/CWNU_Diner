@@ -148,9 +148,8 @@ public class SearchStoreActivity extends AppCompatActivity{
                         Double longitude = jsonObject.getDouble("longitude");
 
                         storeList.add(new StoreData(storeName, star, openingHours, tel, address, type, latitude, longitude));
-                        autocomplete_list.add(storeName);
-                        if(!autocomplete_list.contains(type)){
-                            autocomplete_list.add(type);
+                        if(!autocomplete_list.contains(storeName)) {
+                            autocomplete_list.add(storeName);
                         }
                         adapter.notifyItemInserted(0);
                     }
@@ -191,9 +190,14 @@ public class SearchStoreActivity extends AppCompatActivity{
                         String menuType = jsonObject.getString("menuType");
 
                         menuList.add(new MenuData(menu, storeName, price, menuType));
-                        autocomplete_list.add(storeName);
+                        if(!autocomplete_list.contains(storeName)) {
+                            autocomplete_list.add(storeName);
+                        }
                         if(!autocomplete_list.contains(menuType)){
                             autocomplete_list.add(menuType);
+                        }
+                        if(!autocomplete_list.contains(menu)){
+                            autocomplete_list.add(menu);
                         }
                         adapter.notifyItemInserted(0);
                     }
