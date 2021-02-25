@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <item
+        android:id="@+id/btn_addreview"
+        android:iconTint="#803737"
+        android:title="리뷰 작성"
+        app:actionViewClass=""
+        app:showAsAction="always">
+
+    </item>
+</menu>
