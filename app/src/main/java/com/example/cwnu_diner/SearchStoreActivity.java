@@ -77,8 +77,8 @@ public class SearchStoreActivity extends AppCompatActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu, menu);
-
         MenuItem searchItem = menu.findItem(R.id.bar_search);
+
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         final SearchView.SearchAutoComplete autoComplete = searchView.findViewById(R.id.search_src_text);

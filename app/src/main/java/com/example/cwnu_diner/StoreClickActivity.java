@@ -3,14 +3,18 @@ package com.example.cwnu_diner;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Fragment;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,10 +24,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -69,8 +77,8 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
 
 
         if(intent.getExtras() != null){
-             data = (StoreData) intent.getSerializableExtra("data");
 
+           data = (StoreData) intent.getSerializableExtra("data");
         }
 
         tv_storeName = (TextView)findViewById(R.id.storeName);
@@ -134,7 +142,40 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.addbutton, menu);
+        MenuItem searchItem = menu.findItem(R.id.btn_review);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.btn_addreview:
+                Intent intent = new Intent(getApplicationContext(),AddReviewActivity.class);
+                intent.putExtra("data",(StoreData)data);
+                startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        LatLng location = new LatLng(data.getLatitude(), data.getLongitude());
+
+        MarkerOptions markerOptions1 = new MarkerOptions();
+        markerOptions1.title(data.getStoreName());
+        markerOptions1.snippet(data.getType());
+        markerOptions1.position(location);
+        googleMap.addMarker(markerOptions1);
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16));
+
 
     }
 }

@@ -17,9 +17,7 @@
             android:id="@+id/btn_setting"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_margin="5sp"
             android:layout_weight="1.3"
-            android:background="#ffffff"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/profile_icon" />
 
@@ -44,8 +42,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="7"
-            android:background="#FFFFFF"
             android:gravity="center"
+            android:textSize="6pt"
             android:hint="검색"
             android:textColor="#000000" />
 
