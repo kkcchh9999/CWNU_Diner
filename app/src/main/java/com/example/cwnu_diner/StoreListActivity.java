@@ -49,7 +49,7 @@ public class StoreListActivity extends AppCompatActivity {
         // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
         // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지났으면 Toast 출력
         // 2500 milliseconds = 2.5 seconds
-        if (System.currentTimeMillis() > backKeyPressedTime + 2400) {
+        if (System.currentTimeMillis() > backKeyPressedTime + 1500) {
             backKeyPressedTime = System.currentTimeMillis();
             toast = Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG);
             toast.show();
@@ -57,7 +57,7 @@ public class StoreListActivity extends AppCompatActivity {
         }
         // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
         // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지나지 않았으면 종료
-        if (System.currentTimeMillis() <= backKeyPressedTime + 2400) {
+        if (System.currentTimeMillis() <= backKeyPressedTime + 1500) {
             toast.cancel();
             toast = Toast.makeText(this,"이용해 주셔서 감사합니다.",Toast.LENGTH_LONG);
             toast.show();
@@ -112,7 +112,7 @@ public class StoreListActivity extends AppCompatActivity {
         bundle.putString("userID",userID);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        ListFragment listFragment = new ListFragment();
+        final ListFragment listFragment = new ListFragment();
         listFragment.setArguments(bundle);
         transaction.replace(R.id.frame,listFragment);
         transaction.addToBackStack(null);
@@ -164,7 +164,6 @@ public class StoreListActivity extends AppCompatActivity {
                     btn_switchMap.setTextSize(10);
                     mapFragment.onDestroy();
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    ListFragment listFragment = new ListFragment();
                     transaction.replace(R.id.frame,listFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
