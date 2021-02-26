@@ -17,6 +17,17 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.io.BufferedReader;
@@ -29,6 +40,7 @@ import java.util.Random;
 
 public class StoreListActivity extends AppCompatActivity {
 
+    ArrayList<StoreData> LocData = new ArrayList<>();
     Button btn_roulette, btn_switchMap;
     ImageButton btn_search, btn_setting;
     //데이터 올리기
@@ -111,6 +123,54 @@ public class StoreListActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("userID",userID);
 
+
+
+        String serverUrl="http://3.34.134.116/storeData.php";
+        JsonArrayRequest jsonArrayRequest= new JsonArrayRequest(Request.Method.POST, serverUrl, null, new Response.Listener<JSONArray>() {
+            //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
+            @Override
+            public void onResponse(JSONArray response) {
+
+                //파라미터로 응답받은 결과 JsonArray를 분석
+                LocData.clear();
+                try {
+                    for(int i=0;i<response.length();i++){
+                        JSONObject jsonObject= response.getJSONObject(i);
+
+
+                        String storeName=jsonObject.getString("storeName");
+                        String address=jsonObject.getString("address");
+                        String tel=jsonObject.getString("tel");
+                        String type=jsonObject.getString("type");
+                        String openingHours=jsonObject.getString("openingHours");
+                        String starRatingAvg=jsonObject.getString("starRatingAvg");
+                        Double latitude=jsonObject.getDouble("latitude");
+                        Double longitude=jsonObject.getDouble("longitude");
+
+
+
+                        LocData.add(new StoreData(storeName,  starRatingAvg,openingHours,tel,address, type,  latitude, longitude));
+
+                    }
+                } catch (JSONException e) {e.printStackTrace();}
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+
+
+        //실제 요청 작업을 수행해주는 요청큐 객체 생성
+        RequestQueue requestQueue= Volley.newRequestQueue(this );
+        //요청큐에 요청 객체 생성
+        requestQueue.add(jsonArrayRequest);
+
+        final Bundle bundle1 = new Bundle();
+        bundle1.putSerializable("LocData",LocData);
+
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         final ListFragment listFragment = new ListFragment();
         listFragment.setArguments(bundle);
@@ -154,7 +214,7 @@ public class StoreListActivity extends AppCompatActivity {
                 {
                     btn_switchMap.setText("리스트");
                     btn_switchMap.setTextSize(8);
-
+                    mapFragment.setArguments(bundle1);
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame, mapFragment, "map").commit();
 
