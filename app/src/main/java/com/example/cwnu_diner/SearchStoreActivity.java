@@ -2,6 +2,7 @@ package com.example.cwnu_diner;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,6 +56,7 @@ public class SearchStoreActivity extends AppCompatActivity{
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         Intent intent = getIntent();
         userID = intent.getStringExtra("userID");
 
@@ -81,11 +83,9 @@ public class SearchStoreActivity extends AppCompatActivity{
     @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.bar_search);
 
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        SearchView searchView = findViewById(R.id.search_editText);
+
 
         final SearchView.SearchAutoComplete autoComplete = searchView.findViewById(R.id.search_src_text);
         ArrayAdapter<String> auto_adapter = new ArrayAdapter<String>
