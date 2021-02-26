@@ -1,8 +1,11 @@
 package com.example.cwnu_diner;
 
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,9 +40,13 @@ import com.google.android.material.snackbar.Snackbar;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class StoreClickActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class StoreClickActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     RecyclerView recyclerView;
     ArrayList<ReviewData> items = new ArrayList<>();
@@ -57,17 +64,11 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storeclick);
+  }
 
-        ///리사이클러뷰로 리뷰 열기
-        recyclerView=findViewById(R.id.recyclerview_review);
-        reviewAdapter = new ReviewAdapter(this, items);
-        recyclerView.setAdapter(reviewAdapter);
-
-        /////지도 켜기
-        fragmentManager = getFragmentManager();
-        mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.click_map);
-        mapFragment.getMapAsync(this);
-
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         ///Intent로 activity간 정보 가져오기
         Intent intent = getIntent();
@@ -75,6 +76,16 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
             userID = intent.getStringExtra("userID");
             data = (StoreData) intent.getSerializableExtra("data");
         }
+
+        ///리사이클러뷰로 리뷰 열기
+        recyclerView=findViewById(R.id.recyclerview_review);
+        reviewAdapter = new ReviewAdapter(this, items, userID);
+        recyclerView.setAdapter(reviewAdapter);
+
+        /////지도 켜기
+        fragmentManager = getFragmentManager();
+        mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.click_map);
+        mapFragment.getMapAsync(this);
 
         /////툴바 달기
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -109,6 +120,7 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
                 items.clear();
                 reviewAdapter.notifyDataSetChanged();
                 try {
+                    Log.d("timeLog please", "try는 했따");
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jsonObject = response.getJSONObject(i);
 
@@ -117,9 +129,11 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
                         String menu = jsonObject.getString("menu");
                         String userID = jsonObject.getString("userID");
                         String starRating = jsonObject.getString("starRating");
+                        String date = jsonObject.getString("date");
 
+                        Log.d("timeLog please", date.toString());
                         if(storeName.equals(data.getStoreName())) {
-                            items.add(new ReviewData(userID, storeName, review, menu, starRating));
+                            items.add(new ReviewData(userID, storeName, review, menu, starRating, date));
                         }
                         reviewAdapter.notifyDataSetChanged();
                     }
@@ -140,6 +154,7 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
         requestQueue.add(jsonArrayRequest);
 
         //----------------------------------------------------
+
     }
 
     @Override
@@ -185,4 +200,5 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
 
 
     }
+
 }
