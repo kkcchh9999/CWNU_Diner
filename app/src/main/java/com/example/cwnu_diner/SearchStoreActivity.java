@@ -84,7 +84,7 @@ public class SearchStoreActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        SearchView searchView = findViewById(R.id.search_editText);
+        final SearchView searchView = findViewById(R.id.search_editText);
 
 
         final SearchView.SearchAutoComplete autoComplete = searchView.findViewById(R.id.search_src_text);
@@ -99,6 +99,14 @@ public class SearchStoreActivity extends AppCompatActivity{
                 String queryString = (String) adapterView.getItemAtPosition(itemIndex);
                 autoComplete.setText(queryString + "");
                 autoComplete.setSelection(autoComplete.length()); //커서를 끝으로
+            }
+        });
+
+        searchView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                searchView.setIconified(false);
+
             }
         });
 
