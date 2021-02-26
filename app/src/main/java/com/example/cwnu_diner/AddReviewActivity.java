@@ -67,10 +67,7 @@ public class AddReviewActivity extends AppCompatActivity {
             userID = intent.getStringExtra("userID");
         }
 
-        ////
-        final TextView store = findViewById(R.id.store);
-        store.setText(data.getStoreName());
-
+        getSupportActionBar().setTitle(data.getStoreName());
         //////////////메뉴 데이터 받아오기
         String serverURL = "http://3.34.134.116/menuData.php";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, serverURL, null, new Response.Listener<JSONArray>() {

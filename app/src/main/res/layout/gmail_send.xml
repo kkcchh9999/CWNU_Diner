@@ -15,7 +15,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="match_parent"
-            tools:src="@drawable/google_symbol"
+            android:src="@drawable/google_symbol"
             android:layout_weight="1"/>
 
         <TextView
@@ -32,7 +32,7 @@
             android:id="@+id/btn_apply"
             android:layout_width="30dp"
             android:layout_height="match_parent"
-            tools:src="@drawable/send_image"
+            android:src="@drawable/send_image"
             android:background="#2196F3"
             android:layout_weight="1"/>
 

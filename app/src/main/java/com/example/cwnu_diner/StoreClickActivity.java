@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -147,6 +148,11 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.addbutton, menu);
         MenuItem searchItem = menu.findItem(R.id.btn_review);
+
+
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         return super.onCreateOptionsMenu(menu);
     }
