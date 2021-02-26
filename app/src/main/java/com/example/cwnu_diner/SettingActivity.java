@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -56,7 +57,6 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
     }
     private ImageView image_info;
     private TextView txt_info;
-
     private Switch switch_dark;
     private Button btn_logout, btn_review;
     private Button btn_question, btn_license;
@@ -64,12 +64,14 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
     SharedPreferences AppData; //스위치 값을 저장
     SharedPreferences.Editor editor; //스위치 값 수정
 
+    String user_password=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         String nickname = intent.getStringExtra("nickname" );
         String photoUrl = intent.getStringExtra("photoUrl" );
 
@@ -108,7 +110,11 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
         btn_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SettingActivity.this,GMail.class);
+                Intent intent = new Intent (Intent.ACTION_SEND);
+                intent.setType("plain/text");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"dmswls9509@gmail.com"}); //받는사람
+                intent.putExtra(Intent.EXTRA_TEXT,"닉네임 : ");
+                intent.setPackage("com.google.android.gm");
                 startActivity(intent);
             }
         });
@@ -144,30 +150,37 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
         switch_dark.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isCheked) {
-                if(isCheked==true){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    editor.putBoolean("switch_state",isCheked);
-                    editor.commit();
-                }
-
-                else if(isCheked==false){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    editor.putBoolean("switch_state",isCheked);
-                    editor.commit();
-                }
-
-                else{
-                    // 안드로이드 10 이상
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                // 안드로이드 10 이상
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                    if(isCheked==true){
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        editor.putBoolean("switch_state",isCheked);
+                        editor.commit();
                     }
+
+                    else{
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        editor.putBoolean("switch_state",isCheked);
+                        editor.commit();
+                    }
+                }
                     // 안드로이드 10 미만
-                    else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+                else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+                    if(isCheked==true){
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        editor.putBoolean("switch_state",isCheked);
+                        editor.commit();
+                    }
+
+                    else{
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        editor.putBoolean("switch_state",isCheked);
+                        editor.commit();
                     }
                 }
             }
-
         });
     }
 
@@ -175,5 +188,4 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.v("알림","onConnectionFailed");
     }
-
 }
