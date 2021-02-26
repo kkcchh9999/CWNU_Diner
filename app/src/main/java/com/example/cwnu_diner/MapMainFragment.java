@@ -36,7 +36,6 @@ public class MapMainFragment extends Fragment  implements OnMapReadyCallback {
     MapView mapView = null;
 
     ArrayList<StoreData> LocData = new ArrayList<>();
-    String serverUrl="http://3.34.134.116/storeData.php";
 
     public MapMainFragment()
     {
@@ -47,56 +46,13 @@ public class MapMainFragment extends Fragment  implements OnMapReadyCallback {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String serverUrl="http://3.34.134.116/storeData.php";
-
-        JsonArrayRequest jsonArrayRequest= new JsonArrayRequest(Request.Method.POST, serverUrl, null, new Response.Listener<JSONArray>() {
-            //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
-            @Override
-            public void onResponse(JSONArray response) {
-
-                //파라미터로 응답받은 결과 JsonArray를 분석
-                LocData.clear();
-                try {
-                    for(int i=0;i<response.length();i++){
-                        JSONObject jsonObject= response.getJSONObject(i);
-
-
-                        String storeName=jsonObject.getString("storeName");
-                        String address=jsonObject.getString("address");
-                        String tel=jsonObject.getString("tel");
-                        String type=jsonObject.getString("type");
-                        String openingHours=jsonObject.getString("openingHours");
-                        String starRatingAvg=jsonObject.getString("starRatingAvg");
-                        Double latitude=jsonObject.getDouble("latitude");
-                        Double longitude=jsonObject.getDouble("longitude");
-
-
-
-                        LocData.add(new StoreData(storeName,  starRatingAvg,openingHours,tel,address, type,  latitude, longitude));
-
-                    }
-                } catch (JSONException e) {e.printStackTrace();}
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity().getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        //실제 요청 작업을 수행해주는 요청큐 객체 생성
-        RequestQueue requestQueue= Volley.newRequestQueue(getActivity().getApplicationContext());
-
-        //요청큐에 요청 객체 생성
-        requestQueue.add(jsonArrayRequest);
-
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        LocData = (ArrayList<StoreData>)getArguments().get("LocData");
 
 
         View view = inflater.inflate(R.layout.fragment_map,container, false);
