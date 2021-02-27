@@ -26,7 +26,7 @@ public class SplashActivity extends Activity {
         }
         else{
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            findViewById(R.id.splash).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_dark_000000_ffffff));
+            findViewById(R.id.splash).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_dark_ffffff_000000));
         }
 
         Handler handler = new Handler();

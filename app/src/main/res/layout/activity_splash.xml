@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/color_dark_ffffff_000000"
+    android:background="#2E2E2E"
     android:id="@+id/splash"
     tools:context=".SplashActivity">
 
