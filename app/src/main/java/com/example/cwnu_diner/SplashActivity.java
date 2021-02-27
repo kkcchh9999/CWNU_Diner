@@ -20,13 +20,13 @@ public class SplashActivity extends Activity {
 
         //야간모드 유지
         AppData=getSharedPreferences("AppData", Activity.MODE_PRIVATE);
-        Boolean switch_state=AppData.getBoolean("switch_state",false);
-        if(switch_state==true){
+        boolean switch_state=AppData.getBoolean("switch_state",false);
+        if(switch_state){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            findViewById(R.id.splash).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_dark_000000_ffffff));
         }
         else{
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            findViewById(R.id.splash).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_dark_000000_ffffff));
         }
 
         Handler handler = new Handler();
