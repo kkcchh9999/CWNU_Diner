@@ -157,12 +157,16 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         editor.putBoolean("switch_state",isCheked);
                         editor.commit();
+
+                        Log.d("darkmodeError","여기가 문제다 4");
                     }
 
                     else{
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                         editor.putBoolean("switch_state",isCheked);
                         editor.commit();
+
+                        Log.d("darkmodeError","여기가 문제다 3");
                     }
                 }
                 // 안드로이드 10 미만
@@ -172,12 +176,16 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         editor.putBoolean("switch_state",isCheked);
                         editor.commit();
+
+                        Log.d("darkmodeError","여기가 문제다 2");
                     }
 
                     else{
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                         editor.putBoolean("switch_state",isCheked);
                         editor.commit();
+
+                        Log.d("darkmodeError","여기가 문제다 1");
                     }
                 }
             }

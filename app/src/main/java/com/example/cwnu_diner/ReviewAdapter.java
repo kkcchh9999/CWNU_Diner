@@ -2,6 +2,7 @@ package com.example.cwnu_diner;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.BufferedReader;
@@ -25,7 +27,7 @@ public class ReviewAdapter extends RecyclerView.Adapter {
 
     Context context;
     ArrayList<ReviewData> arrayList;
-    String userID, IP_ADDRESS = "http://3.34.134.116/Review.php";
+    String userID, IP_ADDRESS = "http:/3.34.134.116/reviewDelete.php";
     public ReviewAdapter(Context context, ArrayList<ReviewData> arrayList, String userID){
         this.context = context;
         this.arrayList = arrayList;
@@ -62,8 +64,27 @@ public class ReviewAdapter extends RecyclerView.Adapter {
             vh.btn_removeReveiw.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    DeleteReview task = new DeleteReview();
-                    task.execute(IP_ADDRESS, userID, data.getStoreName(), data.getDate());
+                final DeleteReview task = new DeleteReview();
+
+                AlertDialog.Builder alt_bld = new AlertDialog.Builder(view.getContext());
+                    alt_bld.setMessage("리뷰를 삭제 하시겠습니까?");
+                    alt_bld.setCancelable(false);
+                    alt_bld.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            task.execute(IP_ADDRESS, userID, data.getStoreName(), data.getDate());
+
+                        }
+                    });
+                    alt_bld.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert = alt_bld.create();
+                alert.setTitle("리뷰 삭제");
+                alert.show();
                 }
             });
         }
