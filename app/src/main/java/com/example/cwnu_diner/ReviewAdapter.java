@@ -52,7 +52,8 @@ public class ReviewAdapter extends RecyclerView.Adapter {
         vh.tv_review.setText(data.getReview());
         vh.tv_userName.setText(data.getUserID());
         vh.tv_menu.setText(data.getMenu());
-        vh.tv_star.setText(data.getStarRating());
+        vh.tv_star.setText("★ "+data.getStarRating());
+
         //데이터 삭제 버튼 보이게
         if(userID.equals(data.getUserID())) {
             int VISIBLE = 0x00000000;
@@ -61,7 +62,7 @@ public class ReviewAdapter extends RecyclerView.Adapter {
             vh.btn_removeReveiw.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                  DeleteReview task = new DeleteReview();
+                    DeleteReview task = new DeleteReview();
                     task.execute(IP_ADDRESS, userID, data.getStoreName(), data.getDate());
                 }
             });
@@ -89,7 +90,7 @@ public class ReviewAdapter extends RecyclerView.Adapter {
     }
 
 
-/////////////// 리뷰 삭제 요청 //////////////////////
+    /////////////// 리뷰 삭제 요청 //////////////////////
     class DeleteReview extends AsyncTask<String, Void, String >
     {
         //ProgressDialog progressDialog;
@@ -104,7 +105,7 @@ public class ReviewAdapter extends RecyclerView.Adapter {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-          //  progressDialog.dismiss();
+            //  progressDialog.dismiss();
         }
 
         @Override

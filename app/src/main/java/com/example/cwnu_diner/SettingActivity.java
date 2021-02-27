@@ -47,7 +47,6 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
             public void onComplete(@NonNull Task<Void> task) {
                 FirebaseAuth.getInstance().signOut();;
                 Intent setupIntent = new Intent(getBaseContext(), MainActivity.class);
-                Toast.makeText(getBaseContext(), "로그아웃",Toast.LENGTH_SHORT).show();
                 setupIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(setupIntent);
                 finish();
@@ -113,7 +112,8 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
                 Intent intent = new Intent (Intent.ACTION_SEND);
                 intent.setType("plain/text");
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"dmswls9509@gmail.com"}); //받는사람
-                intent.putExtra(Intent.EXTRA_TEXT,"닉네임 : ");
+                intent.putExtra(Intent.EXTRA_SUBJECT,"창솔리 1:1 문의 내용 : ");
+                intent.putExtra(Intent.EXTRA_TEXT,"이름 : ");
                 intent.setPackage("com.google.android.gm");
                 startActivity(intent);
             }
@@ -165,7 +165,7 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
                         editor.commit();
                     }
                 }
-                    // 안드로이드 10 미만
+                // 안드로이드 10 미만
                 else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
                     if(isCheked==true){

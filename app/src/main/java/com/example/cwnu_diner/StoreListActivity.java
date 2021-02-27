@@ -43,7 +43,7 @@ public class StoreListActivity extends AppCompatActivity {
 
     ArrayList<StoreData> LocData = new ArrayList<>();
     Button btn_roulette, btn_switchMap;
-    ImageButton btn_search, btn_setting;
+    Button btn_search, btn_setting;
     //데이터 올리기
     private static String IP_ADDRESS = "http://3.34.134.116/userinsert.php";
 
@@ -64,7 +64,7 @@ public class StoreListActivity extends AppCompatActivity {
         // 2500 milliseconds = 2.5 seconds
         if (System.currentTimeMillis() > backKeyPressedTime + 1500) {
             backKeyPressedTime = System.currentTimeMillis();
-            toast = Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG);
+            toast = Toast.makeText(this, "뒤로가기 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG);
             toast.show();
             return;
         }
@@ -124,8 +124,6 @@ public class StoreListActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("userID",userID);
 
-
-
         String serverUrl="http://3.34.134.116/storeData.php";
         JsonArrayRequest jsonArrayRequest= new JsonArrayRequest(Request.Method.POST, serverUrl, null, new Response.Listener<JSONArray>() {
             //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
@@ -161,7 +159,6 @@ public class StoreListActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
             }
         });
-
 
         //실제 요청 작업을 수행해주는 요청큐 객체 생성
         RequestQueue requestQueue= Volley.newRequestQueue(this );
@@ -211,16 +208,16 @@ public class StoreListActivity extends AppCompatActivity {
             MapMainFragment mapFragment = new MapMainFragment();
             @Override
             public void onClick(View view) {
-                if(btn_switchMap.getText().equals("지도로 변환"))
+                if(btn_switchMap.getText().equals("   지도로 변환"))
                 {
-                    btn_switchMap.setText("리스트로 변환");
+                    btn_switchMap.setText("  목록으로 변환");
                     mapFragment.setArguments(bundle1);
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame, mapFragment, "map").commit();
 
                 }else
                 {
-                    btn_switchMap.setText("지도로 변환");
+                    btn_switchMap.setText("   지도로 변환");
                     mapFragment.onDestroy();
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.frame,listFragment);
@@ -232,7 +229,7 @@ public class StoreListActivity extends AppCompatActivity {
 
 
 ///////////////////////////검색 버튼 작동///////////////////////////////////////////////////////////
-        btn_search = (ImageButton)findViewById(R.id.btn_search);
+        btn_search = (Button)findViewById(R.id.btn_search);
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -243,7 +240,7 @@ public class StoreListActivity extends AppCompatActivity {
         });
 /////////////////////////설정 버튼 작동//////////////////////////////////////////////////////////////
 
-        btn_setting =(ImageButton)findViewById(R.id.btn_setting);
+        btn_setting =(Button)findViewById(R.id.btn_setting);
         btn_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

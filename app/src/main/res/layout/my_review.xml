@@ -5,37 +5,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="My 리뷰"
-            android:textSize="25dp"
-            android:gravity="center"/>
-
-    </LinearLayout>
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar">
+    </include>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="22dp"
         android:orientation="horizontal"
-        android:layout_margin="10sp">
+        android:layout_margin="5sp">
 
         <TextView
             android:id="@+id/txt_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:textSize="18dp"
+            android:layout_marginStart="5dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="건의 리뷰가 있습니다."/>
+            android:text="건의 리뷰가 있습니다."
+            android:textSize="18dp"/>
 
     </LinearLayout>
 

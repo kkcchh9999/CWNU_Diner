@@ -64,7 +64,7 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storeclick);
-  }
+    }
 
     @Override
     protected void onStart() {
@@ -91,13 +91,16 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         tv_storeName = (TextView)findViewById(R.id.storeName);
         tv_storeName.setText(data.getStoreName());
 
         tv_star = (TextView)findViewById(R.id.star);
-        tv_star.setText(data.getStarRatingAvg());
+        if(data.getStarRatingAvg().equals("null")){
+            tv_star.setText(" ");
+        }
+        else{
+            tv_star.setText("★ "+data.getStarRatingAvg());
+        }
 
         tv_tel = (TextView)findViewById(R.id.tel);
         tv_tel.setText(data.getTel());

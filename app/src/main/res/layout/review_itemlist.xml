@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,42 +13,46 @@
             android:id="@+id/tv_menu"
             android:layout_weight="0.5"
             android:layout_width="0dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center_vertical"
             android:layout_height="match_parent"/>
 
         <TextView
             android:id="@+id/tv_username"
-            android:layout_weight="0.8"
+            android:layout_weight="1.2"
             android:layout_width="0dp"
-            android:textSize="9dp"
+            android:textSize="12sp"
+            android:gravity="center_vertical"
             android:layout_height="match_parent"/>
 
         <TextView
-            android:gravity="right"
+            android:gravity="center_vertical"
             android:id="@+id/tv_star"
             android:layout_width="0dp"
-            android:layout_weight="0.25"
+            android:layout_weight="0.4"
             android:layout_height="match_parent"/>
+
         <Button
             android:id="@+id/btn_removeReview"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.25"
             android:text="삭제"
-            android:textSize="8dp"
+            android:textSize="10dp"
             android:textColor="#000000"
             android:backgroundTint="#F4E9C5"
-            android:visibility="invisible"></Button>
+            android:visibility="invisible"/>
 
 
     </LinearLayout>
     <TextView
-    android:id="@+id/tv_review"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="리뷰가 최대 몇글자인지 잘 기억은 안나네 대충 리뷰 내용 "
-    android:textSize="16dp"
-    android:textColor="@android:color/black"
-    android:layout_margin="5dp"
-    />
+        android:id="@+id/tv_review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="리뷰가 최대 몇글자인지 잘 기억은 안나네 대충 리뷰 내용 "
+        android:textSize="16dp"
+        android:textColor="@android:color/black"
+        android:layout_margin="5dp"
+        />
 
 </LinearLayout>
