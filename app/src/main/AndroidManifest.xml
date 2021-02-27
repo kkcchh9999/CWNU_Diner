@@ -17,28 +17,29 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-
         <activity
-            android:name=".AddReviewActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AddReviewActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+        </activity>
 
         <activity android:name=".LicenseActivity" />
 
         <meta-data
             android:name="android.app.searchable"
             android:resource="@xml/searchable" />
-
-        <activity android:name=".SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".MainActivity" />
+
         <activity android:name=".StoreListActivity" />
         <activity
             android:name=".SearchStoreActivity"
@@ -47,8 +48,10 @@
         <activity
             android:name=".StoreClickActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-        <activity android:name=".MyReviewActivity"
+
+      <activity android:name=".MyReviewActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
