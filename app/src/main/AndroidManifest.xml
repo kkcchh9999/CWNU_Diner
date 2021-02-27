@@ -48,8 +48,10 @@
         <activity
             android:name=".StoreClickActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-        <activity android:name=".MyReview"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+
+      <activity android:name=".MyReviewActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
