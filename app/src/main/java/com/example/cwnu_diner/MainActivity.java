@@ -35,23 +35,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private FirebaseAuth auth;
     private SignInButton btn_login;
 
-    SharedPreferences AppData; //스위치 값을 저장해놓는 곳
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        //야간모드 유지
-        AppData = getSharedPreferences("AppData", Activity.MODE_PRIVATE);
-        boolean switch_state = AppData.getBoolean("switch_state", false);
-        if (switch_state) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -62,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .build();
-
 
         auth = FirebaseAuth.getInstance();
 
