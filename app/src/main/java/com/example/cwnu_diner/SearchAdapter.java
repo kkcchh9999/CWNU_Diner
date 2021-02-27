@@ -48,20 +48,25 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
         final StoreData currentItem = dataList.get(position);
 
         holder.storeName.setText(currentItem.getStoreName());
-        holder.starRatingAvg.setText(currentItem.getStarRatingAvg());
+        if(currentItem.getStarRatingAvg().equals("null")){
+            holder.starRatingAvg.setText(" ");
+        }
+        else{
+            holder.starRatingAvg.setText("★ "+currentItem.getStarRatingAvg());
+        }
         holder.openingHours.setText(currentItem.getOpeningHours());
         holder.tel.setText(currentItem.getTel());
         holder.address.setText(currentItem.getAddress());
 
-       holder.itemView.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Intent intent = new Intent(context, StoreClickActivity.class);
-               intent.putExtra("data", currentItem);
-               intent.putExtra("userID", userID);
-               context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
-           }
-       });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, StoreClickActivity.class);
+                intent.putExtra("data", currentItem);
+                intent.putExtra("userID", userID);
+                context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
 
     }
 

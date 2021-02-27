@@ -11,32 +11,15 @@
     <include
         layout="@layout/toolbar"
         android:id="@+id/toolbar">
-
-
     </include>
 
-    <LinearLayout
-        android:id="@+id/frame_click"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:orientation="horizontal" >
-
-        <fragment
-
-            android:id="@+id/click_map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            class="com.google.android.gms.maps.MapFragment"/>
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,14 +34,14 @@
                 android:gravity="left"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
-                android:paddingLeft="15dp"
+                android:paddingStart="10dp"
                 android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/star"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:gravity="right"
                 android:textSize="16sp"
                 android:paddingEnd="10dp"/>
@@ -101,11 +84,28 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/frame_click"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:orientation="horizontal" >
+
+        <fragment
+            android:id="@+id/click_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            class="com.google.android.gms.maps.MapFragment" />
+
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="리뷰"
+        android:paddingTop="10dp"
         android:layout_marginStart="10dp"
         android:textSize="18dp"
         android:textColor="@color/color_dark_000000_ffffff">
@@ -125,7 +125,8 @@
             android:scrollbarFadeDuration="0"
             android:scrollbarThumbVertical="@android:color/darker_gray"
             android:scrollbars="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginTop="10dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 

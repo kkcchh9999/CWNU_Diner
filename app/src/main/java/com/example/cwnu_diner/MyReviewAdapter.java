@@ -34,18 +34,16 @@ public class MyReviewAdapter extends RecyclerView.Adapter <MyReviewAdapter.ItemV
         MyReviewData review=myReviewList.get(position);
         String starRating=Integer.toString(review.getStarRating());
 
-        holder.userID.setText(review.getUserID());
         holder.storeName.setText(review.getStoreName());
         holder.review.setText(review.getReview());
         holder.menu.setText(review.getMenu());
-        holder.starRating.setText("별점 "+starRating);
+        holder.starRating.setText("★ "+starRating);
         holder.date.setText(review.getDate());
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder{
         TextView storeName;
         TextView menu;
-        TextView userID;
         TextView review;
         TextView date;
         TextView starRating;
@@ -55,7 +53,6 @@ public class MyReviewAdapter extends RecyclerView.Adapter <MyReviewAdapter.ItemV
 
             storeName=ReviewView.findViewById(R.id.txt_storeName);
             menu=ReviewView.findViewById(R.id.txt_menu);
-            userID=ReviewView.findViewById(R.id.txt_userID);
             review=ReviewView.findViewById(R.id.txt_review);
             date=ReviewView.findViewById(R.id.txt_date);
             starRating=ReviewView.findViewById(R.id.txt_starRating);
