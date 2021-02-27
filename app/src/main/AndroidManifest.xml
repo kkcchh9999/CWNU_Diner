@@ -47,7 +47,7 @@
         <activity
             android:name=".StoreClickActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-        <activity android:name=".MyReview"
+        <activity android:name=".MyReviewActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
 
         <meta-data

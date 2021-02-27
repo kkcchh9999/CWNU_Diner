@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MyReview extends AppCompatActivity {
+public class MyReviewActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -44,7 +44,7 @@ public class MyReview extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_review);
+        setContentView(R.layout.activity_myreview);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -106,7 +106,7 @@ public class MyReview extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MyReview.this, "ERROR", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyReviewActivity.this, "ERROR", Toast.LENGTH_SHORT).show();
             }
         });
 

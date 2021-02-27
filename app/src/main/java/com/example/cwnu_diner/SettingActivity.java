@@ -10,11 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -63,15 +61,13 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
     SharedPreferences AppData; //스위치 값을 저장
     SharedPreferences.Editor editor; //스위치 값 수정
 
-    String user_password=null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
         final Intent intent = getIntent();
-        String nickname = intent.getStringExtra("nickname" );
+        final String nickname = intent.getStringExtra("nickname" );
         String photoUrl = intent.getStringExtra("photoUrl" );
 
         txt_info = findViewById(R.id.txt_info);
@@ -113,7 +109,7 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
                 intent.setType("plain/text");
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"dmswls9509@gmail.com"}); //받는사람
                 intent.putExtra(Intent.EXTRA_SUBJECT,"창솔리 1:1 문의 내용 : ");
-                intent.putExtra(Intent.EXTRA_TEXT,"이름 : ");
+                intent.putExtra(Intent.EXTRA_TEXT,"이름 : "+nickname);
                 intent.setPackage("com.google.android.gm");
                 startActivity(intent);
             }
@@ -134,7 +130,7 @@ public class SettingActivity extends AppCompatActivity implements GoogleApiClien
         btn_review.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SettingActivity.this,MyReview.class);
+                Intent intent=new Intent(SettingActivity.this, MyReviewActivity.class);
                 startActivity(intent);
             }
         });
