@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -210,18 +211,16 @@ public class StoreListActivity extends AppCompatActivity {
             MapMainFragment mapFragment = new MapMainFragment();
             @Override
             public void onClick(View view) {
-                if(btn_switchMap.getText().equals("지도"))
+                if(btn_switchMap.getText().equals("지도로 변환"))
                 {
-                    btn_switchMap.setText("리스트");
-                    btn_switchMap.setTextSize(8);
+                    btn_switchMap.setText("리스트로 변환");
                     mapFragment.setArguments(bundle1);
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame, mapFragment, "map").commit();
 
                 }else
                 {
-                    btn_switchMap.setText("지도");
-                    btn_switchMap.setTextSize(10);
+                    btn_switchMap.setText("지도로 변환");
                     mapFragment.onDestroy();
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.frame,listFragment);
