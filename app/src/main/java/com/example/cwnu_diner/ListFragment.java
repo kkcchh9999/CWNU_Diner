@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -39,6 +40,8 @@ public class ListFragment extends Fragment implements View.OnClickListener {
     ArrayList<MenuData> menulist = new ArrayList<>();
     SearchAdapter adapter;
     String userID;
+
+    boolean check=false;
 
     @Nullable
     @Override
@@ -157,30 +160,50 @@ public class ListFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+
+        all.setBackgroundResource(R.drawable.button);
+        korea.setBackgroundResource(R.drawable.button);
+        japan.setBackgroundResource(R.drawable.button);
+        china.setBackgroundResource(R.drawable.button);
+        west.setBackgroundResource(R.drawable.button);
+        flour.setBackgroundResource(R.drawable.button);
+        cafe.setBackgroundResource(R.drawable.button);
+        fast.setBackgroundResource(R.drawable.button);
+
+
         switch(view.getId()){
             case R.id.btn_all:
                 adapter.getFilter().filter(null);
+                all.setBackgroundResource(R.drawable.button_pressed);
+
                 break;
             case R.id.btn_korea:
                 adapter.getFilter().filter("한식");
+                korea.setBackgroundResource(R.drawable.button_pressed);
                 break;
             case R.id.btn_japan:
                 adapter.getFilter().filter("일식");
+                japan.setBackgroundResource(R.drawable.button_pressed);
                 break;
             case R.id.btn_china:
                 adapter.getFilter().filter("중식");
+                china.setBackgroundResource(R.drawable.button_pressed);
                 break;
             case R.id.btn_west:
                 adapter.getFilter().filter("양식");
+                west.setBackgroundResource(R.drawable.button_pressed);
                 break;
             case R.id.btn_flour:
                 adapter.getFilter().filter("분식");
+                flour.setBackgroundResource(R.drawable.button_pressed);
                 break;
             case R.id.btn_cafe:
                 adapter.getFilter().filter("카페");
+                cafe.setBackgroundResource(R.drawable.button_pressed);
                 break;
             case R.id.btn_fast:
                 adapter.getFilter().filter("패스트푸드");
+                fast.setBackgroundResource(R.drawable.button_pressed);
                 break;
 
         }
