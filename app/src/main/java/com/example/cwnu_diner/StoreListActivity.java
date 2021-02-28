@@ -208,16 +208,16 @@ public class StoreListActivity extends AppCompatActivity {
             MapMainFragment mapFragment = new MapMainFragment();
             @Override
             public void onClick(View view) {
-                if(btn_switchMap.getText().equals("   지도로 변환"))
+                if(btn_switchMap.getText().equals("   지도"))
                 {
-                    btn_switchMap.setText("  목록으로 변환");
+                    btn_switchMap.setText("  목록");
                     mapFragment.setArguments(bundle1);
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame, mapFragment, "map").commit();
 
                 }else
                 {
-                    btn_switchMap.setText("   지도로 변환");
+                    btn_switchMap.setText("   지도");
                     mapFragment.onDestroy();
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.frame,listFragment);
