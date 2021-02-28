@@ -10,7 +10,7 @@
         $insertArray['menu'] = $row[menu];
         $insertArray['storeName'] = $row[storeName];
         $insertArray['price'] = $row[price];
-        $insertArray['type'] = $row[type];
+        $insertArray['menuType'] = $row[menuType];
         
         array_push($resultArray, $insertArray);
         }

@@ -1,42 +1,75 @@
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<?php 
+// 안드로이드 인서트
+error_reporting(E_ALL); 
+ini_set('display_errors',1); 
 
-<?php
+include('dbcon.php');
 
-$servername = 'localhost'; // 데이터베이스 호스트
-$username = 'root'; // 데이터베이스 ID (수정요망)
-$password = 'admin'; // 데이터베이스 PW (수정요망)
-$dbname = 'test'; //데이터베이스명 (수정요망)
- 
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// Check connection
-if(!$conn) {
-    die("mysql connect failed");
+
+$android = strpos($_SERVER['HTTP_USER_AGENT'], "Android");
+
+
+if( (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['submit'])) || $android )
+{
+
+
+    $userName=$_POST['userName'];
+    $userID=$_POST['userID'];
+
+    if(empty($userName)){
+        $errMSG = "이름을 입력하세요.";
+    }
+    else if(empty($userID)){
+        $errMSG = "나라를 입력하세요.";
+    }
+
+    if(!isset($errMSG))
+    {
+        try{
+            $stmt = $con->prepare('INSERT INTO User(userName, userID) VALUES(:userName, :userID)');
+            $stmt->bindParam(':userName', $userName);
+            $stmt->bindParam(':userID', $userID);
+
+            if($stmt->execute())
+            {
+                $successMSG = "새로운 사용자를 추가했습니다.";
+            }
+            else
+            {
+                $errMSG = "사용자 추가 에러";
+            }
+
+        } catch(PDOException $e) {
+            die("Database error: " . $e->getMessage()); 
+        }
+    }
+
 }
 
-// Select DB
-mysqli_select_db($conn, $dbname) or die('DB선택실패');
+?>
 
-// Form에서 넘어온 데이터
-$userName = $_POST['userName'];
-$userID = $_POST['userID'];
 
-// SQL Query 작성
-$sql = "INSERT INTO User (userName, userID)
-VALUES ('$userName', '$userID')";
-echo $sql;
-echo "<br>";
+<?php 
+if (isset($errMSG)) echo $errMSG;
+if (isset($successMSG)) echo $successMSG;
 
-// SQL Query 실행
-if(mysqli_query($conn, $sql)){
-    echo "Success!";
+$android = strpos($_SERVER['HTTP_USER_AGENT'], "Android");
+
+if( !$android )
+{
+?>
+<html>
+   <body>
+
+        <form action="<?php $_PHP_SELF ?>" method="POST">
+            Name: <input type = "text" name = "name" />
+            Country: <input type = "text" name = "country" />
+            <input type = "submit" name = "submit" />
+        </form>
+   
+   </body>
+</html>
+
+<?php 
 }
-else{
-    echo "Error:".$query."mesage:".mysqli_error($conn);
-}
-
-mysqli_close($conn);
-
-// 요청이 끝난뒤 페이지를 이동
-header('Location:./User.html');
 ?>

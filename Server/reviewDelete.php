@@ -1,5 +1,6 @@
 <?php 
-//안드로이드 리뷰 인서트
+
+//안드로이드 딜레트
     error_reporting(E_ALL); 
     ini_set('display_errors',1); 
 
@@ -15,9 +16,7 @@
 
         $userID = $_POST['userID'];
         $storeName = $_POST['storeName'];
-        $review = $_POST['review'];
-        $menu = $_POST['menu'];
-        $starRating = $_POST['starRating'];
+        $date = $_POST['date'];
 
         if(empty($userID)){
             $errMSG = "이름을 입력하세요.";
@@ -25,36 +24,28 @@
         else if(empty($storeName)){
             $errMSG = "가게이름을 입력하세요.";
         }
-        else if(empty($review)){
-            $errMSG = "리뷰를 입력하세요.";
+        else if(empty($date)){
+            $errMSG = "날짜를 입력하세요.";
         }
-        else if(empty($menu)){
-            $errMSG = "메뉴를 입력하세요.";
-        }
-        else if(empty($starRating)){
-            $errMSG = "별점을 입력하세요.";
-        }
-
         if(!isset($errMSG))
         {
             try{
-                $stmt = $con->prepare('INSERT INTO Review (userID,storeName,review,menu,starRating) 
-                VALUES(:userID, :storeName, :review, :menu, $starRating,NOW())');
+                // 삭제 쿼리 입력. 
+                $stmt = $con->prepare('DELETE FROM Review WHERE userID = :userID 
+                AND date = STR_TO_DATE(:date, "%Y-%m-%d %H:%i:%S")');
                 $stmt->bindParam(':userID', $userID);
-                $stmt->bindParam(':storeName', $storeName);
-                $stmt->bindParam(':review', $review);
-                $stmt->bindParam(':menu', $menu);
-                $stmt->bindParam(':starRating', $starRating,PDO::PARAM_INT);
+                $stmt->bindParam(':date', $date);
 
                 if($stmt->execute())
                 {
-                    $successMSG = "새로운 리뷰를 추가했습니다.";
+                    $successMSG = "삭제완료.";
                 }
                 else
                 {
-                    $errMSG = "에러";
+                    $errMSG = "삭제실패";
                 }
 
+                // 가게 별점평균 업데이트
                 $stmt = $con->prepare('UPDATE Store Set starRatingAvg=(SELECT AVG(starRating) FROM Review
                 WHERE storeName=:storeName) WHERE storeName=:storeName');
                 $stmt->bindParam(':storeName',$storeName);
@@ -83,12 +74,9 @@
        <body>
 
             <form action="<?php $_PHP_SELF ?>" method="POST">
-
-                ID:<input type="text" name="userID" required><br><br>
-                가게:<input type="text" name="storeName" required><br><br>
-                리뷰<br><textarea name="review" cols = "30" rows = "5" placeholder="리뷰를 남겨주세요." required></textarea><br><br>
-                메뉴:<input type="text" name="menu" required><br><br>
-                별점:<input type="number" min = "0" max = "5" name="starRating" required><br><br>
+                userID: <input type="text" name="userID"/>
+                storeName: <input type="text" name="storeName"/>
+                date: <input type="text" name="date"/>
                 <input type = "submit" name = "submit" />
             </form>
        
@@ -98,3 +86,4 @@
 <?php 
     }
 ?>
+
