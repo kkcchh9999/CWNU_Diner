@@ -21,8 +21,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import javax.mail.Store;
-
 public class ReviewAdapter extends RecyclerView.Adapter {
 
     Context context;
@@ -46,7 +44,7 @@ public class ReviewAdapter extends RecyclerView.Adapter {
 
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         VH vh = (VH) holder;
 
         final ReviewData data = arrayList.get(position);
@@ -73,7 +71,8 @@ public class ReviewAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             task.execute(IP_ADDRESS, userID, data.getStoreName(), data.getDate());
-
+                            arrayList.remove(position);
+                            notifyItemRangeRemoved(position,1);
                         }
                     });
                     alt_bld.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
@@ -108,6 +107,9 @@ public class ReviewAdapter extends RecyclerView.Adapter {
             tv_userName = itemView.findViewById(R.id.tv_username);
             btn_removeReveiw = itemView.findViewById(R.id.btn_removeReview);
         }
+
+
+
     }
 
 
