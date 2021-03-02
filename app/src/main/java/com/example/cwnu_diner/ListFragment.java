@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment implements View.OnClickListener {
 //?
-    Button all, korea, japan, china, west, flour, cafe, fast;
+    Button all, korea, japan, china, west, flour, cafe, fast, alcohol;
     private RecyclerView recyclerView;
     HorizontalScrollView scrollView;
     ArrayList<StoreData> stores = new ArrayList<>();
@@ -142,6 +142,8 @@ public class ListFragment extends Fragment implements View.OnClickListener {
         cafe.setOnClickListener(this);
         fast = (Button)view.findViewById(R.id.btn_fast);
         fast.setOnClickListener(this);
+        alcohol = (Button)view.findViewById(R.id.btn_alcohol);
+        alcohol.setOnClickListener(this);
         return view;
     }
 
@@ -169,7 +171,7 @@ public class ListFragment extends Fragment implements View.OnClickListener {
         flour.setBackgroundResource(R.drawable.button);
         cafe.setBackgroundResource(R.drawable.button);
         fast.setBackgroundResource(R.drawable.button);
-
+        alcohol.setBackgroundResource(R.drawable.button);
 
         switch(view.getId()){
             case R.id.btn_all:
@@ -203,6 +205,10 @@ public class ListFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_fast:
                 adapter.getFilter().filter("패스트푸드");
+                fast.setBackgroundResource(R.drawable.button_pressed);
+                break;
+            case R.id.btn_alcohol:
+                adapter.getFilter().filter("술집");
                 fast.setBackgroundResource(R.drawable.button_pressed);
                 break;
 
