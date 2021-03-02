@@ -54,7 +54,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
         else{
             holder.starRatingAvg.setText("★ "+currentItem.getStarRatingAvg());
         }
-        holder.openingHours.setText(currentItem.getOpeningHours());
+
+        if(currentItem.getOpeningHours().equals("null"))
+            holder.openingHours.setText(" ");
+        else
+            holder.openingHours.setText(currentItem.getOpeningHours());
+
         holder.tel.setText(currentItem.getTel());
         holder.address.setText(currentItem.getAddress());
 
