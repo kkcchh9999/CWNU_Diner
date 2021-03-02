@@ -47,10 +47,16 @@ public class ReviewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         VH vh = (VH) holder;
 
+
+
         final ReviewData data = arrayList.get(position);
+
+        //이메일가리기
+        String userId=data.getUserID().substring(0,3)+"****";
+
         //리사이클러뷰 아이템에 데이터 입력
         vh.tv_review.setText(data.getReview());
-        vh.tv_userName.setText(data.getUserID());
+        vh.tv_userName.setText(userId);
         vh.tv_menu.setText(data.getMenu());
         vh.tv_star.setText("★ "+data.getStarRating());
 
