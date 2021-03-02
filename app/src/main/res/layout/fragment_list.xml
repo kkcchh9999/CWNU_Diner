@@ -80,6 +80,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="패스트푸드"/>
+                <Button
+                    android:background="@drawable/button"
+                    android:id="@+id/btn_alcohol"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="술집"/>
 
             </LinearLayout>
 
