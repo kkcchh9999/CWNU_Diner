@@ -100,7 +100,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
                 for(StoreData data : dataListAll){
                     if (data.getType().contains(filterPattern) || data.getStoreName().toLowerCase().contains(filterPattern)) { //Store -> type, storeName
                         store_filteredList.add(data);
-                        System.out.println("여기");
                     }
                     else{
                         for(MenuData menu : menuDataAll){
