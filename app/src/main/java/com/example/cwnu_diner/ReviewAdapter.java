@@ -48,11 +48,13 @@ public class ReviewAdapter extends RecyclerView.Adapter {
         VH vh = (VH) holder;
 
 
-
-        final ReviewData data = arrayList.get(position);
-
         //이메일가리기
-        String userId=data.getUserID().substring(0,4)+"****";
+        final ReviewData data = arrayList.get(position);
+        int tmp = data.getUserID().indexOf("@");
+        String strtmp = "";
+        for(int i = 0; i<tmp-4; i++)
+            strtmp+= "*";
+        String userId=data.getUserID().replace(data.getUserID().substring(4,tmp),strtmp);
 
         //리사이클러뷰 아이템에 데이터 입력
         vh.tv_review.setText(data.getReview());

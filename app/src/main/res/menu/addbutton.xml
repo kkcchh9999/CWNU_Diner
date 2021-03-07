@@ -7,7 +7,6 @@
         android:id="@+id/btn_addreview"
         android:iconTint="#803737"
         android:title="리뷰 작성"
-        app:actionViewClass=""
         app:showAsAction="always">
 
     </item>
