@@ -132,6 +132,9 @@ public class AddReviewActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 rating = (int) v;
+                if(rating<=1) {
+                    rating = 1;
+                }
             }
         });
 
