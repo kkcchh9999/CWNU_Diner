@@ -209,7 +209,7 @@ public class ListFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_alcohol:
                 adapter.getFilter().filter("술집");
-                fast.setBackgroundResource(R.drawable.button_pressed);
+                alcohol.setBackgroundResource(R.drawable.button_pressed);
                 break;
 
         }
