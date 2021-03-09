@@ -207,9 +207,6 @@ public class SearchStoreActivity extends AppCompatActivity{
                         if(!autocomplete_list.contains(menuType)){
                             autocomplete_list.add(menuType);
                         }
-                        if(!autocomplete_list.contains(menu)){
-                            autocomplete_list.add(menu);
-                        }
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {
