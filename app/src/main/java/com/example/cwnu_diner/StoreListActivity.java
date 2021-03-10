@@ -205,7 +205,7 @@ public class StoreListActivity extends AppCompatActivity {
         btn_switchMap = (Button)findViewById(R.id.btn_switchMap);
         btn_switchMap.setOnClickListener(new View.OnClickListener() {
 
-            MapMainFragment mapFragment = new MapMainFragment();
+            MapMainFragment mapFragment = new MapMainFragment(userID);
             @Override
             public void onClick(View view) {
                 if(btn_switchMap.getText().equals("   지도"))
