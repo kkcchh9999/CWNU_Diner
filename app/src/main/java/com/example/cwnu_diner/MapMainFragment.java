@@ -1,5 +1,6 @@
 package com.example.cwnu_diner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -28,18 +30,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.example.cwnu_diner.R.id.googleMap;
 
-public class MapMainFragment extends Fragment  implements OnMapReadyCallback {
+public class MapMainFragment extends Fragment implements OnMapReadyCallback {
 
     MapView mapView = null;
 
     ArrayList<StoreData> LocData = new ArrayList<>();
 
-    public MapMainFragment()
-    {
+    private String userID;
 
+    public MapMainFragment(String userID) {
+        this.userID = userID;
     }
 
     @Override
@@ -52,10 +57,10 @@ public class MapMainFragment extends Fragment  implements OnMapReadyCallback {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        LocData = (ArrayList<StoreData>)getArguments().get("LocData");
+        LocData = (ArrayList<StoreData>) getArguments().get("LocData");
 
 
-        View view = inflater.inflate(R.layout.fragment_map,container, false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
         mapView = view.findViewById(googleMap);
         mapView.getMapAsync(this);
 
@@ -102,7 +107,7 @@ public class MapMainFragment extends Fragment  implements OnMapReadyCallback {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-            mapView.onCreate(savedInstanceState);
+        mapView.onCreate(savedInstanceState);
     }
 
     @Override
@@ -110,8 +115,7 @@ public class MapMainFragment extends Fragment  implements OnMapReadyCallback {
 
         LatLng location = new LatLng(35.2425, 128.689);
 
-        for(int i = 0; i<LocData.size(); i++)
-        {
+        for (int i = 0; i < LocData.size(); i++) {
             LatLng location1 = new LatLng(LocData.get(i).getLatitude(), LocData.get(i).getLongitude());
             MarkerOptions markerOptions1 = new MarkerOptions();
             markerOptions1.title(LocData.get(i).getStoreName());
@@ -121,9 +125,22 @@ public class MapMainFragment extends Fragment  implements OnMapReadyCallback {
 
         }
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16));
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent = new Intent(getContext(), StoreClickActivity.class);
+                for (StoreData data : LocData) {
+                    if (data.getStoreName().toLowerCase().contains(marker.getTitle())) { //Store -> type, storeName
+                        intent.putExtra("userID", userID);
+                        intent.putExtra("data", data);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
 
     }
-
 
 }

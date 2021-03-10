@@ -22,7 +22,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
 
     private List<StoreData> dataList;
     private List<StoreData> dataListAll;
-    private List<MenuData> menuData;
     private List<MenuData> menuDataAll;
     private Context context;
     private String userID;
@@ -30,7 +29,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
     public SearchAdapter(List<StoreData> items, List<MenuData> menuitems, String userID, Context context) {
         this.dataList = items;
         this.dataListAll = items;
-        this.menuData = menuitems;
         this.menuDataAll = menuitems;
         this.context = context;
         this.userID = userID;
