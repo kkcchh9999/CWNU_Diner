@@ -3,10 +3,10 @@ package com.example.cwnu_diner;
 import java.io.Serializable;
 
 public class MenuData implements Serializable {
-    String menu, storeName, menuType;
-    int price;
+    String menu, storeName, menuType, price;
 
-    public MenuData(String menu, String storeName, int price, String menuType){
+
+    public MenuData(String menu, String storeName, String price, String menuType){
         this.menu = menu;
         this.storeName = storeName;
         this.price = price;
@@ -30,11 +30,11 @@ public class MenuData implements Serializable {
         this.storeName = storeName;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

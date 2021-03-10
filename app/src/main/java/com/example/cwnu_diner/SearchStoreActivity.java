@@ -197,7 +197,7 @@ public class SearchStoreActivity extends AppCompatActivity{
 
                         String menu = jsonObject.getString("menu");
                         String storeName = jsonObject.getString("storeName");
-                        int price = jsonObject.getInt("price");
+                        String price = jsonObject.getString("price");
                         String menuType = jsonObject.getString("menuType");
 
                         menuList.add(new MenuData(menu, storeName, price, menuType));

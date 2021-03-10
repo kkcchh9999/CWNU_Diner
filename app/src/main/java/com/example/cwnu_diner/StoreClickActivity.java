@@ -120,7 +120,7 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
 
                         if (storeName.equals(data.getStoreName())) {
                             String menu = jsonObject.getString("menu");
-                            int price = jsonObject.getInt("price");
+                            String price = jsonObject.getString("price");
                             String menuType = jsonObject.getString("menuType");
                             menuData.add(new MenuData(menu, storeName, price, menuType));
                             Log.d("어어어어어머가?",Integer.toString(menuData.size()));
@@ -135,13 +135,13 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
 
                 for(int i = 0; i<menuData.size(); i++)
                 {
-                    int tmp = 20 - menuData.get(i).getMenu().length() - Integer.toString(menuData.get(i).getPrice()).length();
+                    int tmp = 20 - menuData.get(i).getMenu().length() - menuData.get(i).getPrice().length();
                     menu = menu+menuData.get(i).getMenu();
                     Log.d("어어어어어머가?",Integer.toString(tmp));
                     for(int j = 0; j<tmp; j++) {
                         menu = menu + "-";
                     }
-                    menu = menu+menuData.get(i).getPrice()+" 원\n";
+                    menu = menu+menuData.get(i).getPrice()+"\n";
                 }
             }
         }, new Response.ErrorListener() {
@@ -161,7 +161,9 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
             public void onClick(View view) {
                 AlertDialog.Builder dig = new AlertDialog.Builder(StoreClickActivity.this);
                 dig.setTitle(data.getStoreName());
-                dig.setMessage(data.getAddress()+"\n\n"+data.getTel()+"\n\n"+data.getOpeningHours()+
+                if(data.getOpeningHours().equals(null)) {
+                    data.setOpeningHours("");
+                }dig.setMessage(data.getAddress()+"\n\n"+data.getTel()+"\n\n"+data.getOpeningHours()+
                         "\n\n메뉴\n\n"+menu);
                 dig.show();
             }

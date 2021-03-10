@@ -87,7 +87,7 @@ public class AddReviewActivity extends AppCompatActivity {
 
                         String menu = jsonObject.getString("menu");
                         //String storeName=jsonObject.getString("storeName");
-                        int price = jsonObject.getInt("price");
+                        String price = jsonObject.getString("price");
                         String menuType = jsonObject.getString("menuType");
 
                         menuData.add(new MenuData(menu, storeName, price, menuType));
