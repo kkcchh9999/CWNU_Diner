@@ -161,9 +161,11 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
             public void onClick(View view) {
                 AlertDialog.Builder dig = new AlertDialog.Builder(StoreClickActivity.this);
                 dig.setTitle(data.getStoreName());
-                if(data.getOpeningHours().equals(null)) {
+                if(data.getOpeningHours().equals("null")) {
                     data.setOpeningHours("");
-                }dig.setMessage(data.getAddress()+"\n\n"+data.getTel()+"\n\n"+data.getOpeningHours()+
+                }
+        
+                dig.setMessage(data.getAddress()+"\n\n"+data.getTel()+"\n\n"+data.getOpeningHours()+
                         "\n\n메뉴\n\n"+menu);
                 dig.show();
             }
