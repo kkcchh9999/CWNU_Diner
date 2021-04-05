@@ -213,7 +213,7 @@ public class StoreListActivity extends AppCompatActivity {
                     btn_switchMap.setText("  목록");
                     mapFragment.setArguments(bundle1);
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.frame, mapFragment, "map").commit();
+                            .replace(R.id.frame, mapFragment, "map").addToBackStack(null).commit();
 
                 }else
                 {
