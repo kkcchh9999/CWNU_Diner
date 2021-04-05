@@ -79,8 +79,6 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
     protected void onStart() {
         super.onStart();
 
-
-
         ///Intent로 activity간 정보 가져오기
         Intent intent = getIntent();
         if(intent.getExtras() != null){
@@ -130,8 +128,6 @@ public class StoreClickActivity extends AppCompatActivity implements OnMapReadyC
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
 
                 for(int i = 0; i<menuData.size(); i++)
                 {
